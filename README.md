@@ -6,28 +6,33 @@ This library based on [AndroidSourceViewer](https://github.com/pengwei1024/Andro
 
 **In the rewriting, I have added some features too.**
 
-I found the project has a bad pattern to find the file path from psi framework after the first commit.
-I will do more works to solve the psi problem.
-the one with relevant practical experience can help me.
+I found the project has a bad pattern to find the file path from psi framework after the first commit. I will do more
+works to solve the psi problem. the one with relevant practical experience can help me.
 
 ## Feature
-
-* Quick Search by the mouse right click.
-    * google.com
-    * bing.com
-    * github.com
-    * stackoverflow
 
 * Download android-AOSP-source from the remote.
     * [github.com/aosp-mirror](https://github.com/aosp-mirror/platform_frameworks_base)
     * [sourcegraph.com](https://sourcegraph.com/)
     * [androidxref.com](http://androidxref.com/)
+  
+    You download aosp framework files like:![aosp](./screenshots/aosp.jpg)
+
+    And view native method by click c++ image: ![aosp-native](./screenshots/aosp-native.jpg)
 
 * Quick Android Reference
     * [developer.android.google](https://developer.android.com/reference)
 
 * View Android Source Online
     * [Android Code Search](https://cs.android.com/)
+
+* Quick Search by the mouse right click.
+    * google.com
+    * bing.com
+    * github.com
+    * stackoverflow
+    
+    ![quicksearch](./screenshots/quicksearch.jpg)
 
 ## TODO
 
