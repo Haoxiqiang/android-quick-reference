@@ -1,0 +1,13 @@
+<svg width="16" height="16" viewBox="0 0 224 320" version="1.1" xmlns="http://www.w3.org/2000/svg"
+     xmlns:xlink="http://www.w3.org/1999/xlink">
+    <defs>
+        <polygon id="path-1" points="0.06 0.8 320.06 0.8 320.06 320.8 0.06 320.8"/>
+    </defs>
+    <g id="bing" transform="translate(-48.000000, -1.000000)">
+        <mask id="mask-2" fill="white">
+            <use xlink:href="#path-1"/>
+        </mask>
+        <polygon fill="#E5E5E5" mask="url(#mask-2)"
+                 points="48 1 111.978444 23.4793243 111.978444 248.46749 202.083336 196.533832 157.918633 175.800213 130.031946 106.467316 272 156.307221 272 228.774497 112.019489 321 48.0136816 285.399566 48.0136816 1"/>
+    </g>
+</svg>

@@ -1,0 +1,71 @@
+<idea-plugin>
+    <id>com.quickref.intellij-plugin</id>
+    <name>Quick Reference</name>
+    <vendor email="haoxiqiang@live.com" url="http://www.yourcompany.com">TODO</vendor>
+
+    <!-- please see https://plugins.jetbrains.com/docs/intellij/plugin-compatibility.html
+         on how to target different products -->
+    <depends>com.intellij.modules.java</depends>
+
+    <extensions defaultExtensionNs="com.intellij">
+
+        <codeInsight.lineMarkerProvider
+            language="JAVA"
+            implementationClass="com.quickref.plugin.provider.NativeMethodProvider"/>
+
+        <notificationGroup id="com.quickref.plugin.notification" displayType="BALLOON"
+                           key="quick.reference.notification"/>
+    </extensions>
+
+    <actions>
+
+        <group>
+            <separator/>
+            <add-to-group group-id="EditorPopupMenu" anchor="last"/>
+        </group>
+
+        <action id="AndroidXRefViewerAction" class="com.quickref.plugin.action.AndroidSourceViewerAction"
+                text="View Source" icon="/icons/java.svg"
+                description="View android source code">
+            <add-to-group group-id="EditorPopupMenu" anchor="last"/>
+        </action>
+        <action id="DiffSourceAction" class="com.quickref.plugin.action.DiffSourceAction"
+                text="Diff Source" icon="/icons/diff.svg"
+                description="Diff android source code">
+            <add-to-group group-id="EditorPopupMenu" anchor="last"/>
+        </action>
+
+        <action id="com.quickref.plugin.action.AndroidCodeSearchAction"
+                class="com.quickref.plugin.action.AndroidCodeSearchAction"
+                text="Android Code Search" icon="/icons/csAndroid.svg"
+                description="Android developer viewer">
+            <add-to-group group-id="EditorPopupMenu" anchor="last"/>
+        </action>
+
+        <action id="com.quickref.plugin.action.AndroidReferenceAction"
+                class="com.quickref.plugin.action.AndroidReferenceAction"
+                text="Android Developer Reference" icon="/icons/devAndroid.svg"
+                description="Android developer viewer">
+            <add-to-group group-id="EditorPopupMenu" anchor="last"/>
+        </action>
+
+        <group id="com.quickref.plugin.action.SearchActionGroup"
+               class="com.quickref.plugin.action.SearchActionGroup"
+               icon="/icons/findForward.svg"
+               text="Quick Search"
+               description="Search it with the google/bing/github/stackoverflow."
+               popup="true">
+
+            <add-to-group group-id="EditorPopupMenu" anchor="after"
+                          relative-to-action="com.quickref.plugin.action.AndroidReferenceAction"/>
+
+            <add-to-group group-id="ConsoleEditorPopupMenu" anchor="after"
+                          relative-to-action="com.quickref.plugin.action.AndroidReferenceAction"/>
+        </group>
+
+        <group>
+            <add-to-group group-id="EditorPopupMenu" anchor="last"/>
+            <separator/>
+        </group>
+    </actions>
+</idea-plugin>
