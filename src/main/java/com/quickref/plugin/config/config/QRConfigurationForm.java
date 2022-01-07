@@ -1,12 +1,16 @@
 package com.quickref.plugin.config.config;
 
+import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.ui.IdeBorderFactory;
+import com.quickref.plugin.App;
 import com.quickref.plugin.config.QuickReferenceConfigStorage;
+import org.apache.commons.io.FileUtils;
 import org.jetbrains.annotations.NotNull;
 
-import javax.swing.JCheckBox;
-import javax.swing.JComponent;
-import javax.swing.JPanel;
+import javax.swing.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.IOException;
 import java.util.Objects;
 
 public class QRConfigurationForm {
@@ -20,6 +24,9 @@ public class QRConfigurationForm {
     private JCheckBox enableGithubSearch;
     private JCheckBox enableCodeSearch;
 
+    private JButton cleanCache;
+    private JLabel cacheSize;
+
     private final QuickReferenceConfigStorage quickReferenceConfigStorage;
 
     public QRConfigurationForm() {
@@ -29,7 +36,7 @@ public class QRConfigurationForm {
     @NotNull
     public JComponent createPanel() {
 
-        myMainPanel.setBorder(IdeBorderFactory.createTitledBorder("Detekt Settings"));
+        myMainPanel.setBorder(IdeBorderFactory.createTitledBorder("Quick Reference Settings"));
 
         enableQuickSearch.addChangeListener(changeEvent -> {
             boolean enabled = enableQuickSearch.isSelected();
@@ -40,6 +47,21 @@ public class QRConfigurationForm {
             enableCodeSearch.setEnabled(enabled);
         });
 
+        cacheSize.setText("...");
+
+        calCacheSize();
+
+        cleanCache.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    FileUtils.cleanDirectory(App.INSTANCE.getCACHE_DIR());
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                }
+                calCacheSize();
+            }
+        });
         //FileChooserDescriptor fileChooserDescriptor = new FileChooserDescriptor(
         //    true,
         //    false,
@@ -50,6 +72,16 @@ public class QRConfigurationForm {
 
 
         return myMainPanel;
+    }
+
+    private void calCacheSize() {
+        ApplicationManager.getApplication().invokeLater(new Runnable() {
+            @Override
+            public void run() {
+                final long size = FileUtils.sizeOfDirectory(App.INSTANCE.getCACHE_DIR());
+                cacheSize.setText(String.format("Currently Storage : %.2fM", size / 1024.0 / 1024.0));
+            }
+        });
     }
 
     public void apply() {
