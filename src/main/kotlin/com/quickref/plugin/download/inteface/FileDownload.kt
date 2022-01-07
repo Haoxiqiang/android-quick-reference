@@ -2,7 +2,7 @@ package com.quickref.plugin.download.inteface
 
 import com.intellij.platform.templates.github.DownloadUtil
 import com.quickref.plugin.PluginLogger
-import com.quickref.plugin.entity.DownloadTask
+import com.quickref.plugin.download.DownloadTask
 import com.quickref.plugin.version.AndroidVersion
 import com.quickref.plugin.version.Source
 import java.io.File

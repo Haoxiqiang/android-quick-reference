@@ -4,8 +4,8 @@ plugins {
     id("org.jetbrains.kotlin.jvm") version "1.6.10"
 }
 
-group = "com.quickref.plugin"
-version = "0.5-beta"
+project.group = "com.quickref.plugin"
+project.version = "0.5-beta"
 
 dependencies {
     implementation("org.jetbrains:annotations:22.0.0")
@@ -21,11 +21,20 @@ repositories {
     mavenCentral()
 }
 
-tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile::class.java) {
-    sourceCompatibility = JavaVersion.VERSION_1_8.toString()
-    targetCompatibility = JavaVersion.VERSION_1_8.toString()
+val jvmVersion = JavaVersion.VERSION_1_8
+
+java {
+    sourceCompatibility = jvmVersion
+    targetCompatibility = jvmVersion
+    withJavadocJar()
+    withSourcesJar()
+}
+
+tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>().configureEach {
+    sourceCompatibility = jvmVersion.toString()
+    targetCompatibility = jvmVersion.toString()
     kotlinOptions {
-        jvmTarget = JavaVersion.VERSION_1_8.toString()
+        jvmTarget = jvmVersion.toString()
         apiVersion = "1.6"
         languageVersion = "1.6"
         allWarningsAsErrors = true
@@ -50,7 +59,6 @@ tasks {
     patchPluginXml {
         version.set("${project.version}")
         sinceBuild.set("200")
-        untilBuild.set("213.*")
         changeNotes.set(
             """
             A android source reference tool.<br>

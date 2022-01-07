@@ -4,7 +4,6 @@ import com.intellij.openapi.application.ApplicationManager
 import com.quickref.plugin.download.engine.GithubAOSPDownload
 import com.quickref.plugin.download.engine.SourceGraphDownload
 import com.quickref.plugin.download.engine.XrefDownload
-import com.quickref.plugin.entity.DownloadTask
 import java.io.File
 
 object DownloadManager {

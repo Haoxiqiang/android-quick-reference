@@ -15,6 +15,14 @@
 
         <notificationGroup id="com.quickref.plugin.notification" displayType="BALLOON"
                            key="quick.reference.notification"/>
+
+        <applicationService
+            serviceImplementation="com.quickref.plugin.config.QuickReferenceConfigStorage"/>
+
+        <applicationConfigurable groupId="tools"
+                                 displayName="Quick Reference"
+                                 id="preferences.quick.reference.config"
+                                 instance="com.quickref.plugin.config.QuickReferenceConfig"/>
     </extensions>
 
     <actions>

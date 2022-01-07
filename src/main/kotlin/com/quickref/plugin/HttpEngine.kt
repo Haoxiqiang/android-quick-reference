@@ -1,7 +1,5 @@
-package com.quickref.plugin.network
+package com.quickref.plugin
 
-import com.quickref.plugin.App
-import com.quickref.plugin.PluginLogger
 import io.ktor.client.HttpClient
 import io.ktor.client.engine.cio.CIO
 import io.ktor.client.features.logging.LogLevel

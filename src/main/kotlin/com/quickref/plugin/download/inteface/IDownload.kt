@@ -1,6 +1,6 @@
 package com.quickref.plugin.download.inteface
 
-import com.quickref.plugin.entity.DownloadTask
+import com.quickref.plugin.download.DownloadTask
 import java.io.File
 
 interface IDownload {

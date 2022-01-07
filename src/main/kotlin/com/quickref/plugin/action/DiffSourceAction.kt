@@ -10,7 +10,7 @@ import com.quickref.plugin.PluginLogger
 import com.quickref.plugin.action.base.BaseAction
 import com.quickref.plugin.download.DownloadManager
 import com.quickref.plugin.download.DownloadResult
-import com.quickref.plugin.entity.DownloadTask
+import com.quickref.plugin.download.DownloadTask
 import com.quickref.plugin.extension.diff
 import com.quickref.plugin.extension.isAndroidFrameworkClass
 import com.quickref.plugin.extension.packageName

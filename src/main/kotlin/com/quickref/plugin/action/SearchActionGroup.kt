@@ -4,47 +4,64 @@ import com.intellij.openapi.actionSystem.ActionGroup
 import com.intellij.openapi.actionSystem.AnAction
 import com.intellij.openapi.actionSystem.AnActionEvent
 import com.quickref.plugin.ImageAssets
+import com.quickref.plugin.config.QuickReferenceConfigStorage
 import com.quickref.plugin.viewer.CodeSearchViewer
 
 class SearchActionGroup : ActionGroup() {
 
+    private val quickReferenceConfigStorage by lazy {
+        QuickReferenceConfigStorage.instance()
+    }
+
     override fun update(event: AnActionEvent) {
-        //val editor = event.getData(CommonDataKeys.EDITOR)
-        //event.presentation.isEnabled = editor != null
+        val project = event.project
+        event.presentation.isEnabled =
+            project != null && quickReferenceConfigStorage.enableQuickSearch
     }
 
     override fun getChildren(e: AnActionEvent?): Array<AnAction> {
-        return arrayOf(
-            KeywordSearchAction(
+        val searchActions = mutableListOf<KeywordSearchAction>()
+
+        if (quickReferenceConfigStorage.enableGoogleSearch) {
+            searchActions.add(KeywordSearchAction(
                 "Google".padEnd(15),
                 "Use the Google's search.", ImageAssets.GOOGLE
             ) { keyword ->
                 SearchOnline.googleSearch(keyword)
-            },
-            KeywordSearchAction(
+            })
+        }
+        if (quickReferenceConfigStorage.enableBingSearch) {
+            searchActions.add(KeywordSearchAction(
                 "Bing".padEnd(15),
                 "Use the Bing's search.", ImageAssets.BING
             ) { keyword ->
                 SearchOnline.bingSearch(keyword)
-            },
-            KeywordSearchAction(
-                "GitHub".padEnd(15),
-                "Use the GitHub's search.", ImageAssets.GITHUB
-            ) { keyword ->
-                SearchOnline.githubSearch(keyword)
-            },
-            KeywordSearchAction(
+            })
+        }
+        if (quickReferenceConfigStorage.enableStackOverflow) {
+            searchActions.add(KeywordSearchAction(
                 "StackOverflow".padEnd(15),
                 "Use the StackOverflow's search.", ImageAssets.STACKOVERFLOW
             ) { keyword ->
                 SearchOnline.stackoverflowSearch(keyword)
-            },
-            KeywordSearchAction(
+            })
+        }
+        if (quickReferenceConfigStorage.enableGithubSearch) {
+            searchActions.add(KeywordSearchAction(
+                "GitHub".padEnd(15),
+                "Use the GitHub's search.", ImageAssets.GITHUB
+            ) { keyword ->
+                SearchOnline.githubSearch(keyword)
+            })
+        }
+        if (quickReferenceConfigStorage.enableCodeSearch) {
+            searchActions.add(KeywordSearchAction(
                 "CodeSearch".padEnd(15),
                 "Use the AndroidCS's search.", ImageAssets.CODESEARCH
             ) { keyword ->
                 CodeSearchViewer.search(keyword)
-            },
-        )
+            })
+        }
+        return searchActions.toTypedArray()
     }
 }

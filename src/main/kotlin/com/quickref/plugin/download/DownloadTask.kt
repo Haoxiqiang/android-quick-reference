@@ -1,4 +1,4 @@
-package com.quickref.plugin.entity
+package com.quickref.plugin.download
 
 import com.quickref.plugin.App
 import java.io.File
