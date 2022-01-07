@@ -17,10 +17,12 @@ works to solve the psi problem. Who with relevant practical experience can help 
     * [androidxref.com](http://androidxref.com/)
 
 You download aosp framework files like:
-    ![aosp](./screenshots/aosp.jpg)
+
+![aosp](./screenshots/aosp.jpg)
 
 And view native method by click c++ image:
-    ![aosp-native](./screenshots/aosp-native.jpg)
+
+![aosp-native](./screenshots/aosp-native.jpg)
 
 
 * Quick Android Reference
