@@ -1,7 +1,6 @@
 package com.quickref.plugin
 
 import com.quickref.plugin.version.VersionComparator
-import org.jetbrains.kotlin.util.collectionUtils.filterIsInstanceAnd
 import org.json.JSONArray
 import org.json.JSONObject
 import org.junit.Test
@@ -35,13 +34,10 @@ class CodeSearchVersionsTest {
             }
             .sortedWith(VersionComparator())
             .reversed()
-            .filterIsInstanceAnd<String> { version ->
+            .forEach { version ->
                 val maintain = version.substring(0, version.lastIndexOf("_"))
-                if (kv.containsKey(maintain)) {
-                    false
-                } else {
+                if (kv.containsKey(maintain).not()) {
                     kv[maintain] = version
-                    true
                 }
             }
 

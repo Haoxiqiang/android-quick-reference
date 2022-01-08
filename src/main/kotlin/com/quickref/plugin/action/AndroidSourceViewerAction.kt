@@ -95,7 +95,6 @@ class AndroidSourceViewerAction : BaseAction() {
                                 }
                             }, true
                         )
-                        progressIndicator.fraction = 0.5
                     }
                 }
 

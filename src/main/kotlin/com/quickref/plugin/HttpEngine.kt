@@ -11,7 +11,11 @@ import io.ktor.client.statement.HttpResponse
 import io.ktor.http.isSuccess
 import io.ktor.utils.io.ByteReadChannel
 
+@Suppress("unused")
 object HttpEngine {
+
+    private const val MAX_CONNECTION_COUNT = 10
+    private const val MAX_REQUEST_TIMEOUT = 15_000L
 
     // storage key
     private const val ACCESS_EXTERNAL_NETWORK = "AccessExternalNetwork"
@@ -46,8 +50,8 @@ object HttpEngine {
             level = LogLevel.INFO
         }
         engine {
-            maxConnectionsCount = 10
-            requestTimeout = 15_000L
+            maxConnectionsCount = MAX_CONNECTION_COUNT
+            requestTimeout = MAX_REQUEST_TIMEOUT
             threadsCount = 1
             pipelining = true
         }

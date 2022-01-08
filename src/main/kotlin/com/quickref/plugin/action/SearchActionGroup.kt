@@ -8,6 +8,9 @@ import com.quickref.plugin.config.QuickReferenceConfigStorage
 import com.quickref.plugin.viewer.CodeSearchViewer
 
 class SearchActionGroup : ActionGroup() {
+    companion object {
+        const val MENU_TEXT_LENGTH = 15
+    }
 
     private val quickReferenceConfigStorage by lazy {
         QuickReferenceConfigStorage.instance()
@@ -24,7 +27,7 @@ class SearchActionGroup : ActionGroup() {
 
         if (quickReferenceConfigStorage.enableGoogleSearch) {
             searchActions.add(KeywordSearchAction(
-                "Google".padEnd(15),
+                "Google".padEnd(MENU_TEXT_LENGTH),
                 "Use the Google's search.", ImageAssets.GOOGLE
             ) { keyword ->
                 SearchOnline.googleSearch(keyword)
@@ -32,7 +35,7 @@ class SearchActionGroup : ActionGroup() {
         }
         if (quickReferenceConfigStorage.enableBingSearch) {
             searchActions.add(KeywordSearchAction(
-                "Bing".padEnd(15),
+                "Bing".padEnd(MENU_TEXT_LENGTH),
                 "Use the Bing's search.", ImageAssets.BING
             ) { keyword ->
                 SearchOnline.bingSearch(keyword)
@@ -40,7 +43,7 @@ class SearchActionGroup : ActionGroup() {
         }
         if (quickReferenceConfigStorage.enableStackOverflow) {
             searchActions.add(KeywordSearchAction(
-                "StackOverflow".padEnd(15),
+                "StackOverflow".padEnd(MENU_TEXT_LENGTH),
                 "Use the StackOverflow's search.", ImageAssets.STACKOVERFLOW
             ) { keyword ->
                 SearchOnline.stackoverflowSearch(keyword)
@@ -48,7 +51,7 @@ class SearchActionGroup : ActionGroup() {
         }
         if (quickReferenceConfigStorage.enableGithubSearch) {
             searchActions.add(KeywordSearchAction(
-                "GitHub".padEnd(15),
+                "GitHub".padEnd(MENU_TEXT_LENGTH),
                 "Use the GitHub's search.", ImageAssets.GITHUB
             ) { keyword ->
                 SearchOnline.githubSearch(keyword)
@@ -56,7 +59,7 @@ class SearchActionGroup : ActionGroup() {
         }
         if (quickReferenceConfigStorage.enableCodeSearch) {
             searchActions.add(KeywordSearchAction(
-                "CodeSearch".padEnd(15),
+                "CodeSearch".padEnd(MENU_TEXT_LENGTH),
                 "Use the AndroidCS's search.", ImageAssets.CODESEARCH
             ) { keyword ->
                 CodeSearchViewer.search(keyword)

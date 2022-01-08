@@ -55,13 +55,6 @@ class NativeMethodProvider : LineMarkerProvider, GutterIconNavigationHandler<Psi
         return null
     }
 
-    override fun collectSlowLineMarkers(
-        elements: MutableList<out PsiElement>,
-        result: MutableCollection<in LineMarkerInfo<*>>
-    ) {
-
-    }
-
     override fun navigate(e: MouseEvent, element: PsiElement) {
         val anActionEvent = AnActionEvent.createFromInputEvent(e, "", Presentation(), DataContext { key ->
             if (CommonDataKeys.PROJECT.name == key) {
@@ -112,7 +105,6 @@ class NativeMethodProvider : LineMarkerProvider, GutterIconNavigationHandler<Psi
                             isSync = true,
                             sameTarget = true
                         )
-                        progressIndicator.fraction = 0.5
                     }
                 }
 

@@ -10,6 +10,10 @@ import java.io.IOException
 import kotlin.math.abs
 
 abstract class FileDownload(private val source: Source) : IDownload, Comparable<FileDownload> {
+    companion object {
+        const val MAX_FAILED_COUNT = 3
+    }
+
     // 下载优先级
     private var priority = 0
 
@@ -18,17 +22,13 @@ abstract class FileDownload(private val source: Source) : IDownload, Comparable<
 
     override fun onDownload(tasks: Array<DownloadTask>, sameTarget: Boolean): HashMap<String, File> {
         val map: HashMap<String, File> = HashMap()
-        for (task in tasks) {
-
+        tasks.forEach { task ->
             val rawFile = task.rawFile()
             val key = task.key()
             if (rawFile.exists()) {
                 map[key] = rawFile
                 // if one task success, all task finish.
-                if (sameTarget) {
-                    break
-                }
-                continue
+                return@forEach
             }
 
             val version = task.versionName
@@ -47,7 +47,7 @@ abstract class FileDownload(private val source: Source) : IDownload, Comparable<
                     map[key] = rawFile
                     // if one task success, all task finish.
                     if (sameTarget) {
-                        break
+                        return@forEach
                     }
                 }
             }
@@ -84,13 +84,16 @@ abstract class FileDownload(private val source: Source) : IDownload, Comparable<
 
     override fun compareTo(other: FileDownload): Int {
         // > 0 是大数往后排
-        return if (abs(abs(priority) - abs(other.priority)) < 3 && costTimeAverage > 0 && other.costTimeAverage > 0) {
+        return if (
+            abs(abs(priority) - abs(other.priority)) < MAX_FAILED_COUNT
+            && costTimeAverage > 0 && other.costTimeAverage > 0
+        ) {
             costTimeAverage.compareTo(other.costTimeAverage)
         } else -priority.compareTo(other.priority)
     }
 
     // 暂停机制, 失败次数过多，暂停使用
     fun enable(): Boolean {
-        return priority >= -3
+        return abs(priority) >= MAX_FAILED_COUNT
     }
 }

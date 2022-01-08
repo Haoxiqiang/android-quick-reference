@@ -66,7 +66,6 @@ class DiffSourceAction : BaseAction() {
                                         }
                                     }, true
                                 )
-                                progressIndicator.fraction = 0.5
                             }
                         }
 

@@ -1,4 +1,4 @@
-val androidXRefVersions = linkedMapOf(Pair("9.0.0","9.0.0_r3"),
+private val androidXRefVersions = linkedMapOf(Pair("9.0.0","9.0.0_r3"),
 Pair("8.1.0","8.1.0_r33"),
 Pair("8.0.0","8.0.0_r4"),
 Pair("7.1.2","7.1.2_r36"),

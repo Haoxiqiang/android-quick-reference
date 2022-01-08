@@ -34,8 +34,4 @@ class KeywordSearchAction(text: String, description: String, icon: Icon, val act
         event.presentation.isEnabledAndVisible = keyword.isNotEmpty()
         action.invoke(keyword)
     }
-
-    override fun update(e: AnActionEvent) {
-
-    }
 }
