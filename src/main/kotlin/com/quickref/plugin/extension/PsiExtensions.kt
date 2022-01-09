@@ -32,4 +32,3 @@ fun PsiMethod.isAndroidFrameworkClass(): Boolean {
     val packageName = containingClass?.qualifiedName
     return packageName.isAndroidFrameworkClass()
 }
-

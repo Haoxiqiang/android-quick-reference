@@ -13,4 +13,3 @@ dependencyResolutionManagement {
 }
 
 rootProject.name = "android-quickref-plugin"
-
