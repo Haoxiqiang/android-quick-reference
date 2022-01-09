@@ -3,7 +3,6 @@ package  com.quickref.plugin.config
 import com.intellij.openapi.options.Configurable
 import com.intellij.openapi.options.SearchableConfigurable
 import com.quickref.plugin.App
-import com.quickref.plugin.config.config.QRConfigurationForm
 import javax.swing.JComponent
 
 class QuickReferenceConfig : SearchableConfigurable, Configurable.VariableProjectAppLevel {
