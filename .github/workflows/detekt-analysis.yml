@@ -38,10 +38,10 @@ jobs:
           jq \
             --arg github_workspace ${{ github.workspace }} \
             '. | ( .runs[].results[].locations[].physicalLocation.artifactLocation.uri |= if test($github_workspace) then .[($github_workspace | length | . + 1):] else . end )' \
-            ${{ github.workspace }}/detekt.sarif
-        )" > ${{ github.workspace }}/detekt.sarif
+            ${{ github.workspace }}/build/reports/detekt/detekt.sarif
+        )" > ${{ github.workspace }}/detekt.sarif.json
 
     - uses: github/codeql-action/upload-sarif@v1
       with:
-        sarif_file: ${{ github.workspace }}/build/reports/detekt/detekt.sarif
+        sarif_file: ${{ github.workspace }}/detekt.sarif.json
         checkout_path: ${{ github.workspace }}
