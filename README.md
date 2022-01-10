@@ -1,6 +1,7 @@
-# Android Reference Intellij Plugin
+# Android Open Source Reference Plugin
 
-This library based on [AndroidSourceViewer](https://github.com/pengwei1024/AndroidSourceViewer)
+<!-- Plugin description -->
+The library inspired by [AndroidSourceViewer](https://github.com/pengwei1024/AndroidSourceViewer)
 
 **It's built with the Gradle and rewritten by kotlin, that's why it's a new repo but not pr.**
 
@@ -8,6 +9,7 @@ This library based on [AndroidSourceViewer](https://github.com/pengwei1024/Andro
 
 I found this is a terrible pattern to find the file path from the psi framework after the first commit. I will do more
 works to solve the psi problem. Who with relevant practical experience can help me.
+<!-- Plugin description end -->
 
 ## Feature
 

@@ -1,7 +1,11 @@
 <idea-plugin>
     <id>com.quickref.intellij-plugin</id>
     <name>Quick Reference</name>
-    <vendor email="haoxiqiang@live.com" url="http://www.yourcompany.com">TODO</vendor>
+    <vendor
+        email="haoxiqiang@live.com"
+        url="https://github.com/Haoxiqiang/android-quick-reference">An android
+        open-source quick search/diff/download plugin.
+    </vendor>
 
     <!-- please see https://plugins.jetbrains.com/docs/intellij/plugin-compatibility.html
          on how to target different products -->
