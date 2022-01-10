@@ -8,6 +8,7 @@ import com.quickref.plugin.App.CACHE_DIR
 import com.quickref.plugin.config.QuickReferenceConfigStorage.Companion.instance
 import org.apache.commons.io.FileUtils
 import java.io.IOException
+import java.util.Locale
 import javax.swing.JButton
 import javax.swing.JCheckBox
 import javax.swing.JComponent
@@ -24,34 +25,36 @@ class QRConfigurationForm {
     private var enableGithubSearch: JCheckBox = JCheckBox("Enable Github Search")
     private var enableCodeSearch: JCheckBox = JCheckBox("Enable Code Search")
 
-    private var enableQuickSearch: JCheckBox = JCheckBox("Enable Quick Search").apply {
-        addChangeListener {
-            val enabled = this.isSelected
-            enableGoogleSearch.isEnabled = enabled
-            enableBingSearch.isEnabled = enabled
-            enableStackOverflow.isEnabled = enabled
-            enableGithubSearch.isEnabled = enabled
-            enableCodeSearch.isEnabled = enabled
-        }
-    }
-
-    private var cleanCache: JButton = JButton("Clean Cache").apply {
-        addActionListener {
-            try {
-                FileUtils.cleanDirectory(CACHE_DIR)
-            } catch (ex: IOException) {
-                ex.printStackTrace()
+    private var enableQuickSearch: JCheckBox = JCheckBox("Enable Quick Search")
+        .apply {
+            addChangeListener {
+                val enabled = this.isSelected
+                enableGoogleSearch.isEnabled = enabled
+                enableBingSearch.isEnabled = enabled
+                enableStackOverflow.isEnabled = enabled
+                enableGithubSearch.isEnabled = enabled
+                enableCodeSearch.isEnabled = enabled
             }
-            calCacheSize()
         }
-    }
+
+    private var cleanCache: JButton = JButton("Clean Cache")
+        .apply {
+            addActionListener {
+                try {
+                    FileUtils.cleanDirectory(CACHE_DIR)
+                } catch (ex: IOException) {
+                    ex.printStackTrace()
+                }
+                calCacheSize()
+            }
+        }
     private var cacheSize: JLabel = JLabel("Cache Size ")
 
     private val cachePanel = FormBuilder.createFormBuilder()
         .addComponent(cacheSize)
         .addComponent(cleanCache)
         .panel.apply {
-            layout = HorizontalLayout(20)
+            layout = HorizontalLayout(IdeBorderFactory.TITLED_BORDER_INDENT)
         }
 
     private var myMainPanel: JPanel = FormBuilder.createFormBuilder()
@@ -86,7 +89,8 @@ class QRConfigurationForm {
     private fun calCacheSize() {
         ApplicationManager.getApplication().invokeLater {
             val size = FileUtils.sizeOfDirectory(CACHE_DIR)
-            cacheSize.text = String.format("Currently Storage    %.2fM", size / 1024.0 / 1024.0)
+            val fileSizeDisplay = FileUtils.byteCountToDisplaySize(size)
+            cacheSize.text = String.format(Locale.ENGLISH, "Currently Storage    %.2fM", fileSizeDisplay)
         }
     }
 
