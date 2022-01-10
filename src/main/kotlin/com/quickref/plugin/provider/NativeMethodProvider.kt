@@ -73,21 +73,14 @@ class NativeMethodProvider : LineMarkerProvider, GutterIconNavigationHandler<Psi
                 PluginLogger.debug("down raw file from androidxref.com version=$version fileRef=$fileRef")
 
                 // try get all extensions
-                val path1 = "$fileRef.cpp"
-                val path2 = "$fileRef.c"
-                val path3 = "$fileRef.cc"
-
                 val project = elt.project
-
-                val title = "Download：$version-[.cpp,.c,.cc]"
+                val title = "Download：$version-[$fileRef.cpp]"
 
                 val task = object : Task.Backgroundable(project, title) {
                     override fun run(progressIndicator: ProgressIndicator) {
-                        val task1 = DownloadTask(path1, version)
-                        val task2 = DownloadTask(path2, version)
-                        val task3 = DownloadTask(path3, version)
+                        val nativeFileTask = DownloadTask("$fileRef.cpp", version)
                         DownloadManager.downloadFile(
-                            downloadTasks = arrayOf(task1, task2, task3),
+                            downloadTasks = arrayOf(nativeFileTask),
                             result = object : DownloadResult {
                                 override fun onSuccess(output: HashMap<String, File>) {
                                     val files = output.values.toMutableList()

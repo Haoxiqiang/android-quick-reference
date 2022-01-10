@@ -1,5 +1,7 @@
 package com.quickref.plugin
 
+import com.quickref.plugin.db.QuickRefDB
+import com.squareup.sqldelight.sqlite.driver.JdbcSqliteDriver
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
@@ -39,5 +41,12 @@ object App {
             GLOBAL_PROPS.createNewFile()
         }
         it.load(FileInputStream(GLOBAL_PROPS))
+    }
+
+    val db by lazy {
+        val driver = JdbcSqliteDriver("jdbc:sqlite::resource:${javaClass.classLoader.getResource("db/QuickRefDB.db")}")
+        //QuickRefDB.Schema.create(driver)
+        val database = QuickRefDB.invoke(driver)
+        database
     }
 }

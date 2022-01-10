@@ -1,0 +1,24 @@
+CREATE TABLE NativeMethodMapping (
+  file TEXT NOT NULL,
+  method TEXT NOT NULL,
+  version INTEGER DEFAULT 0,
+  lineNumber INTEGER DEFAULT 0
+);
+
+CREATE INDEX NativeMapping_lineNumber ON NativeMethodMapping(file,method,lineNumber);
+
+INSERT INTO NativeMethodMapping (file,method,version,lineNumber)
+VALUES ("core/jni/android/graphics/Bitmap.cpp","nativeHasAlpha", 29, 1174);
+INSERT INTO NativeMethodMapping (file,method, version,lineNumber)
+VALUES ("core/jni/android/graphics/Bitmap.cpp","nativeIsPremultiplied", 29, 1175);
+INSERT INTO NativeMethodMapping (file,method, version,lineNumber)
+VALUES ("core/jni/android/graphics/Bitmap.cpp","nativeSetPremultiplied", 29, 1176);
+INSERT INTO NativeMethodMapping (file,method, version,lineNumber)
+VALUES ("core/jni/android/graphics/Bitmap.cpp","nativeSetHasAlpha", 29, 1177);
+INSERT INTO NativeMethodMapping (file,method, version,lineNumber)
+VALUES ("core/jni/android/graphics/Bitmap.cpp","nativeHasMipMap", 29, 1178);
+INSERT INTO NativeMethodMapping (file,method, version,lineNumber)
+VALUES ("core/jni/android/graphics/Bitmap.cpp","nativeSameAs", 29, 1179);
+
+INSERT INTO NativeMethodMapping (file,method, version,lineNumber)
+VALUES ("libs/hwui/jni/Bitmap.cpp","nativeHasAlpha", 30, 1121);

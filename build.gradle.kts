@@ -3,31 +3,29 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 fun properties(key: String) = project.findProperty(key).toString()
 
-rootProject.buildscript {
-    dependencies {
-        classpath("com.diffplug.spotless:spotless-plugin-gradle:6.1.0")
-    }
-}
-
 plugins {
     id("java")
     id("org.jetbrains.intellij") version "1.3.0"
     id("org.jetbrains.changelog") version "1.3.1"
     id("org.jetbrains.kotlin.jvm") version "1.6.10"
     id("io.gitlab.arturbosch.detekt") version "1.19.0"
+    id("com.diffplug.spotless")
+    id("com.squareup.sqldelight")
 }
-
-project.plugins.apply("com.diffplug.spotless")
 
 group = properties("pluginGroup")
 version = properties("pluginVersion")
 
 dependencies {
     testImplementation("org.json:json:20211205")
+    testImplementation("junit:junit:4.13.2")
 
     implementation("org.jetbrains:annotations:22.0.0")
     implementation(kotlin("bom", version = "1.6.10"))
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.0")
+
+    implementation("com.squareup.sqldelight:sqlite-driver:1.5.3")
+    implementation("com.squareup.sqldelight:runtime:1.5.3")
 
     detektPlugins("io.gitlab.arturbosch.detekt:detekt-formatting:1.19.0")
 }
@@ -114,6 +112,16 @@ tasks {
         // https://plugins.jetbrains.com/docs/intellij/deployment.html#specifying-a-release-channel
         channels.set(listOf(properties("pluginVersion").split('-').getOrElse(1) { "default" }.split('.').first()))
     }
+}
+
+// database support
+sqldelight {
+    database("QuickRefDB") {
+        packageName = "com.quickref.plugin.db"
+        schemaOutputDirectory = file("src/main/sqldelight/databases")
+        dialect = "sqlite:3.24"
+    }
+    linkSqlite = true
 }
 
 // code analysis
