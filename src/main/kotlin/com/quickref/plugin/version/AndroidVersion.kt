@@ -12,7 +12,7 @@ object AndroidVersion {
     private val sources = linkedMapOf(
         Pair(Source.SourceGraph, SourceGraphVersion()),
         Pair(Source.CodeSearch, CodeSearchVersion()),
-        Pair(Source.AndroidXRef, CodeSearchVersion()),
+        Pair(Source.AndroidXRef, AndroidXRefVersion()),
         Pair(Source.GithubAOSP, GithubAOSPVersion()),
     )
 

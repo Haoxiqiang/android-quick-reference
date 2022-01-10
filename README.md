@@ -11,6 +11,11 @@ I found this is a terrible pattern to find the file path from the psi framework 
 works to solve the psi problem. Who with relevant practical experience can help me.
 <!-- Plugin description end -->
 
+## Install
+[![JetBrains Plugins](https://img.shields.io/jetbrains/plugin/v/18369-quick-reference.svg)](https://plugins.jetbrains.com/plugin/18369-quick-reference)
+[![Downloads](https://img.shields.io/jetbrains/plugin/d/18369-quick-reference.svg)](https://plugins.jetbrains.com/plugin/18369-quick-reference)
+[![Downloads last month](http://phpstorm.espend.de/badge/18369/last-month)](https://plugins.jetbrains.com/plugin/18369-quick-reference)
+
 ## Feature
 
 * Download android-AOSP-source from the remote.
@@ -52,6 +57,7 @@ More works.
 - [ ] add java class/method mapping db.
 - [ ] support custom quick search menu.
 - [ ] android reference support two hosts:`developer.android.com`/`developer.android.google.cn`
+- [ ] diff android version. many files location is changed.
 
 ## License
 

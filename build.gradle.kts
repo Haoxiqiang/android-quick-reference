@@ -29,10 +29,6 @@ dependencies {
     implementation(kotlin("bom", version = "1.6.10"))
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.0")
 
-    implementation("io.ktor:ktor-client-core:1.6.7")
-    implementation("io.ktor:ktor-client-cio:1.6.7")
-    implementation("io.ktor:ktor-client-logging-jvm:1.6.7")
-
     detektPlugins("io.gitlab.arturbosch.detekt:detekt-formatting:1.19.0")
 }
 

@@ -31,11 +31,6 @@
 
     <actions>
 
-        <group>
-            <separator/>
-            <add-to-group group-id="EditorPopupMenu" anchor="last"/>
-        </group>
-
         <action id="AndroidXRefViewerAction" class="com.quickref.plugin.action.AndroidSourceViewerAction"
                 text="View Source" icon="/icons/java.svg"
                 description="View android source code">
@@ -75,9 +70,5 @@
                           relative-to-action="com.quickref.plugin.action.AndroidReferenceAction"/>
         </group>
 
-        <group>
-            <add-to-group group-id="EditorPopupMenu" anchor="last"/>
-            <separator/>
-        </group>
     </actions>
 </idea-plugin>
