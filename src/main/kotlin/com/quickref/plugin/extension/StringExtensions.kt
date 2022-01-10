@@ -117,4 +117,3 @@ fun String?.isAndroidFrameworkClass(): Boolean {
 fun String.endsWithCLang(): Boolean {
     return endsWith(".cpp") || endsWith(".cc") || endsWith(".c")
 }
-

@@ -1,3 +1,9 @@
+rootProject.buildscript {
+    dependencies {
+        classpath("com.diffplug.spotless:spotless-plugin-gradle:6.1.0")
+    }
+}
+
 plugins {
     id("java")
     id("org.jetbrains.intellij") version "1.3.0"
@@ -7,6 +13,7 @@ plugins {
 
 project.group = "com.quickref.plugin"
 project.version = "0.5-beta"
+project.plugins.apply("com.diffplug.spotless")
 
 dependencies {
     testImplementation("org.json:json:20211205")
@@ -18,7 +25,6 @@ dependencies {
     implementation("io.ktor:ktor-client-core:1.6.7")
     implementation("io.ktor:ktor-client-cio:1.6.7")
     implementation("io.ktor:ktor-client-logging-jvm:1.6.7")
-
 
     detektPlugins("io.gitlab.arturbosch.detekt:detekt-formatting:1.19.0")
 }
@@ -99,5 +105,41 @@ tasks.withType<io.gitlab.arturbosch.detekt.Detekt>().configureEach {
         xml.required.set(false) // checkstyle like format mainly for integrations like Jenkins
         txt.required.set(false) // similar to the console output, contains issue signature to manually edit baseline files
         sarif.required.set(true) // standardized SARIF format (https://sarifweb.azurewebsites.net/) to support integrations with Github Code Scanning
+    }
+}
+
+// code formatter
+val excludeDirs = listOf("build/", "src/**/resource/")
+extensions.findByType<com.diffplug.gradle.spotless.SpotlessExtension>()?.apply {
+    format("misc") {
+        target("*.gradle", "*.md", ".gitignore")
+        indentWithSpaces(4)
+        trimTrailingWhitespace()
+        endWithNewline()
+    }
+    java {
+        target("**/*.java")
+        excludeDirs.forEach { dir ->
+            targetExclude(dir)
+        }
+        removeUnusedImports()
+        trimTrailingWhitespace()
+        endWithNewline()
+    }
+
+    kotlin {
+        target("**/*.kt")
+        excludeDirs.forEach { dir ->
+            targetExclude(dir)
+        }
+        trimTrailingWhitespace()
+        endWithNewline()
+    }
+
+    kotlinGradle {
+        target("*.gradle.kts")
+        excludeDirs.forEach { dir ->
+            targetExclude(dir)
+        }
     }
 }

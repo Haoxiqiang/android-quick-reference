@@ -41,5 +41,3 @@ object App {
         it.load(FileInputStream(GLOBAL_PROPS))
     }
 }
-
-
