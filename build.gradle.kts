@@ -19,6 +19,8 @@ version = properties("pluginVersion")
 dependencies {
     testImplementation("org.json:json:20211205")
     testImplementation("junit:junit:4.13.2")
+    // git repo.
+    testImplementation("org.eclipse.jgit:org.eclipse.jgit:6.0.0.202111291000-r")
 
     implementation("org.jetbrains:annotations:22.0.0")
     implementation(kotlin("bom", version = "1.6.10"))

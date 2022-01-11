@@ -1,3 +1,4 @@
 .gradle
 .idea
 build/
+/src/test/resources/android-11.0.0_r48/
