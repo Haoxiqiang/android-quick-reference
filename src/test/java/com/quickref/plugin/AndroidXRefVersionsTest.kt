@@ -29,7 +29,7 @@ class AndroidXRefVersionsTest {
             .joinToString(separator = "\n", transform = { version ->
                 // 9.0.0_r3 or 4.4
                 val index = version.indexOf("_")
-                """Pair("${
+                """Pair("android-${
                     if (index >= 0) {
                         version.substring(0, index)
                     } else {

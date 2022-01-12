@@ -31,6 +31,7 @@ abstract class FileDownload(private val source: Source) : IDownload, Comparable<
     ): HashMap<String, File> {
         val map: HashMap<String, File> = HashMap()
         tasks.forEach { task ->
+
             val rawFile = task.rawFile()
             val key = task.key()
             if (rawFile.exists()) {
@@ -44,9 +45,9 @@ abstract class FileDownload(private val source: Source) : IDownload, Comparable<
                 // convert branch version
                 val branch = AndroidVersion.getVersionSource(source).versionBranch(version)
                 val url: String = createDownloadURL(branch, task.path)
+                PluginLogger.debug("$url downloading")
                 try {
                     DownloadUtil.downloadAtomically(progressIndicator, url, rawFile)
-                    PluginLogger.debug("$url download success and save to ${rawFile.absolutePath}")
                 } catch (e: IOException) {
                     PluginLogger.error("$url download failed.\n${e.message}")
                 }
@@ -72,7 +73,6 @@ abstract class FileDownload(private val source: Source) : IDownload, Comparable<
             if (path.endsWithCLang()) {
                 // try get native method.
                 val versionNumber = AndroidVersion.getBuildNumber(version).toLong()
-                PluginLogger.debug(String.format(Locale.ENGLISH, "native db query:%s %d", path, versionNumber))
                 val nativePath = App.db.nativeFileMappingQueries.getNativeFile(
                     file = path, versionNumber
                 ).executeAsOneOrNull()
@@ -101,10 +101,14 @@ abstract class FileDownload(private val source: Source) : IDownload, Comparable<
      */
     fun updatePriority(isSuccess: Boolean, costTime: Long) {
         PluginLogger.debug(
-            "result:" + isSuccess + ", costTime:" + costTime + ", class:" + javaClass
-                + ", priority:" + priority + ", average:" + costTimeAverage
+            "$isSuccess -> costTime:" + costTime +
+                ", priority:" + priority + ", average:" + costTimeAverage
         )
-        priority = if (isSuccess) priority + 1 else priority - 1
+        priority = if (isSuccess) {
+            priority + 1
+        } else {
+            priority - 1
+        }
         if (isSuccess && costTime > 0) {
             costTimeAverage = if (costTimeAverage == 0L) {
                 costTime

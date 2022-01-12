@@ -3,6 +3,8 @@ package com.quickref.plugin
 import com.quickref.plugin.db.QuickRefDB
 import com.squareup.sqldelight.sqlite.driver.JdbcSqliteDriver
 import java.io.File
+import java.net.URL
+import java.net.URLDecoder
 
 object App {
     val charSet = Charsets.UTF_8
@@ -23,8 +25,10 @@ object App {
     }
 
     val db by lazy {
-        val classLoader = App::class.java.classLoader
-        val driver = JdbcSqliteDriver("jdbc:sqlite::resource:${classLoader.getResource("db/QuickRefDB.db")}")
+        val classLoader = ImageAssets.javaClass.classLoader
+        val path: URL = classLoader.getResource("db/QuickRefDB.db")!!
+        val file = URLDecoder.decode(path.toString(), charSet)
+        val driver = JdbcSqliteDriver("jdbc:sqlite::resource:$file")
         val database = QuickRefDB.invoke(driver)
         database
     }
