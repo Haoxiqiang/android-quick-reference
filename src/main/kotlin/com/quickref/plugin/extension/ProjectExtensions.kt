@@ -23,11 +23,9 @@ fun Project.openFileInEditor(file: File, line: Int = -1) {
     PluginLogger.debug("openFileInEditor:${file.absolutePath}#$line")
 
     ApplicationManager.getApplication().invokeLater {
-        val lFile = LocalFileSystem.getInstance().findFileByIoFile(file)
+        val lFile = LocalFileSystem.getInstance().refreshAndFindFileByIoFile(file)
         if (lFile != null && lFile.isValid) {
-
             lFile.isWritable = false
-
             val providers = FileEditorProviderManager.getInstance().getProviders(this, lFile)
             if (providers.isNotEmpty()) {
                 val descriptor = if (line > 0) {

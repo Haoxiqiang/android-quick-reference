@@ -80,7 +80,7 @@ class NativeMethodProvider : LineMarkerProvider, GutterIconNavigationHandler<Psi
 
                 val task = object : Task.Backgroundable(project, title) {
                     override fun run(progressIndicator: ProgressIndicator) {
-                        val nativeFileTask = DownloadTask(fileName, version)
+                        val nativeFileTask = DownloadTask(path = fileName, versionName = version)
                         DownloadManager.downloadFile(
                             progressIndicator,
                             downloadTasks = arrayOf(nativeFileTask),

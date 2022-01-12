@@ -1,11 +1,16 @@
 # Android Open Source Reference Plugin
 
-<!-- Plugin description -->
 The library inspired by [AndroidSourceViewer](https://github.com/pengwei1024/AndroidSourceViewer)
 
 **It's built with the Gradle and rewritten by kotlin, that's why it's a new repo but not pr.**
 
 **In the rewriting, I have added some features too.**
+
+<!-- Plugin description -->
+
+* You can view Android Open Source in the ide And link the native method to native code.
+* Support Quick Search by google/bing/github/stackoverflow
+* Quick Open Android CodeSearch/Dev Reference by the Browser.
 
 I found this is a terrible pattern to find the file path from the psi framework after the first commit. I will do more
 works to solve the psi problem. Who with relevant practical experience can help me.
@@ -19,6 +24,10 @@ works to solve the psi problem. Who with relevant practical experience can help 
 
 ## Feature
 
+* View native method by click c++ image:
+
+![aosp-native](./screenshots/native-linker.gif)
+
 * Download android-AOSP-source from the remote.
     * [github.com/aosp-mirror](https://github.com/aosp-mirror/platform_frameworks_base)
     * [sourcegraph.com](https://sourcegraph.com/)
@@ -27,10 +36,6 @@ works to solve the psi problem. Who with relevant practical experience can help 
 You download aosp framework files like:
 
 ![aosp](./screenshots/aosp.jpg)
-
-And view native method by click c++ image:
-
-![aosp-native](./screenshots/aosp-native.jpg)
 
 * Quick Android Reference
     * [developer.android.google](https://developer.android.com/reference)

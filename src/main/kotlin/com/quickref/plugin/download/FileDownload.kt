@@ -41,11 +41,13 @@ abstract class FileDownload(private val source: Source) : IDownload, Comparable<
             }
 
             val version = task.versionName
+
             if (isVersionSupport(version)) {
                 // convert branch version
                 val branch = AndroidVersion.getVersionSource(source).versionBranch(version)
                 val url: String = createDownloadURL(branch, task.path)
-                PluginLogger.debug("$url downloading")
+                PluginLogger.error("$url prepare downloading")
+
                 try {
                     DownloadUtil.downloadAtomically(progressIndicator, url, rawFile)
                 } catch (e: IOException) {
