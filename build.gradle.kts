@@ -24,7 +24,6 @@ dependencies {
 
     implementation("org.jetbrains:annotations:22.0.0")
     implementation(kotlin("bom", version = "1.6.10"))
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.0")
 
     implementation("com.squareup.sqldelight:sqlite-driver:1.5.3")
     implementation("com.squareup.sqldelight:runtime:1.5.3")

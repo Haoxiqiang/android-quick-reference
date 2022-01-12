@@ -2,18 +2,12 @@ package com.quickref.plugin
 
 import com.quickref.plugin.db.QuickRefDB
 import com.squareup.sqldelight.sqlite.driver.JdbcSqliteDriver
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.SupervisorJob
 import java.io.File
 
 object App {
     val charSet = Charsets.UTF_8
     const val AppTitle = "Quick Reference"
     const val notificationGroup = "com.quickref.plugin.notification"
-
-    val ioScope: CoroutineScope = CoroutineScope(Dispatchers.IO + SupervisorJob())
-    val mainScope: CoroutineScope = CoroutineScope(Dispatchers.Main + SupervisorJob())
 
     // 用户目录
     private val USER_HOME: String = System.getProperty("user.home")
