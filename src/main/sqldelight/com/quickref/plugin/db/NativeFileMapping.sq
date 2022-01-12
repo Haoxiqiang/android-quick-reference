@@ -6,11 +6,6 @@ CREATE TABLE NativeFileMapping (
 
 CREATE INDEX NativeFileMapping_path ON NativeFileMapping(psiFile,version);
 
-INSERT INTO NativeFileMapping (psiFile,version,path)
-VALUES ("android/graphics/Bitmap.cpp",29,"core/jni/android/graphics/Bitmap.cpp");
-INSERT INTO NativeFileMapping (psiFile, version,path)
-VALUES ("android/graphics/Bitmap.cpp",30,"libs/hwui/jni/Bitmap.cpp");
-
 selectAll:
 SELECT psiFile,version,path FROM NativeFileMapping;
 

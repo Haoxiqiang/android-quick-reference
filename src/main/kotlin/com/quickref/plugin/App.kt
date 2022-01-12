@@ -6,8 +6,6 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
 import java.io.File
-import java.io.FileInputStream
-import java.util.Properties
 
 object App {
     val charSet = Charsets.UTF_8
@@ -30,22 +28,9 @@ object App {
         it.mkdirs()
     }
 
-    // 全局配置文件
-    private val GLOBAL_PROPS: File = File(PROJECT_DIR, "global.properties")
-
-    val appProps = Properties().also {
-        if (GLOBAL_PROPS.isDirectory) {
-            GLOBAL_PROPS.delete()
-        }
-        if (GLOBAL_PROPS.exists().not()) {
-            GLOBAL_PROPS.createNewFile()
-        }
-        it.load(FileInputStream(GLOBAL_PROPS))
-    }
-
     val db by lazy {
-        val driver = JdbcSqliteDriver("jdbc:sqlite::resource:${javaClass.classLoader.getResource("db/QuickRefDB.db")}")
-        //QuickRefDB.Schema.create(driver)
+        val classLoader = App::class.java.classLoader
+        val driver = JdbcSqliteDriver("jdbc:sqlite::resource:${classLoader.getResource("db/QuickRefDB.db")}")
         val database = QuickRefDB.invoke(driver)
         database
     }

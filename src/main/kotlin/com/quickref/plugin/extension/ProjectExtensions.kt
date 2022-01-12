@@ -14,7 +14,7 @@ import com.quickref.plugin.Notifier
 import com.quickref.plugin.PluginLogger
 import java.io.File
 
-fun Project.openFileInEditor(file: File) {
+fun Project.openFileInEditor(file: File, line: Int = -1) {
     if (file.isDirectory) {
         PluginLogger.error("can't open directory with the editor.${file.absolutePath}")
         return
@@ -27,7 +27,11 @@ fun Project.openFileInEditor(file: File) {
 
             val providers = FileEditorProviderManager.getInstance().getProviders(this, lFile)
             if (providers.isNotEmpty()) {
-                val descriptor = OpenFileDescriptor(this, lFile)
+                val descriptor = if (line > 0) {
+                    OpenFileDescriptor(this, lFile, line, -1)
+                } else {
+                    OpenFileDescriptor(this, lFile)
+                }
                 descriptor.isUseCurrentWindow = true
                 descriptor.navigateInEditor(this, true)
             }

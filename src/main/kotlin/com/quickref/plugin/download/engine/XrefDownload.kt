@@ -1,6 +1,6 @@
 package com.quickref.plugin.download.engine
 
-import com.quickref.plugin.download.inteface.FileDownload
+import com.quickref.plugin.download.FileDownload
 import com.quickref.plugin.version.Source
 
 class XrefDownload : FileDownload(Source.AndroidXRef) {

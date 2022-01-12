@@ -43,6 +43,7 @@ object AndroidVersion {
     }
 
     // https://source.android.com/setup/start/build-numbers
+    @Suppress("MagicNumber")
     private val androidBuildVersions = linkedMapOf(
         Pair("android-12.0.0", 31),
         Pair("android-11.0.0", 30),
@@ -70,14 +71,35 @@ object AndroidVersion {
         Pair("android-4.3", 18),
         Pair("android-4.3.1", 18),
         Pair("android-4.2.2", 17),
+        Pair("android-4.2.1", 17),
+        Pair("android-4.2", 17),
         Pair("android-4.1.2", 16),
         Pair("android-4.1.1", 16),
         Pair("android-4.0.4", 15),
         Pair("android-4.0.3", 15),
         Pair("android-4.0.2", 14),
         Pair("android-4.0.1", 14),
+        Pair("android-3.2.4", 13),
+        Pair("android-3.2.3", 13),
+        Pair("android-3.2.2", 13),
+        Pair("android-3.2.1", 13),
+        Pair("android-3.1", 12),
+        Pair("android-3.0", 11),
         Pair("android-2.3.7", 10),
         Pair("android-2.3.6", 10),
+        Pair("android-2.3.5", 10),
+        Pair("android-2.3.4", 10),
+        Pair("android-2.3.3", 10),
+        Pair("android-2.3.2", 10),
+        Pair("android-2.3.1", 10),
+        Pair("android-2.3", 9),
         Pair("android-2.2.3", 8),
+        Pair("android-2.2.2", 8),
+        Pair("android-2.2.1", 8),
+        Pair("android-2.2", 8),
+        Pair("android-2.1", 7),
+        Pair("android-2.0.1", 6),
+        Pair("android-2.0", 5),
+        Pair("android-1.6", 4),
     )
 }

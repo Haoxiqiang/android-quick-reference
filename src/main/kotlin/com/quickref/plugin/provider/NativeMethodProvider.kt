@@ -15,16 +15,16 @@ import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiMethod
 import com.intellij.psi.PsiModifier
 import com.intellij.util.Function
+import com.quickref.plugin.App
 import com.quickref.plugin.ImageAssets
 import com.quickref.plugin.Notifier
 import com.quickref.plugin.PluginLogger
+import com.quickref.plugin.db.NativeMethodMapping
 import com.quickref.plugin.download.DownloadManager
 import com.quickref.plugin.download.DownloadResult
 import com.quickref.plugin.download.DownloadTask
 import com.quickref.plugin.extension.isAndroidFrameworkClass
 import com.quickref.plugin.extension.openFileInEditor
-import com.quickref.plugin.extension.pathname
-import com.quickref.plugin.extension.toFileRef
 import com.quickref.plugin.version.AndroidVersion
 import com.quickref.plugin.widget.AndroidVersionsPopView
 import java.awt.event.MouseEvent
@@ -35,7 +35,10 @@ class NativeMethodProvider : LineMarkerProvider, GutterIconNavigationHandler<Psi
 
     override fun getLineMarkerInfo(element: PsiElement): LineMarkerInfo<PsiMethod>? {
         val lineMarkerInfo =
-            if (element is PsiMethod && element.modifierList.hasExplicitModifier(PsiModifier.NATIVE) && element.isAndroidFrameworkClass()) {
+            if (element is PsiMethod
+                && element.modifierList.hasExplicitModifier(PsiModifier.NATIVE)
+                && element.isAndroidFrameworkClass()
+            ) {
                 // add icon to all framework native method
                 val toolTip = Function<PsiMethod, String> { "Show Native implication by the file mapping." }
                 val supplier = java.util.function.Supplier<String> { "" }
@@ -65,30 +68,50 @@ class NativeMethodProvider : LineMarkerProvider, GutterIconNavigationHandler<Psi
             null
         })
 
-        val fileRef = elt.pathname().toFileRef()
-
         AndroidVersionsPopView(anActionEvent)
             .show("Choose Version", AndroidVersion.merged) { _, version ->
 
-                PluginLogger.debug("down raw file from androidxref.com version=$version fileRef=$fileRef")
+                val fileName = elt.containingFile.name.replace(".java", ".cpp")
+                val methodName = elt.name
+                val versionNumber = AndroidVersion.getBuildNumber(version).toLong()
+
+                PluginLogger.debug("down raw native file[v:$version:$versionNumber]:$fileName#$methodName")
 
                 // try get all extensions
                 val project = elt.project
-                val title = "Download：$version-[$fileRef.cpp]"
+                val title = "Download：$version-$fileName"
 
                 val task = object : Task.Backgroundable(project, title) {
                     override fun run(progressIndicator: ProgressIndicator) {
-                        val nativeFileTask = DownloadTask("$fileRef.cpp", version)
+                        val nativeFileTask = DownloadTask(fileName, version)
                         DownloadManager.downloadFile(
                             downloadTasks = arrayOf(nativeFileTask),
                             result = object : DownloadResult {
                                 override fun onSuccess(output: HashMap<String, File>) {
                                     val files = output.values.toMutableList()
                                     if (files.isEmpty()) {
-                                        Notifier.errorNotification(project, "Error: Download $fileRef")
+                                        Notifier.errorNotification(project, "Error: Download $fileName")
                                         return
                                     }
-                                    project.openFileInEditor(files[0])
+                                    // get native method line.
+                                    val nativeMethod: NativeMethodMapping? =
+                                        App.db.nativeMethodMappingQueries.getNativeMethod(
+                                            key = fileName,
+                                            method = methodName,
+                                            version = versionNumber
+                                        ).executeAsOneOrNull()
+
+                                    val lineNumber =
+                                        if (nativeMethod?.defLine != null && nativeMethod.defLine > 0) {
+                                            nativeMethod.defLine
+                                        } else if (nativeMethod?.jniLine != null && nativeMethod.jniLine > 0) {
+                                            nativeMethod.jniLine
+                                        } else {
+                                            // TODO find line in the file.
+                                            0L
+                                        }
+
+                                    project.openFileInEditor(files[0], lineNumber.toInt())
                                 }
 
                                 override fun onFailure(msg: String, throwable: Throwable?) {

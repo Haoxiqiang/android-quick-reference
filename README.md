@@ -12,6 +12,7 @@ works to solve the psi problem. Who with relevant practical experience can help 
 <!-- Plugin description end -->
 
 ## Install
+
 [![JetBrains Plugins](https://img.shields.io/jetbrains/plugin/v/18369-quick-reference.svg)](https://plugins.jetbrains.com/plugin/18369-quick-reference)
 [![Downloads](https://img.shields.io/jetbrains/plugin/d/18369-quick-reference.svg)](https://plugins.jetbrains.com/plugin/18369-quick-reference)
 [![Downloads last month](http://phpstorm.espend.de/badge/18369/last-month)](https://plugins.jetbrains.com/plugin/18369-quick-reference)
@@ -30,7 +31,6 @@ You download aosp framework files like:
 And view native method by click c++ image:
 
 ![aosp-native](./screenshots/aosp-native.jpg)
-
 
 * Quick Android Reference
     * [developer.android.google](https://developer.android.com/reference)
@@ -53,11 +53,16 @@ More works.
 - [ ] androidx support(before next weekend).
 - [ ] auto jump to the source line.
 - [ ] linker more action in the aosp source.
-- [ ] add native jni mapping db.
+- [x] add native jni mapping db.
 - [ ] add java class/method mapping db.
 - [ ] support custom quick search menu.
 - [ ] android reference support two hosts:`developer.android.com`/`developer.android.google.cn`
 - [ ] diff android version. many files location is changed.
+
+## Native Mapping
+
+* [RepoTools](./src/test/java/com/quickref/plugin/git/RepoTools.kt) use for checkout the diff commit ref's native files.
+* [NativeDBGenerator](./src/test/java/com/quickref/plugin/git/NativeDBGenerator.kt) native db sql
 
 ## License
 

@@ -1,17 +1,19 @@
-package com.quickref.plugin.download.inteface
+package com.quickref.plugin.download
 
 import com.intellij.platform.templates.github.DownloadUtil
 import com.quickref.plugin.App
 import com.quickref.plugin.PluginLogger
-import com.quickref.plugin.download.DownloadTask
+import com.quickref.plugin.download.inteface.IDownload
 import com.quickref.plugin.extension.endsWithCLang
 import com.quickref.plugin.version.AndroidVersion
 import com.quickref.plugin.version.Source
 import java.io.File
 import java.io.IOException
+import java.util.Locale
 import kotlin.math.abs
 
 abstract class FileDownload(private val source: Source) : IDownload, Comparable<FileDownload> {
+
     companion object {
         const val MAX_FAILED_COUNT = 3
     }
@@ -66,27 +68,27 @@ abstract class FileDownload(private val source: Source) : IDownload, Comparable<
         // http://androidxref.com/9.0.0_r3/raw/frameworks/base/core/java/android/app/Activity.java
         // http://androidxref.com/7.1.1_r6/raw/frameworks/base/graphics/java/android/graphics/Bitmap.java
         // http://androidxref.com/7.1.1_r6/raw/frameworks/base/core/jni/android/graphics/Bitmap.cpp
-        val rawPath = if (path.startsWith("android/graphics")) {
+        val rawPath =
             if (path.endsWithCLang()) {
                 // try get native method.
                 val versionNumber = AndroidVersion.getBuildNumber(version).toLong()
-                PluginLogger.debug(String.format("native db query:%s %d", path, versionNumber))
+                PluginLogger.debug(String.format(Locale.ENGLISH, "native db query:%s %d", path, versionNumber))
                 val nativePath = App.db.nativeFileMappingQueries.getNativeFile(
                     file = path, versionNumber
                 ).executeAsOneOrNull()
-
                 if (nativePath?.isNotEmpty() == true) {
                     nativePath
                 } else {
-                    String.format("core/jni/%s", path)
+                    String.format(Locale.ENGLISH, "/core/jni/%s", path)
                 }
             } else {
-                String.format("graphics/java/%s", path)
+                if (path.startsWith("/android/graphics")) {
+                    String.format(Locale.ENGLISH, "/graphics/java/%s", path)
+                } else {
+                    String.format(Locale.ENGLISH, "/core/java/%s", path)
+                }
             }
-        } else {
-            String.format("core/java/%s", path)
-        }
-        return String.format(baseDownloadURL(), version, rawPath)
+        return String.format(Locale.ENGLISH, baseDownloadURL(), version, rawPath)
     }
 
     abstract fun baseDownloadURL(): String
