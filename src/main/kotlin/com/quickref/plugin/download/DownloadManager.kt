@@ -1,6 +1,7 @@
 package com.quickref.plugin.download
 
 import com.intellij.openapi.application.ApplicationManager
+import com.intellij.openapi.progress.ProgressIndicator
 import com.quickref.plugin.download.engine.GithubAOSPDownload
 import com.quickref.plugin.download.engine.SourceGraphDownload
 import com.quickref.plugin.download.engine.XrefDownload
@@ -11,35 +12,16 @@ object DownloadManager {
     private val engines = listOf(SourceGraphDownload(), XrefDownload(), GithubAOSPDownload())
 
     fun downloadFile(
+        progressIndicator: ProgressIndicator?,
         downloadTasks: Array<DownloadTask>,
         result: DownloadResult,
-        isSync: Boolean,
-        sameTarget: Boolean = false
+        isSync: Boolean
     ) {
         val runnable = Runnable {
             val results: HashMap<String, File> = HashMap()
-            var error: Throwable? = null
             // engine's total result.
-            engines.sorted().forEach { engine ->
-                try {
-                    val startTime = System.currentTimeMillis()
-                    val downloadResult: HashMap<String, File> = engine.onDownload(downloadTasks, sameTarget)
-                    val costTime = System.currentTimeMillis() - startTime
-                    // success = result's size == task's size
-                    val success = downloadResult.size == downloadTasks.size
-                    engine.updatePriority(success, costTime)
-                    results.putAll(downloadResult)
-                    if (success) {
-                        return@forEach
-                    }
-                } catch (e: Exception) {
-                    e.printStackTrace()
-                    error = e
-                }
-            }
-            if (sameTarget && results.isNotEmpty()) {
-                result.onSuccess(results)
-            } else if (results.size == downloadTasks.size) {
+            val error = runTask(progressIndicator, downloadTasks, results)
+            if (results.isNotEmpty()) {
                 result.onSuccess(results)
             } else {
                 result.onFailure("download fail:" + error?.message, error)
@@ -49,7 +31,34 @@ object DownloadManager {
         if (isSync) {
             runnable.run()
         } else {
-            ApplicationManager.getApplication().executeOnPooledThread(runnable)
+            ApplicationManager.getApplication().runReadAction(runnable)
         }
+    }
+
+    private fun runTask(
+        progressIndicator: ProgressIndicator?,
+        downloadTasks: Array<DownloadTask>,
+        results: HashMap<String, File>,
+    ): Throwable? {
+        var error: Throwable? = null
+        engines.sorted().forEach { engine ->
+            try {
+                val startTime = System.currentTimeMillis()
+                val downloadResult: HashMap<String, File> =
+                    engine.onDownload(progressIndicator, downloadTasks)
+                val costTime = System.currentTimeMillis() - startTime
+                // success = result's size == task's size
+                val success = downloadResult.size == downloadTasks.size
+                engine.updatePriority(success, costTime)
+                results.putAll(downloadResult)
+                if (success) {
+                    return error
+                }
+            } catch (e: Exception) {
+                e.printStackTrace()
+                error = e
+            }
+        }
+        return error
     }
 }

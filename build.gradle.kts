@@ -120,7 +120,7 @@ sqldelight {
     database("QuickRefDB") {
         packageName = "com.quickref.plugin.db"
         schemaOutputDirectory = file("src/main/sqldelight/databases")
-        dialect = "sqlite:3.24"
+        dialect = "sqlite:3.25"
     }
     linkSqlite = true
 }

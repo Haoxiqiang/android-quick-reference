@@ -49,6 +49,7 @@ class DiffSourceAction : BaseAction() {
                                 val task1 = DownloadTask(path, firstVersion)
                                 val task2 = DownloadTask(path, secondVersion)
                                 DownloadManager.downloadFile(
+                                    progressIndicator,
                                     arrayOf(task1, task2),
                                     object : DownloadResult {
                                         override fun onSuccess(output: HashMap<String, File>) {

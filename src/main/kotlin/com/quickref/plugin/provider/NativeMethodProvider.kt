@@ -3,14 +3,14 @@ package com.quickref.plugin.provider
 import com.intellij.codeInsight.daemon.GutterIconNavigationHandler
 import com.intellij.codeInsight.daemon.LineMarkerInfo
 import com.intellij.codeInsight.daemon.LineMarkerProvider
+import com.intellij.ide.DataManager
 import com.intellij.openapi.actionSystem.AnActionEvent
-import com.intellij.openapi.actionSystem.CommonDataKeys
-import com.intellij.openapi.actionSystem.DataContext
 import com.intellij.openapi.actionSystem.Presentation
 import com.intellij.openapi.editor.markup.GutterIconRenderer
 import com.intellij.openapi.progress.ProgressIndicator
 import com.intellij.openapi.progress.ProgressManager
 import com.intellij.openapi.progress.Task
+import com.intellij.openapi.progress.impl.BackgroundableProcessIndicator
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiMethod
 import com.intellij.psi.PsiModifier
@@ -34,39 +34,36 @@ import java.io.File
 class NativeMethodProvider : LineMarkerProvider, GutterIconNavigationHandler<PsiMethod> {
 
     override fun getLineMarkerInfo(element: PsiElement): LineMarkerInfo<PsiMethod>? {
-        val lineMarkerInfo =
-            if (element is PsiMethod
-                && element.modifierList.hasExplicitModifier(PsiModifier.NATIVE)
-                && element.isAndroidFrameworkClass()
-            ) {
-                // add icon to all framework native method
-                val toolTip = Function<PsiMethod, String> { "Show Native implication by the file mapping." }
-                val supplier = java.util.function.Supplier<String> { "" }
-                val navHandler: GutterIconNavigationHandler<PsiMethod> = this@NativeMethodProvider
-                LineMarkerInfo(
-                    element,
-                    element.textRange,
-                    ImageAssets.NATIVE,
-                    toolTip,
-                    navHandler,
-                    GutterIconRenderer.Alignment.LEFT,
-                    supplier
-                )
-            } else {
-                null
-            }
-        return lineMarkerInfo
+        return if (element is PsiMethod
+            && element.modifierList.hasExplicitModifier(PsiModifier.NATIVE)
+            && element.isAndroidFrameworkClass()
+        ) {
+            // add icon to all framework native method
+            val toolTip = Function<PsiMethod, String> { "Show Native implication by the file mapping." }
+            val supplier = java.util.function.Supplier<String> { "" }
+            val navHandler: GutterIconNavigationHandler<PsiMethod> = this@NativeMethodProvider
+
+            // Add the property to a collection of line marker info
+            LineMarkerInfo(
+                element,
+                element.textRange,
+                ImageAssets.NATIVE,
+                toolTip,
+                navHandler,
+                GutterIconRenderer.Alignment.LEFT,
+                supplier
+            )
+        } else {
+            null
+        }
     }
 
     override fun navigate(e: MouseEvent, elt: PsiMethod) {
-        val anActionEvent = AnActionEvent.createFromInputEvent(e, "", Presentation(), DataContext { key ->
-            if (CommonDataKeys.PROJECT.name == key) {
-                return@DataContext elt.project
-            } else if (CommonDataKeys.PSI_ELEMENT.name == key) {
-                return@DataContext elt
-            }
-            null
-        })
+
+        val dataContext = DataManager.getInstance().getDataContext(e.component)
+        val presentation = Presentation()
+        val anActionEvent = AnActionEvent
+            .createFromInputEvent(e, "", presentation, dataContext, true, true)
 
         AndroidVersionsPopView(anActionEvent)
             .show("Choose Version", AndroidVersion.merged) { _, version ->
@@ -85,6 +82,7 @@ class NativeMethodProvider : LineMarkerProvider, GutterIconNavigationHandler<Psi
                     override fun run(progressIndicator: ProgressIndicator) {
                         val nativeFileTask = DownloadTask(fileName, version)
                         DownloadManager.downloadFile(
+                            progressIndicator,
                             downloadTasks = arrayOf(nativeFileTask),
                             result = object : DownloadResult {
                                 override fun onSuccess(output: HashMap<String, File>) {
@@ -118,13 +116,15 @@ class NativeMethodProvider : LineMarkerProvider, GutterIconNavigationHandler<Psi
                                     Notifier.errorNotification(project, "Error:$msg")
                                 }
                             },
-                            isSync = true,
-                            sameTarget = true
+                            isSync = true
                         )
                     }
                 }
 
-                ProgressManager.getInstance().run(task)
+                val progressIndicator =
+                    ProgressManager.getInstance().progressIndicator ?: BackgroundableProcessIndicator(task)
+                progressIndicator.isIndeterminate = true
+                ProgressManager.getInstance().runProcessWithProgressAsynchronously(task, progressIndicator)
             }
     }
 }

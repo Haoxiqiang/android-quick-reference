@@ -19,8 +19,11 @@ fun Project.openFileInEditor(file: File, line: Int = -1) {
         PluginLogger.error("can't open directory with the editor.${file.absolutePath}")
         return
     }
+
+    PluginLogger.debug("openFileInEditor:${file.absolutePath}#$line")
+
     ApplicationManager.getApplication().invokeLater {
-        val lFile = LocalFileSystem.getInstance().refreshAndFindFileByIoFile(file)
+        val lFile = LocalFileSystem.getInstance().findFileByIoFile(file)
         if (lFile != null && lFile.isValid) {
 
             lFile.isWritable = false

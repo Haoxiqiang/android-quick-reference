@@ -70,6 +70,7 @@ class AndroidSourceViewerAction : BaseAction() {
 
                         val task = DownloadTask(path, version)
                         DownloadManager.downloadFile(
+                            progressIndicator,
                             arrayOf(task),
                             object : DownloadResult {
                                 override fun onSuccess(output: HashMap<String, File>) {

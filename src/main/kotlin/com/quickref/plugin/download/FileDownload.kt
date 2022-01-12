@@ -1,5 +1,6 @@
 package com.quickref.plugin.download
 
+import com.intellij.openapi.progress.ProgressIndicator
 import com.intellij.platform.templates.github.DownloadUtil
 import com.quickref.plugin.App
 import com.quickref.plugin.PluginLogger
@@ -24,7 +25,10 @@ abstract class FileDownload(private val source: Source) : IDownload, Comparable<
     // 平均时间
     private var costTimeAverage: Long = 0
 
-    override fun onDownload(tasks: Array<DownloadTask>, sameTarget: Boolean): HashMap<String, File> {
+    override fun onDownload(
+        progressIndicator: ProgressIndicator?,
+        tasks: Array<DownloadTask>,
+    ): HashMap<String, File> {
         val map: HashMap<String, File> = HashMap()
         tasks.forEach { task ->
             val rawFile = task.rawFile()
@@ -41,7 +45,7 @@ abstract class FileDownload(private val source: Source) : IDownload, Comparable<
                 val branch = AndroidVersion.getVersionSource(source).versionBranch(version)
                 val url: String = createDownloadURL(branch, task.path)
                 try {
-                    DownloadUtil.downloadAtomically(null, url, rawFile)
+                    DownloadUtil.downloadAtomically(progressIndicator, url, rawFile)
                     PluginLogger.debug("$url download success and save to ${rawFile.absolutePath}")
                 } catch (e: IOException) {
                     PluginLogger.error("$url download failed.\n${e.message}")
@@ -49,10 +53,6 @@ abstract class FileDownload(private val source: Source) : IDownload, Comparable<
 
                 if (rawFile.exists()) {
                     map[key] = rawFile
-                    // if one task success, all task finish.
-                    if (sameTarget) {
-                        return@forEach
-                    }
                 }
             }
         }

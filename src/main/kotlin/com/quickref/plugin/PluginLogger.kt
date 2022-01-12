@@ -16,7 +16,8 @@ object PluginLogger {
     private val LOG = Logger.getInstance(PluginLogger::class.java)
 
     init {
-        NotificationsConfiguration.getNotificationsConfiguration()
+        NotificationsConfiguration
+            .getNotificationsConfiguration()
             .register(TAG, NotificationDisplayType.NONE)
     }
 
