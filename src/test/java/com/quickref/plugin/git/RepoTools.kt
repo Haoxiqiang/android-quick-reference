@@ -22,6 +22,9 @@ class RepoTools {
                 .forEach { entry ->
                     val targetBranch = entry.value
                     val target = "src/test/resources/cpp_files/$targetBranch"
+                    if (File(target).exists()) {
+                        return@forEach
+                    }
                     val tagRef = tagList.first { ref -> ref.name == "${Constants.R_TAGS}$targetBranch" }
                     println("current ${aospRepository.branch} except:$targetBranch")
                     try {
