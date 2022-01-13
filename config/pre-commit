@@ -1,0 +1,15 @@
+#!/bin/bash
+stagedFiles=$(git diff --staged --name-only)
+echo "Running spotlessApply. Formatting code..."
+./gradlew spotlessApply
+echo "SpotlessApply task is Completed."
+
+echo "Running detekt checking."
+./gradlew detekt
+echo "Detekt task is Completed."
+
+for file in $stagedFiles; do
+  if test -f "$file"; then
+    git add "$file"
+  fi
+done

@@ -180,3 +180,18 @@ extensions.findByType<com.diffplug.gradle.spotless.SpotlessExtension>()?.apply {
         }
     }
 }
+
+tasks.register("createPreCommitHook") {
+    val gitHooksDirectory = File(project.rootDir, ".git/hooks/")
+    if (!gitHooksDirectory.exists()) {
+        gitHooksDirectory.mkdirs()
+    }
+    val source = File(project.rootDir, "config/pre-commit")
+    val target = File(gitHooksDirectory, "pre-commit")
+    source.copyTo(target, true)
+
+    if (!target.canExecute()) {
+        println("make pre-commit execute")
+        target.setExecutable(true)
+    }
+}
