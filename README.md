@@ -30,6 +30,10 @@ works to solve the psi problem. Who with relevant practical experience can help 
 
 ![aosp-native](./screenshots/native-linker.gif)
 
+* You can compare diff version source.
+
+![plugin-diff.png](./screenshots/plugin-diff.png)
+
 * Download android-AOSP-source from the remote.
     * [github.com/aosp-mirror](https://github.com/aosp-mirror/platform_frameworks_base)
     * [sourcegraph.com](https://sourcegraph.com/)
