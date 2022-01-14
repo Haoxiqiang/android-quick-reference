@@ -2,6 +2,10 @@
 
 ## [Unreleased]
 
+## [1.0.3]
+### Fixed
+- fix native linker define method line.
+
 ## [1.0.0]
 ### Added
 - apply intellij-platform-plugin-template

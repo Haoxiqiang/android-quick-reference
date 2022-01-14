@@ -22,6 +22,8 @@ works to solve the psi problem. Who with relevant practical experience can help 
 [![Downloads](https://img.shields.io/jetbrains/plugin/d/18369-quick-reference.svg)](https://plugins.jetbrains.com/plugin/18369-quick-reference)
 [![Downloads last month](http://phpstorm.espend.de/badge/18369/last-month)](https://plugins.jetbrains.com/plugin/18369-quick-reference)
 
+[Get Plugin From Market](https://plugins.jetbrains.com/plugin/18369-quick-reference/versions/stable/153417)
+
 ## Feature
 
 * View native method by click c++ image:
@@ -32,10 +34,6 @@ works to solve the psi problem. Who with relevant practical experience can help 
     * [github.com/aosp-mirror](https://github.com/aosp-mirror/platform_frameworks_base)
     * [sourcegraph.com](https://sourcegraph.com/)
     * [androidxref.com](http://androidxref.com/)
-
-You download aosp framework files like:
-
-![aosp](./screenshots/aosp.jpg)
 
 * Quick Android Reference
     * [developer.android.google](https://developer.android.com/reference)
@@ -49,7 +47,8 @@ You download aosp framework files like:
     * github.com
     * stackoverflow
 
-  ![quicksearch](./screenshots/quicksearch.jpg)
+  ![plugin-menu1](./screenshots/plugin-menu2.png)
+  ![plugin-version](./screenshots/plugin-version.png)
 
 ## TODO
 
