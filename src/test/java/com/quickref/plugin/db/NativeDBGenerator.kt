@@ -1,4 +1,4 @@
-package com.quickref.plugin.git
+package com.quickref.plugin.db
 
 import com.quickref.plugin.version.AndroidVersion
 import com.quickref.plugin.version.Source
@@ -71,24 +71,26 @@ class NativeDBGenerator {
     }
 
     @Test
-    fun generator() {
-
-        val fileSQL = File("src/test/resources/cpp_files/NativeFileMapping.sql")
-        val methodSQL = File("src/test/resources/cpp_files/NativeMethodMapping.sql")
+    fun generatorDisSQL() {
         val disSQL = File("src/test/resources/cpp_files/NativeDis.sql")
-        fileSQL.writeText("")
-        methodSQL.writeText("")
-
         @Suppress("MaxLineLength")
         disSQL.writeText(
             """DELETE FROM NativeFileMapping AS a
 WHERE (a.psiFile,a.version,a.path) IN (SELECT psiFile,version,path FROM NativeFileMapping GROUP BY psiFile,version,path HAVING count(*) > 1)
 AND rowid NOT IN (SELECT min(rowid) FROM NativeFileMapping GROUP BY psiFile,version,path HAVING count(*)>1);
 DELETE FROM NativeMethodMapping AS a
-WHERE (a.file,a.method,a.version,a.jniLine,a.defLine) IN (SELECT file,method,version,jniLine,defLine FROM NativeMethodMapping GROUP BY file,method,version,jniLine,defLine HAVING count(*) > 1)
-AND rowid NOT IN (SELECT min(rowid) FROM NativeMethodMapping GROUP BY file,method,version,jniLine,defLine HAVING count(*)>1);
+WHERE (a.file,a.jniMethod,a.nativeMethod,a.version,a.jniLine,a.defLine) IN (SELECT file,jniMethod,nativeMethod,version,jniLine,defLine FROM NativeMethodMapping GROUP BY file,jniMethod,nativeMethod,version,jniLine,defLine HAVING count(*) > 1)
+AND rowid NOT IN (SELECT min(rowid) FROM NativeMethodMapping GROUP BY file,jniMethod,nativeMethod,version,jniLine,defLine HAVING count(*)>1);
         """.trimIndent()
         )
+    }
+
+    @Test
+    fun generator() {
+        val fileSQL = File("src/test/resources/cpp_files/NativeFileMapping.sql")
+        val methodSQL = File("src/test/resources/cpp_files/NativeMethodMapping.sql")
+        fileSQL.writeText("")
+        methodSQL.writeText("")
 
         AndroidVersion
             .getVersionSource(Source.GithubAOSP)
@@ -168,10 +170,15 @@ AND rowid NOT IN (SELECT min(rowid) FROM NativeMethodMapping GROUP BY file,metho
 
             file.readLines().forEachIndexed { index, text ->
                 if (text.contains(jniMethod)) {
-                    jniLine = index + 1
+                    jniLine = index
                 }
-                if (text.contains(nativeMethod) && !text.contains(param3)) {
-                    nativeMethodLine = index + 1
+                val maybeRealDef1 = " $nativeMethod("
+                val maybeRealDef2 = " $nativeMethod ("
+                if ((text.contains(maybeRealDef1) || text.contains(maybeRealDef2)) && !text.contains(param3)) {
+                    nativeMethodLine = index
+                }
+                if (jniLine > 0 && nativeMethodLine > 0) {
+                    return@forEachIndexed
                 }
             }
 

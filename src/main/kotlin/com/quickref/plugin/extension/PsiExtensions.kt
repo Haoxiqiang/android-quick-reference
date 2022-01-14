@@ -1,8 +1,21 @@
 package com.quickref.plugin.extension
 
 import com.intellij.psi.PsiClass
+import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiMethod
 
+
+fun PsiElement?.isSupport(): Boolean {
+    // must be a class
+    if (this is PsiClass) {
+        // check inner class
+        if (containingClass != null) {
+            return false
+        }
+        return this.name != "String"
+    }
+    return false
+}
 
 /**
  * 替换成 Developer 需要的包名

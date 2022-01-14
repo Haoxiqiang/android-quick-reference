@@ -11,6 +11,3 @@ SELECT psiFile,version,path FROM NativeFileMapping;
 
 getNativeFile:
 SELECT path FROM NativeFileMapping WHERE psiFile=:file AND version <=:version ORDER BY version DESC LIMIT 1;
-
-insertNativeFile:
-INSERT INTO NativeFileMapping(psiFile,version,path) VALUES (?, ?,?);

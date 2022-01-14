@@ -1,0 +1,13 @@
+CREATE TABLE JavaFileMapping (
+  psiFile TEXT NOT NULL,
+  version INTEGER DEFAULT 0,
+  path TEXT NOT NULL
+);
+
+CREATE INDEX JavaFileMapping_path ON JavaFileMapping(psiFile,version);
+
+selectAll:
+SELECT psiFile,version,path FROM JavaFileMapping;
+
+getJavaFile:
+SELECT path FROM JavaFileMapping WHERE psiFile=:file AND version <=:version ORDER BY version DESC LIMIT 1;

@@ -44,8 +44,7 @@ object DownloadManager {
         engines.sorted().forEach { engine ->
             try {
                 val startTime = System.currentTimeMillis()
-                val downloadResult: HashMap<String, File> =
-                    engine.onDownload(progressIndicator, downloadTasks)
+                val downloadResult = engine.onDownload(progressIndicator, downloadTasks)
                 val costTime = System.currentTimeMillis() - startTime
                 // success = result's size == task's size
                 val success = downloadResult.size == downloadTasks.size

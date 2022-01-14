@@ -6,6 +6,7 @@ import com.quickref.plugin.App
 import com.quickref.plugin.PluginLogger
 import com.quickref.plugin.download.inteface.IDownload
 import com.quickref.plugin.extension.endsWithCLang
+import com.quickref.plugin.extension.endsWithJava
 import com.quickref.plugin.version.AndroidVersion
 import com.quickref.plugin.version.Source
 import java.io.File
@@ -78,17 +79,16 @@ abstract class FileDownload(private val source: Source) : IDownload, Comparable<
                 val nativePath = App.db.nativeFileMappingQueries.getNativeFile(
                     file = path, versionNumber
                 ).executeAsOneOrNull()
-                if (nativePath?.isNotEmpty() == true) {
-                    nativePath
-                } else {
-                    String.format(Locale.ENGLISH, "/core/jni/%s", path)
-                }
+                nativePath ?: path
+            } else if (path.endsWithJava()) {
+                val versionNumber = AndroidVersion.getBuildNumber(version).toLong()
+                val javaPath = App.db.javaFileMappingQueries.getJavaFile(
+                    file = path, versionNumber
+                ).executeAsOneOrNull()
+                javaPath ?: path
             } else {
-                if (path.startsWith("/android/graphics")) {
-                    String.format(Locale.ENGLISH, "/graphics/java/%s", path)
-                } else {
-                    String.format(Locale.ENGLISH, "/core/java/%s", path)
-                }
+                // must failed. only print log for debug.
+                path
             }
         return String.format(Locale.ENGLISH, baseDownloadURL(), version, rawPath)
     }

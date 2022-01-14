@@ -1,6 +1,5 @@
-package com.quickref.plugin
+package com.quickref.plugin.version
 
-import com.quickref.plugin.version.VersionComparator
 import org.junit.Test
 import java.io.File
 

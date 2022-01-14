@@ -7,12 +7,45 @@ import com.intellij.openapi.application.ApplicationManager
 import com.intellij.openapi.fileEditor.FileDocumentManager
 import com.intellij.openapi.fileEditor.OpenFileDescriptor
 import com.intellij.openapi.fileEditor.ex.FileEditorProviderManager
+import com.intellij.openapi.progress.ProgressIndicator
+import com.intellij.openapi.progress.ProgressManager
+import com.intellij.openapi.progress.Task
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.vfs.LocalFileSystem
 import com.quickref.plugin.App
 import com.quickref.plugin.Notifier
 import com.quickref.plugin.PluginLogger
+import com.quickref.plugin.download.DownloadManager
+import com.quickref.plugin.download.DownloadResult
+import com.quickref.plugin.download.DownloadTask
 import java.io.File
+
+fun Project.downloadFile(
+    tasks: Array<DownloadTask>,
+    success: (output: HashMap<String, File>) -> Unit,
+    failed: (String, Throwable?) -> Unit
+) {
+    val title = "Download：${tasks.joinToString { task -> "${task.versionName}-${task.path}" }}"
+    val task = object : Task.Backgroundable(this, title) {
+        override fun run(progressIndicator: ProgressIndicator) {
+            DownloadManager.downloadFile(
+                progressIndicator,
+                tasks,
+                object : DownloadResult {
+                    override fun onSuccess(output: HashMap<String, File>) {
+                        success.invoke(output)
+                    }
+
+                    override fun onFailure(msg: String, throwable: Throwable?) {
+                        Notifier.errorNotification(project, "Error:$msg")
+                        failed.invoke(msg, throwable)
+                    }
+                }, true
+            )
+        }
+    }
+    ProgressManager.getInstance().run(task)
+}
 
 fun Project.openFileInEditor(file: File, line: Int = -1) {
     if (file.isDirectory) {

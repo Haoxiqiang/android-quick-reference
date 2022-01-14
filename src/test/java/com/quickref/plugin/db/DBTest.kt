@@ -3,7 +3,7 @@ package com.quickref.plugin.db
 import com.squareup.sqldelight.sqlite.driver.JdbcSqliteDriver
 import org.junit.Test
 
-class DBNativeFileMappingTest {
+class DBTest {
 
     @Test
     fun testBitmapMapping() {

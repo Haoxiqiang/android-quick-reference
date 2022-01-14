@@ -117,3 +117,7 @@ fun String?.isAndroidFrameworkClass(): Boolean {
 fun String.endsWithCLang(): Boolean {
     return endsWith(".cpp") || endsWith(".cc") || endsWith(".c")
 }
+
+fun String.endsWithJava(): Boolean {
+    return endsWith(".java") || endsWith(".kt")
+}

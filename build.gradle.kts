@@ -146,7 +146,7 @@ tasks.withType<io.gitlab.arturbosch.detekt.Detekt>().configureEach {
 }
 
 // code formatter
-val excludeDirs = listOf("build/", "src/**/resource/")
+val excludeDirs = listOf("build/", "src/test/resources/")
 extensions.findByType<com.diffplug.gradle.spotless.SpotlessExtension>()?.apply {
     format("misc") {
         target("*.gradle", "*.md", ".gitignore")

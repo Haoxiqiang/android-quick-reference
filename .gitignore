@@ -2,3 +2,4 @@
 .idea
 build/
 /src/test/resources/cpp_files/
+/src/test/resources/java_files/

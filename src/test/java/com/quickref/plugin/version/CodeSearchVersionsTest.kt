@@ -1,29 +1,24 @@
-package com.quickref.plugin
+package com.quickref.plugin.version
 
-import com.quickref.plugin.version.VersionComparator
 import org.json.JSONArray
 import org.json.JSONObject
 import org.junit.Test
 import java.io.File
 
-class SourceGraphVersionsTest {
+class CodeSearchVersionsTest {
 
     @Test
     fun generateVersions() {
-        val jsonPath = "src/test/resources/sourcegraph.json"
+        val jsonPath = "src/test/resources/android-versions.json"
         val file = File(jsonPath)
         val json = JSONObject(file.readText())
-        val nodes: JSONArray =
-            json.getJSONObject("data")
-                .getJSONObject("node")
-                .getJSONObject("gitRefs")
-                .getJSONArray("nodes")!!
-
-        val size = nodes.length()
+        val rootNode: JSONObject = json.getJSONObject("roots")
+        val branchTree: JSONArray = rootNode.getJSONArray("branch")
+        val size = branchTree.length()
         val names = mutableListOf<String>()
         for (i in 0 until size) {
-            val branch: JSONObject = nodes.getJSONObject(i)
-            names.add(branch.getString("displayName"))
+            val branch: JSONObject = branchTree.getJSONObject(i)
+            names.add(branch.getString("branchName"))
         }
         val baseLength = "android-".length
         val kv = LinkedHashMap<String, String>()
@@ -45,18 +40,17 @@ class SourceGraphVersionsTest {
                 }
             }
 
-        val outPath = "src/test/resources/source-graph-versions.txt"
+        val outPath = "src/test/resources/android-versions.txt"
         val output = File(outPath)
         if (output.exists().not()) {
             output.createNewFile()
         }
-
         val text = kv.entries.joinToString(separator = "\n", transform = { entry ->
             """Pair("${entry.key}","${entry.value}"),
             """.trimIndent()
 
         })
-        val code = """private val sourceGraphVersions = linkedMapOf($text)
+        val code = """private val codeSearchVersions = linkedMapOf($text)
         """.trimIndent()
         output.writeText(code)
     }
