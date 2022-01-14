@@ -67,10 +67,14 @@ More works.
 - [ ] android reference support two hosts:`developer.android.com`/`developer.android.google.cn`
 - [ ] diff android version. many files location is changed.
 
-## Native Mapping
+## File Mapping
+
+The package/filenames is very different.
+I create a scripts generate db by load all files.
 
 * [RepoTools](./src/test/java/com/quickref/plugin/git/RepoTools.kt) use for checkout the diff commit ref's native files.
-* [NativeDBGenerator](./src/test/java/com/quickref/plugin/git/NativeDBGenerator.kt) native db sql
+* [NativeDBGenerator](./src/test/java/com/quickref/plugin/db/NativeDBGenerator.kt) native db sql
+* [JavaDBGenerator](./src/test/java/com/quickref/plugin/db/JavaDBGenerator.kt) java db sql
 
 ## License
 
