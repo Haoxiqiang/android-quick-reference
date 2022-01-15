@@ -58,8 +58,18 @@ class QRConfigurationForm {
         }
 
     private var myMainPanel: JPanel = FormBuilder.createFormBuilder()
-        .addComponent(enableQuickSearch)
 
+        .addComponent(JLabel("Android Versions"))
+        .setFormLeftIndent(IdeBorderFactory.TITLED_BORDER_INDENT)
+        .addComponent(enableGoogleSearch)
+        .addComponent(enableBingSearch)
+        .addComponent(enableStackOverflow)
+        .addComponent(enableGithubSearch)
+        .addComponent(enableCodeSearch)
+        .setFormLeftIndent(IdeBorderFactory.TITLED_BORDER_LEFT_INSET)
+
+
+        .addComponent(enableQuickSearch)
         .setFormLeftIndent(IdeBorderFactory.TITLED_BORDER_INDENT)
         .addComponent(enableGoogleSearch)
         .addComponent(enableBingSearch)
@@ -81,7 +91,7 @@ class QRConfigurationForm {
 
 
     fun createPanel(): JComponent {
-        cacheSize.text = "..."
+        cacheSize.text = "Currently Storage    ..."
         calCacheSize()
         return myMainPanel
     }
@@ -90,7 +100,7 @@ class QRConfigurationForm {
         ApplicationManager.getApplication().invokeLater {
             val size = FileUtils.sizeOfDirectory(CACHE_DIR)
             val fileSizeDisplay = FileUtils.byteCountToDisplaySize(size)
-            cacheSize.text = String.format(Locale.ENGLISH, "Currently Storage    %.2fM", fileSizeDisplay)
+            cacheSize.text = String.format(Locale.ENGLISH, "Currently Storage    %s", fileSizeDisplay)
         }
     }
 
