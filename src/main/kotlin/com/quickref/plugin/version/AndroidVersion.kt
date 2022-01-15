@@ -10,10 +10,10 @@ enum class Source {
 object AndroidVersion {
 
     private val sources = linkedMapOf(
-        Pair(Source.SourceGraph, SourceGraphVersion()),
+        Pair(Source.SourceGraph, GithubAOSPVersion()),
+        Pair(Source.GithubAOSP, GithubAOSPVersion()),
         Pair(Source.CodeSearch, CodeSearchVersion()),
         Pair(Source.AndroidXRef, AndroidXRefVersion()),
-        Pair(Source.GithubAOSP, GithubAOSPVersion()),
     )
 
     val merged by lazy { mergedAllSource() }

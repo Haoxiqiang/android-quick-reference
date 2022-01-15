@@ -5,7 +5,6 @@ import com.intellij.openapi.actionSystem.LangDataKeys
 import com.intellij.openapi.ui.showOkNoDialog
 import com.quickref.plugin.App
 import com.quickref.plugin.Notifier
-import com.quickref.plugin.action.base.BaseAction
 import com.quickref.plugin.download.DownloadTask
 import com.quickref.plugin.extension.downloadFile
 import com.quickref.plugin.extension.guessFileName

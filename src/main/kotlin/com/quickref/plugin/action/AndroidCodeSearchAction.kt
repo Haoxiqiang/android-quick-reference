@@ -3,7 +3,6 @@ package com.quickref.plugin.action
 import com.intellij.openapi.actionSystem.AnActionEvent
 import com.intellij.openapi.actionSystem.LangDataKeys
 import com.quickref.plugin.App
-import com.quickref.plugin.action.base.BaseAction
 import com.quickref.plugin.extension.guessFileName
 import com.quickref.plugin.extension.isAndroidFrameworkClass
 import com.quickref.plugin.extension.packageName

@@ -6,7 +6,6 @@ import com.intellij.openapi.actionSystem.LangDataKeys
 import com.intellij.psi.PsiClass
 import com.intellij.psi.PsiMethod
 import com.quickref.plugin.PluginLogger
-import com.quickref.plugin.action.base.BaseAction
 import com.quickref.plugin.extension.isAndroidClass
 import com.quickref.plugin.extension.isSupport
 import com.quickref.plugin.extension.packageName

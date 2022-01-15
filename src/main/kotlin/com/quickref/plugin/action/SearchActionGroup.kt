@@ -6,6 +6,7 @@ import com.intellij.openapi.actionSystem.AnActionEvent
 import com.quickref.plugin.ImageAssets
 import com.quickref.plugin.config.QuickReferenceConfigStorage
 import com.quickref.plugin.viewer.CodeSearchViewer
+import com.quickref.plugin.viewer.SearchOnlineViewer
 
 class SearchActionGroup : ActionGroup() {
     companion object {
@@ -30,7 +31,7 @@ class SearchActionGroup : ActionGroup() {
                 "Google".padEnd(MENU_TEXT_LENGTH),
                 "Use the Google's search.", ImageAssets.GOOGLE
             ) { keyword ->
-                SearchOnline.googleSearch(keyword)
+                SearchOnlineViewer.googleSearch(keyword)
             })
         }
         if (quickReferenceConfigStorage.enableBingSearch) {
@@ -38,7 +39,7 @@ class SearchActionGroup : ActionGroup() {
                 "Bing".padEnd(MENU_TEXT_LENGTH),
                 "Use the Bing's search.", ImageAssets.BING
             ) { keyword ->
-                SearchOnline.bingSearch(keyword)
+                SearchOnlineViewer.bingSearch(keyword)
             })
         }
         if (quickReferenceConfigStorage.enableStackOverflow) {
@@ -46,7 +47,7 @@ class SearchActionGroup : ActionGroup() {
                 "StackOverflow".padEnd(MENU_TEXT_LENGTH),
                 "Use the StackOverflow's search.", ImageAssets.STACKOVERFLOW
             ) { keyword ->
-                SearchOnline.stackoverflowSearch(keyword)
+                SearchOnlineViewer.stackoverflowSearch(keyword)
             })
         }
         if (quickReferenceConfigStorage.enableGithubSearch) {
@@ -54,7 +55,7 @@ class SearchActionGroup : ActionGroup() {
                 "GitHub".padEnd(MENU_TEXT_LENGTH),
                 "Use the GitHub's search.", ImageAssets.GITHUB
             ) { keyword ->
-                SearchOnline.githubSearch(keyword)
+                SearchOnlineViewer.githubSearch(keyword)
             })
         }
         if (quickReferenceConfigStorage.enableCodeSearch) {

@@ -4,7 +4,6 @@ import com.intellij.openapi.actionSystem.AnActionEvent
 import com.intellij.openapi.actionSystem.LangDataKeys
 import com.quickref.plugin.Notifier
 import com.quickref.plugin.PluginLogger
-import com.quickref.plugin.action.base.BaseAction
 import com.quickref.plugin.download.DownloadTask
 import com.quickref.plugin.extension.diff
 import com.quickref.plugin.extension.downloadFile

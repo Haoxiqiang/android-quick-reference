@@ -1,11 +1,11 @@
-package com.quickref.plugin.action
+package com.quickref.plugin.viewer
 
 import com.intellij.ide.BrowserUtil
 
 /**
  * search online by google
  */
-object SearchOnline {
+object SearchOnlineViewer {
 
     @Suppress("unused")
     private const val googleSourceOptions = "q=site%3Aandroid.googlesource.com"
