@@ -1,10 +1,14 @@
 # Android Open Source Reference Plugin Changelog
 
 ## [Unreleased]
+
+## [1.0.5]
+
 ### Added
 - support custom versions in the menu.
 ### Fixed
 - fix cache size display.
+- fix class finder.
 
 ## [1.0.3]
 

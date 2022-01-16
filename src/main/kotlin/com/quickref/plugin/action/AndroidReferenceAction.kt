@@ -7,8 +7,10 @@ import com.intellij.psi.PsiClass
 import com.intellij.psi.PsiMethod
 import com.quickref.plugin.PluginLogger
 import com.quickref.plugin.extension.isAndroidClass
+import com.quickref.plugin.extension.isAndroidFrameworkClass
 import com.quickref.plugin.extension.isSupport
 import com.quickref.plugin.extension.packageName
+import com.quickref.plugin.extension.pathname
 import com.quickref.plugin.extension.referencePage
 
 /**
@@ -25,7 +27,7 @@ class AndroidReferenceAction : BaseAction() {
 
     override fun update(e: AnActionEvent) {
         val psiElement = e.getData(LangDataKeys.PSI_ELEMENT)
-        e.presentation.isVisible = psiElement.isSupport() && e.packageName()?.isAndroidClass() == true
+        e.presentation.isVisible = psiElement.isSupport() && psiElement.pathname().isAndroidClass()
     }
 
     override fun actionPerformed(e: AnActionEvent) {

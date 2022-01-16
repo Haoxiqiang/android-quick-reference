@@ -11,7 +11,6 @@ import com.quickref.plugin.extension.guessFileName
 import com.quickref.plugin.extension.isAndroidFrameworkClass
 import com.quickref.plugin.extension.isSupport
 import com.quickref.plugin.extension.openFileInEditor
-import com.quickref.plugin.extension.packageName
 import com.quickref.plugin.extension.pathname
 import com.quickref.plugin.version.AndroidVersion
 import com.quickref.plugin.viewer.CodeSearchViewer
@@ -21,8 +20,8 @@ class AndroidSourceViewerAction : BaseAction() {
 
     override fun update(e: AnActionEvent) {
         val psiElement = e.getData(LangDataKeys.PSI_ELEMENT)
-        e.presentation.isVisible = psiElement.isSupport() && psiElement.pathname()
-            .isAndroidFrameworkClass() && e.project != null && e.packageName()?.isAndroidFrameworkClass() == true
+        e.presentation.isVisible =
+            psiElement.isSupport() && psiElement.pathname().isAndroidFrameworkClass() && e.project != null
     }
 
     override fun actionPerformed(e: AnActionEvent) {

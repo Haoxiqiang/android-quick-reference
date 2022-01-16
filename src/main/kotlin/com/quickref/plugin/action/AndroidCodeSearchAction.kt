@@ -4,8 +4,10 @@ import com.intellij.openapi.actionSystem.AnActionEvent
 import com.intellij.openapi.actionSystem.LangDataKeys
 import com.quickref.plugin.App
 import com.quickref.plugin.extension.guessFileName
+import com.quickref.plugin.extension.isAndroidClass
 import com.quickref.plugin.extension.isAndroidFrameworkClass
 import com.quickref.plugin.extension.packageName
+import com.quickref.plugin.extension.pathname
 import com.quickref.plugin.version.AndroidVersion
 import com.quickref.plugin.viewer.CodeSearchViewer
 import com.quickref.plugin.widget.AndroidVersionsPopView
@@ -22,7 +24,7 @@ class AndroidCodeSearchAction : BaseAction() {
 
     override fun update(e: AnActionEvent) {
         val psiElement = e.getData(LangDataKeys.PSI_ELEMENT)
-        e.presentation.isVisible = psiElement != null && e.packageName()?.isAndroidFrameworkClass() == true
+        e.presentation.isVisible = psiElement != null && psiElement.pathname().isAndroidClass()
     }
 
     override fun actionPerformed(e: AnActionEvent) {
