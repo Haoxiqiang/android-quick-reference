@@ -66,7 +66,7 @@ class NativeMethodProvider : LineMarkerProvider, GutterIconNavigationHandler<Psi
             .createFromInputEvent(e, "", presentation, dataContext, true, true)
 
         AndroidVersionsPopView(anActionEvent)
-            .show("Choose Version", AndroidVersion.merged) { _, version ->
+            .show("Choose Version", AndroidVersion.sourceDownloadableVersions) { _, version ->
 
                 val fileName = elt.containingFile.name.replace(".java", ".cpp")
                 val methodName = elt.name

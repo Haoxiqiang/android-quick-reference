@@ -31,7 +31,7 @@ class AndroidSourceViewerAction : BaseAction() {
         val fileName = e.guessFileName()
 
         AndroidVersionsPopView(e)
-            .show("Choose $fileName Version", AndroidVersion.merged)
+            .show("Choose $fileName Version", AndroidVersion.sourceDownloadableVersions)
             { _, version ->
                 val task = DownloadTask(fileName, version)
                 project.downloadFile(arrayOf(task),

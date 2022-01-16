@@ -24,7 +24,7 @@ class JavaDBGenerator {
         selectAll:
         SELECT psiFile,version,path FROM JavaFileMapping;
 
-        getNativeFile:
+        getJavaFile:
         SELECT path FROM JavaFileMapping WHERE psiFile=:file AND version <=:version ORDER BY version DESC LIMIT 1;
 
         insertNativeFile:

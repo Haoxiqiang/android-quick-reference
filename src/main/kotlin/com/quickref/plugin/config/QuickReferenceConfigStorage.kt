@@ -19,7 +19,7 @@ class QuickReferenceConfigStorage : PersistentStateComponent<QuickReferenceConfi
         }
     }
 
-    // quick search
+    // quick search.
     @Tag
     var enableQuickSearch: Boolean = true
 
@@ -38,7 +38,81 @@ class QuickReferenceConfigStorage : PersistentStateComponent<QuickReferenceConfi
     @Tag
     var enableCodeSearch: Boolean = true
 
-    // more config
+    // android versions.
+    @Tag
+    var enableAndroid31: Boolean = true
+
+    @Tag
+    var enableAndroid30: Boolean = true
+
+    @Tag
+    var enableAndroid29: Boolean = true
+
+    @Tag
+    var enableAndroid28: Boolean = true
+
+    @Tag
+    var enableAndroid27: Boolean = true
+
+    @Tag
+    var enableAndroid26: Boolean = true
+
+    @Tag
+    var enableAndroid25: Boolean = true
+
+    @Tag
+    var enableAndroid24: Boolean = true
+
+    @Tag
+    var enableAndroid23: Boolean = true
+
+    @Tag
+    var enableAndroid22: Boolean = true
+
+    @Tag
+    var enableAndroid21: Boolean = true
+
+    @Tag
+    var enableAndroid20: Boolean = false
+
+    @Tag
+    var enableAndroid19: Boolean = false
+
+    @Tag
+    var enableAndroid18: Boolean = false
+
+    @Tag
+    var enableAndroid17: Boolean = false
+
+    @Tag
+    var enableAndroid16: Boolean = false
+
+    @Tag
+    var enableAndroid15: Boolean = false
+
+    @Tag
+    var enableAndroid14: Boolean = false
+
+    @Tag
+    var enableAndroid13: Boolean = false
+
+    @Tag
+    var enableAndroid10: Boolean = false
+
+    @Tag
+    var enableAndroid08: Boolean = false
+
+    @Tag
+    var enableAndroid07: Boolean = false
+
+    @Tag
+    var enableAndroid06: Boolean = false
+
+    @Tag
+    var enableAndroid05: Boolean = false
+
+    @Tag
+    var enableAndroid04: Boolean = false
 
     override fun getState(): QuickReferenceConfigStorage = this
 

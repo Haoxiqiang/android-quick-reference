@@ -11,4 +11,6 @@ abstract class Version {
     fun isSupport(version: String): Boolean {
         return versionPairs().containsKey(version)
     }
+
+    abstract fun isDownloadable(): Boolean
 }

@@ -28,9 +28,9 @@ class DiffSourceAction : BaseAction() {
         val project = e.project ?: return
 
         AndroidVersionsPopView(e)
-            .show("Choose First Version", AndroidVersion.merged) { _, firstVersion ->
+            .show("Choose First Version", AndroidVersion.sourceDownloadableVersions) { _, firstVersion ->
                 AndroidVersionsPopView(e)
-                    .show("Choose Second Version", AndroidVersion.merged) { _, secondVersion ->
+                    .show("Choose Second Version", AndroidVersion.sourceDownloadableVersions) { _, secondVersion ->
 
                         PluginLogger.debug("diff $firstVersion...$secondVersion")
 

@@ -1,5 +1,6 @@
 package com.quickref.plugin.git
 
+import com.intellij.openapi.diagnostic.thisLogger
 import org.eclipse.jgit.lib.Repository
 import org.eclipse.jgit.storage.file.FileRepositoryBuilder
 import java.io.File

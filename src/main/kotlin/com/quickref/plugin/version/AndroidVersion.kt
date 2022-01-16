@@ -1,7 +1,9 @@
 package com.quickref.plugin.version
 
+import com.quickref.plugin.config.QuickReferenceConfigStorage
+import com.quickref.plugin.config.isSupportVersion
+
 enum class Source {
-    SourceGraph,
     CodeSearch,
     AndroidXRef,
     GithubAOSP,
@@ -10,13 +12,14 @@ enum class Source {
 object AndroidVersion {
 
     private val sources = linkedMapOf(
-        Pair(Source.SourceGraph, GithubAOSPVersion()),
         Pair(Source.GithubAOSP, GithubAOSPVersion()),
         Pair(Source.CodeSearch, CodeSearchVersion()),
         Pair(Source.AndroidXRef, AndroidXRefVersion()),
     )
-
-    val merged by lazy { mergedAllSource() }
+    val sourceDownloadableVersions by lazy {
+        mergedDownloadableSource()
+    }
+    val sourceSearchableVersions by lazy { mergedSearchableSource() }
 
     fun getVersionSource(source: Source): Version {
         return sources[source]!!
@@ -32,12 +35,27 @@ object AndroidVersion {
         return androidBuildVersions[rawVersion].toString().toIntOrNull() ?: 0
     }
 
-    private fun mergedAllSource(): List<String> {
+    private fun mergedSearchableSource(): List<String> {
         val versions = hashSetOf<String>()
-        sources.forEach { entry ->
-            entry.value.versionPairs().keys.forEach { version ->
+        sources[Source.CodeSearch]?.apply {
+            versionPairs().keys.forEach { version ->
                 versions.add(version)
             }
+        }
+        return versions.toSortedSet().sortedWith(VersionComparator()).reversed()
+    }
+
+    private fun mergedDownloadableSource(): List<String> {
+        val versions = hashSetOf<String>()
+        sources.filter { entry -> entry.value.isDownloadable() }.forEach { entry ->
+            entry.value
+                .versionPairs().keys
+                .filter { version ->
+                    QuickReferenceConfigStorage.instance().isSupportVersion(getBuildNumber(version))
+                }
+                .forEach { version ->
+                    versions.add(version)
+                }
         }
         return versions.toSortedSet().sortedWith(VersionComparator()).reversed()
     }

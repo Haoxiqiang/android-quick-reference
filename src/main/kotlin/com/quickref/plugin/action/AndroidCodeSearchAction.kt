@@ -28,7 +28,7 @@ class AndroidCodeSearchAction : BaseAction() {
     override fun actionPerformed(e: AnActionEvent) {
         val fileName = e.guessFileName()
         AndroidVersionsPopView(e)
-            .show("Choose $fileName Version", AndroidVersion.merged) { _, version ->
+            .show("Choose $fileName Version", AndroidVersion.sourceSearchableVersions) { _, version ->
                 val versionNumber = AndroidVersion.getBuildNumber(version).toLong()
                 val javaPath = App.db.javaFileMappingQueries.getJavaFile(
                     file = fileName, versionNumber
