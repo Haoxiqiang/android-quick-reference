@@ -51,21 +51,25 @@ works to solve the psi problem. Who with relevant practical experience can help 
     * github.com
     * stackoverflow
 
-  ![plugin-menu1](./screenshots/plugin-menu2.png)
+  ![plugin-menu2](./screenshots/plugin-menu2.png)
   ![plugin-version](./screenshots/plugin-version.png)
+
+* Support Menu.
+![plugin-menu1](./screenshots/plugin-menu.png)
+
 
 ## TODO
 
 More works.
 
 - [ ] androidx support(before next weekend).
-- [ ] auto jump to the source line.
+- [x] auto jump to the source line.
 - [ ] linker more action in the aosp source.
 - [x] add native jni mapping db.
 - [ ] add java class/method mapping db.
-- [ ] support custom quick search menu.
+- [x] support custom quick search menu.
 - [ ] android reference support two hosts:`developer.android.com`/`developer.android.google.cn`
-- [ ] diff android version. many files location is changed.
+- [x] diff android version. many files location is changed.
 
 ## File Mapping
 
