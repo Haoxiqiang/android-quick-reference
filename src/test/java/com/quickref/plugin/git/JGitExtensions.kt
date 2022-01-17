@@ -1,16 +1,23 @@
 package com.quickref.plugin.git
 
-import com.intellij.openapi.diagnostic.thisLogger
 import org.eclipse.jgit.lib.Repository
 import org.eclipse.jgit.storage.file.FileRepositoryBuilder
 import java.io.File
 
-val aospRepository: Repository
-    get() = getProjectGit()
+enum class RepoType {
+    AOSP_BASE,
+    EXTERNAL_SKIA,
+}
 
-private fun getProjectGit(): Repository {
-    val aospDir: String = System.getenv("AOSP_PATH")
-    val gitRepoDir = File(aospDir, ".git")
+val aospBaseRepository: Repository
+    get() = getProjectGit(RepoType.AOSP_BASE)
+
+val skiaRepository: Repository
+    get() = getProjectGit(RepoType.EXTERNAL_SKIA)
+
+private fun getProjectGit(repoType: RepoType): Repository {
+    val repoDir: String = getFilePath(repoType)
+    val gitRepoDir = File(repoDir, ".git")
     val git = if (gitRepoDir.isDirectory) {
         gitRepoDir
     } else {
@@ -26,4 +33,11 @@ private fun getProjectGit(): Repository {
     return FileRepositoryBuilder()
         .findGitDir(git)
         .build()
+}
+
+private fun getFilePath(repoType: RepoType): String {
+    return when (repoType) {
+        RepoType.AOSP_BASE -> System.getenv("AOSP_PATH")
+        RepoType.EXTERNAL_SKIA -> System.getenv("EXTERNAL_SKIA")
+    }
 }

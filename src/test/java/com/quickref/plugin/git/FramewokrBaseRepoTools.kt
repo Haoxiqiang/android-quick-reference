@@ -10,11 +10,11 @@ import org.junit.Test
 import java.io.File
 
 
-class RepoTools {
+class FramewokrBaseRepoTools {
 
     @Test
     fun copyAllJavaFiles() {
-        Git.wrap(aospRepository).use { git ->
+        Git.wrap(aospBaseRepository).use { git ->
             val tagList = git.tagList().call()
             AndroidVersion
                 .getVersionSource(Source.GithubAOSP)
@@ -27,10 +27,10 @@ class RepoTools {
                         return@forEach
                     }
                     val tagRef = tagList.first { ref -> ref.name == "${Constants.R_TAGS}$targetBranch" }
-                    println("current ${aospRepository.branch} except:$targetBranch")
+                    println("current ${aospBaseRepository.branch} except:$targetBranch")
                     try {
                         // checkout tag ref
-                        if (aospRepository.branch != tagRef.name) {
+                        if (aospBaseRepository.branch != tagRef.name) {
                             git.checkout()
                                 .setName(tagRef.name)
                                 .setForced(true)
@@ -42,7 +42,7 @@ class RepoTools {
                         return@forEach
                     }
 
-                    val repoDir = aospRepository.workTree
+                    val repoDir = aospBaseRepository.workTree
 
                     repoDir.walk()
                         .maxDepth(depth = 10)
@@ -60,7 +60,7 @@ class RepoTools {
 
     @Test
     fun copyAllNativeFiles() {
-        Git.wrap(aospRepository).use { git ->
+        Git.wrap(aospBaseRepository).use { git ->
             val tagList = git.tagList().call()
             AndroidVersion
                 .getVersionSource(Source.GithubAOSP)
@@ -73,10 +73,10 @@ class RepoTools {
                         return@forEach
                     }
                     val tagRef = tagList.first { ref -> ref.name == "${Constants.R_TAGS}$targetBranch" }
-                    println("current ${aospRepository.branch} except:$targetBranch")
+                    println("current ${aospBaseRepository.branch} except:$targetBranch")
                     try {
                         // checkout tag ref
-                        if (aospRepository.branch != tagRef.name) {
+                        if (aospBaseRepository.branch != tagRef.name) {
                             git.checkout()
                                 .setName(tagRef.name)
                                 .setForced(true)
@@ -88,7 +88,7 @@ class RepoTools {
                         return@forEach
                     }
 
-                    val repoDir = aospRepository.workTree
+                    val repoDir = aospBaseRepository.workTree
 
                     repoDir.walk()
                         .maxDepth(depth = 10)

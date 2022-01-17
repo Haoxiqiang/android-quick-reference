@@ -26,7 +26,7 @@ works to solve the psi problem. Who with relevant practical experience can help 
 
 ## Feature
 
-* View native method by click c++ image:
+* View native method by click c++ image,but I can't support int native auto jump between dif files without `com.intellij.modules.cidr.lang` for c/c++ psi.
 
 ![aosp-native](./screenshots/native-linker.gif)
 

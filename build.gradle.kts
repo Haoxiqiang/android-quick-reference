@@ -52,7 +52,7 @@ changelog {
 // it's for dev
 tasks.withType(org.jetbrains.intellij.tasks.RunIdeTask::class.java) {
     // you should set your AndroidStudio's app dir like this.
-    // ideDir.set(file("/Users/haoxiqiang/Library/Application Support/JetBrains/Toolbox/apps/AndroidStudio/ch-0/203.7935034/Contents"))
+    // ideDir.set(file("/Users/haoxiqiang/Library/Application Support/JetBrains/Toolbox/apps/AndroidStudio/ch-0/203.7935034/Android Studio.app/Contents"))
     autoReloadPlugins.set(true)
 }
 
