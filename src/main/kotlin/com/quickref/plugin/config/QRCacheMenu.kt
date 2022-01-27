@@ -1,3 +1,5 @@
+@file:Suppress("Unused", "FunctionOnlyReturningConstant")
+
 package com.quickref.plugin.config
 
 import com.intellij.ide.plugins.newui.HorizontalLayout
@@ -11,6 +13,7 @@ import java.io.IOException
 import java.util.Locale
 import javax.swing.JButton
 import javax.swing.JLabel
+import javax.swing.JPanel
 
 internal object QRCacheMenu {
 
@@ -27,7 +30,7 @@ internal object QRCacheMenu {
         }
     private var cacheSize: JLabel = JLabel("Currently Storage ...")
 
-    val container = FormBuilder.createFormBuilder()
+    val container: JPanel = FormBuilder.createFormBuilder()
         .addComponent(TitledSeparator("Manager"))
         .addComponent(FormBuilder.createFormBuilder()
             .setFormLeftIndent(IdeBorderFactory.TITLED_BORDER_INDENT)
@@ -48,19 +51,15 @@ internal object QRCacheMenu {
         }
     }
 
-    @Suppress("UnusedPrivateMember")
     fun applyState(quickReferenceConfigStorage: QuickReferenceConfigStorage) {
         calCacheSize()
     }
 
-    @Suppress("UnusedPrivateMember")
     fun loadState(quickReferenceConfigStorage: QuickReferenceConfigStorage) {
 
     }
 
-    @Suppress("UnusedPrivateMember", "FunctionOnlyReturningConstant")
     fun checkNotModified(quickReferenceConfigStorage: QuickReferenceConfigStorage): Boolean {
         return true
     }
-
 }

@@ -2,7 +2,6 @@ package com.quickref.plugin
 
 import com.quickref.plugin.db.QuickRefDB
 import com.squareup.sqldelight.sqlite.driver.JdbcSqliteDriver
-import org.sqlite.JDBC
 import java.io.File
 import java.net.URL
 
@@ -29,7 +28,7 @@ object App {
         val resource: URL = classLoader.getResource("db/QuickRefDB.db")!!
         val jdbcURL = "jdbc:sqlite::resource:${resource.toURI()}"
         // try call org.sqlite.JDBC.<cinit>
-        JDBC.isValidURL(jdbcURL)
+        Class.forName("org.sqlite.JDBC")
         val driver = JdbcSqliteDriver(jdbcURL)
         val database = QuickRefDB.invoke(driver)
         database

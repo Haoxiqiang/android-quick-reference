@@ -40,7 +40,6 @@ class NativeMethodProvider : LineMarkerProvider, GutterIconNavigationHandler<Psi
         ) {
             // add icon to all framework native method
             val toolTip = Function<PsiMethod, String> { "Show Native implication by the file mapping." }
-            val supplier = java.util.function.Supplier<String> { "" }
             val navHandler: GutterIconNavigationHandler<PsiMethod> = this@NativeMethodProvider
 
             // Add the property to a collection of line marker info
@@ -51,7 +50,6 @@ class NativeMethodProvider : LineMarkerProvider, GutterIconNavigationHandler<Psi
                 toolTip,
                 navHandler,
                 GutterIconRenderer.Alignment.LEFT,
-                supplier
             )
         } else {
             null
