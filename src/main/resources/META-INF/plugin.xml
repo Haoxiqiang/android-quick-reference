@@ -17,9 +17,6 @@
             language="JAVA"
             implementationClass="com.quickref.plugin.provider.NativeMethodProvider"/>
 
-        <notificationGroup id="com.quickref.plugin.notification" displayType="BALLOON"
-                           key="quick.reference.notification"/>
-
         <applicationService
             serviceImplementation="com.quickref.plugin.config.QuickReferenceConfigStorage"/>
 
@@ -32,12 +29,12 @@
     <actions>
 
         <action id="AndroidXRefViewerAction" class="com.quickref.plugin.action.AndroidSourceViewerAction"
-                text="View Source" icon="/icons/java.svg"
+                text="View Android Source" icon="/icons/java.svg"
                 description="View android source code">
             <add-to-group group-id="EditorPopupMenu" anchor="last"/>
         </action>
         <action id="DiffSourceAction" class="com.quickref.plugin.action.DiffSourceAction"
-                text="Diff Source" icon="/icons/diff.svg"
+                text="Diff Android Source" icon="/icons/diff.svg"
                 description="Diff android source code">
             <add-to-group group-id="EditorPopupMenu" anchor="last"/>
         </action>
