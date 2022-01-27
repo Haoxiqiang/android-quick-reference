@@ -1,4 +1,4 @@
-@file:Suppress("Unused", "FunctionOnlyReturningConstant")
+@file:Suppress("Unused", "UnusedPrivateMember", "FunctionOnlyReturningConstant")
 
 package com.quickref.plugin.config
 
