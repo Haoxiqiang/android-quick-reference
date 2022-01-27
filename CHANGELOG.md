@@ -2,7 +2,12 @@
 
 ## [Unreleased]
 
-## [1.0.5]
+## [1.0.6]
+
+### Added
+- build for more platforms.
+
+### [1.0.5]
 
 ### Added
 - support custom versions in the menu.

@@ -39,6 +39,8 @@ repositories {
 intellij {
     pluginName.set(properties("pluginName"))
     version.set(properties("platformVersion"))
+    updateSinceUntilBuild.set(false)
+    sameSinceUntilBuild.set(true)
     type.set(properties("platformType"))
 
     plugins.set(properties("platformPlugins").split(',').map(String::trim).filter(String::isNotEmpty))
@@ -75,9 +77,9 @@ tasks {
     }
 
     patchPluginXml {
-        version.set(properties("pluginVersion"))
-        sinceBuild.set(properties("pluginSinceBuild"))
+        sinceBuild.set("200")
 
+        version.set(properties("pluginVersion"))
         // Extract the <!-- Plugin description --> section from README.md and provide for the plugin's manifest
         pluginDescription.set(
             projectDir.resolve("README.md").readText().lines().run {
