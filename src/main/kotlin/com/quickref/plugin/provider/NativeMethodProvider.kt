@@ -42,6 +42,10 @@ class NativeMethodProvider : LineMarkerProvider, GutterIconNavigationHandler<Psi
             val toolTip = Function<PsiMethod, String> { "Show Native implication by the file mapping." }
             val navHandler: GutterIconNavigationHandler<PsiMethod> = this@NativeMethodProvider
 
+            App.db.nativeMethodMappingQueries.getNativeMethodByName(
+                name = element.name
+            ).executeAsOneOrNull() ?: return null
+
             // Add the property to a collection of line marker info
             LineMarkerInfo(
                 element,

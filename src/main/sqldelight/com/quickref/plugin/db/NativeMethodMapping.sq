@@ -11,3 +11,6 @@ CREATE INDEX NativeMapping_line ON NativeMethodMapping(file,jniMethod,nativeMeth
 
 getNativeMethod:
 SELECT * FROM NativeMethodMapping WHERE file=:key AND jniMethod=:method AND version <=:version ORDER BY version DESC LIMIT 1;
+
+getNativeMethodByName:
+SELECT * FROM NativeMethodMapping WHERE jniMethod=:name LIMIT 1;
