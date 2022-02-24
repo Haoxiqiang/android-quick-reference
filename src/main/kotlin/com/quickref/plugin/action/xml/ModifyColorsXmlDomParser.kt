@@ -30,11 +30,18 @@ object ModifyColorsXmlDomParser {
                     // get first staff
                     val colorNode = colors.item(index)
                     if (colorNode.nodeType == Node.ELEMENT_NODE) {
-                        println(colorNode.textContent)
                         val colorValue = colorNode.textContent
-                        val newColor = mixColors(Color.decode(colorValue), defaultMask)
-                        val newColorString = formatColor(newColor.rgb)
-                        colorNode.textContent = newColorString
+                        val color = text2Color(colorValue)
+                        val newColor = mixColors(color, defaultMask)
+                        val newAlpha = newColor.alpha
+                        @Suppress("MagicNumber")
+                        val newHex = if (newAlpha == 255) {
+                            Integer.toHexString(newColor.rgb).substring(2)
+                        } else {
+                            Integer.toHexString(newColor.rgb)
+                        }
+                        colorNode.textContent = "#${newHex.uppercase()}"
+                        //println("$colorValue -> ${colorNode.textContent}")
                     }
                 }
 
@@ -48,8 +55,20 @@ object ModifyColorsXmlDomParser {
     }
 
     @Suppress("MagicNumber")
-    private fun formatColor(color: Int): String {
-        return java.lang.String.format("#%06X", 0xFFFFFF and color)
+    private fun text2Color(colorValue: String): Color {
+        // length must in 7(#112233) 9(#FF112233)
+        if (colorValue.length == 7) {
+            return Color.decode(colorValue)
+        }
+        val alpha = colorValue.substring(1, 3)
+        val value = colorValue.substring(3)
+        val color = Color.decode("#$value")
+        return Color(
+            color.red,
+            color.green,
+            color.blue,
+            Integer.valueOf(alpha, 16)
+        )
     }
 
     @Suppress("MagicNumber")
