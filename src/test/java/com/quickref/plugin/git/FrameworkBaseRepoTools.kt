@@ -24,6 +24,7 @@ class FrameworkBaseRepoTools {
                     val targetBranch = entry.value
                     val target = "src/test/resources/java_files/$targetBranch"
                     if (File(target).exists()) {
+                        println("except:$targetBranch exists")
                         return@forEach
                     }
                     val tagRef = tagList.first { ref -> ref.name == "${Constants.R_TAGS}$targetBranch" }
@@ -70,6 +71,7 @@ class FrameworkBaseRepoTools {
                     val targetBranch = entry.value
                     val target = "src/test/resources/cpp_files/$targetBranch"
                     if (File(target).exists()) {
+                        println("except:$targetBranch exists")
                         return@forEach
                     }
                     val tagRef = tagList.first { ref -> ref.name == "${Constants.R_TAGS}$targetBranch" }

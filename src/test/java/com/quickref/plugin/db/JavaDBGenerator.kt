@@ -27,9 +27,6 @@ class JavaDBGenerator {
         getJavaFile:
         SELECT path FROM JavaFileMapping WHERE psiFile=:file AND version <=:version ORDER BY version DESC LIMIT 1;
 
-        insertNativeFile:
-        INSERT INTO JavaFileMapping(psiFile,version,path) VALUES (?, ?,?);
-
     """.trimIndent()
         javaFileSQL.writeText(javaFileTable)
     }
@@ -37,7 +34,7 @@ class JavaDBGenerator {
     @Test
     fun aospDirTest() {
         AndroidVersion
-            .getVersionSource(Source.GithubAOSP)
+            .getVersionSource(Source.AOSPMirror)
             .versionPairs()
             .entries
             .forEach { entry ->
@@ -70,7 +67,7 @@ AND rowid NOT IN (SELECT min(rowid) FROM JavaFileMapping GROUP BY psiFile,versio
         fileSQL.writeText("")
 
         AndroidVersion
-            .getVersionSource(Source.GithubAOSP)
+            .getVersionSource(Source.AOSPMirror)
             .versionPairs()
             .entries
             .forEach { entry ->

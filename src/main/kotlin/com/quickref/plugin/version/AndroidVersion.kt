@@ -65,6 +65,7 @@ object AndroidVersion {
     // https://source.android.com/setup/start/build-numbers
     @Suppress("MagicNumber")
     private val androidBuildVersions = linkedMapOf(
+        Pair("android-12.1.0", 32),
         Pair("android-12.0.0", 31),
         Pair("android-11.0.0", 30),
         Pair("android-10.0.0", 29),

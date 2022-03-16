@@ -27,10 +27,6 @@ class NativeDBGenerator {
 
         getNativeFile:
         SELECT path FROM NativeFileMapping WHERE psiFile=:file AND version <=:version ORDER BY version DESC LIMIT 1;
-
-        insertNativeFile:
-        INSERT INTO NativeFileMapping(psiFile,version,path) VALUES (?, ?,?);
-
     """.trimIndent()
 
         val nativeMethodTable = """
@@ -48,6 +44,8 @@ class NativeDBGenerator {
         getNativeMethod:
         SELECT * FROM NativeMethodMapping WHERE file=:key AND jniMethod=:method AND version <=:version ORDER BY version DESC LIMIT 1;
 
+        getNativeMethodByName:
+        SELECT * FROM NativeMethodMapping WHERE jniMethod=:name LIMIT 1;
     """.trimIndent()
 
         nativeFileSQL.writeText(nativeFileTable)
@@ -57,7 +55,7 @@ class NativeDBGenerator {
     @Test
     fun aospDirTest() {
         AndroidVersion
-            .getVersionSource(Source.GithubAOSP)
+            .getVersionSource(Source.AOSPMirror)
             .versionPairs()
             .entries
             .forEach { entry ->
@@ -93,7 +91,7 @@ AND rowid NOT IN (SELECT min(rowid) FROM NativeMethodMapping GROUP BY file,jniMe
         methodSQL.writeText("")
 
         AndroidVersion
-            .getVersionSource(Source.GithubAOSP)
+            .getVersionSource(Source.AOSPMirror)
             .versionPairs()
             .entries
             .forEach { entry ->
