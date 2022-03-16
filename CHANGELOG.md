@@ -7,6 +7,7 @@
 ### Added
 
 - support generate dark-mode colors.xml file.
+- recreate versions from aosp-mirror.
 
 ### Fixed
 

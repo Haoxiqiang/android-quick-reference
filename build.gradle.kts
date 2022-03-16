@@ -17,8 +17,9 @@ group = properties("pluginGroup")
 version = properties("pluginVersion")
 
 dependencies {
+
+    testImplementation(kotlin("test"))
     testImplementation("org.json:json:20211205")
-    testImplementation("junit:junit:4.13.2")
     // git repo.
     testImplementation("org.eclipse.jgit:org.eclipse.jgit:6.0.0.202111291000-r")
 
@@ -196,4 +197,8 @@ tasks.register("createPreCommitHook") {
         println("make pre-commit execute")
         target.setExecutable(true)
     }
+}
+
+tasks.test {
+    useJUnitPlatform()
 }

@@ -10,14 +10,14 @@ import org.junit.Test
 import java.io.File
 
 
-class FramewokrBaseRepoTools {
+class FrameworkBaseRepoTools {
 
     @Test
     fun copyAllJavaFiles() {
         Git.wrap(aospBaseRepository).use { git ->
             val tagList = git.tagList().call()
             AndroidVersion
-                .getVersionSource(Source.GithubAOSP)
+                .getVersionSource(Source.AOSPMirror)
                 .versionPairs()
                 .entries
                 .forEach { entry ->
@@ -63,7 +63,7 @@ class FramewokrBaseRepoTools {
         Git.wrap(aospBaseRepository).use { git ->
             val tagList = git.tagList().call()
             AndroidVersion
-                .getVersionSource(Source.GithubAOSP)
+                .getVersionSource(Source.AOSPMirror)
                 .versionPairs()
                 .entries
                 .forEach { entry ->

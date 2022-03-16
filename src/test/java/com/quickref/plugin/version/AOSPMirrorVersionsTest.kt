@@ -1,26 +1,19 @@
 package com.quickref.plugin.version
 
-import org.json.JSONArray
-import org.json.JSONObject
 import org.junit.Test
 import java.io.File
 
-class CodeSearchVersionsTest {
+class AOSPMirrorVersionsTest {
 
     @Test
     fun generateVersions() {
-        val jsonPath = "src/test/resources/android-code-search-versions.json"
-        val file = File(jsonPath)
-        val json = JSONObject(file.readText())
-        val rootNode: JSONObject = json.getJSONObject("roots")
-        val branchTree: JSONArray = rootNode.getJSONArray("branch")
-        val size = branchTree.length()
-        val names = mutableListOf<String>()
-        for (i in 0 until size) {
-            val branch: JSONObject = branchTree.getJSONObject(i)
-            names.add(branch.getString("branchName"))
-        }
+        val filePath = "src/test/resources/aosp-mirror-tags.txt"
+        val file = File(filePath)
         val baseLength = "android-".length
+        val names = file.readLines().filter { tag ->
+            tag.startsWith("android-") && tag[baseLength].isDigit()
+        }
+
         val kv = LinkedHashMap<String, String>()
         names
             .filter { name ->
@@ -40,7 +33,7 @@ class CodeSearchVersionsTest {
                 }
             }
 
-        val outPath = "src/test/resources/android-code-search-versions.txt"
+        val outPath = "src/test/resources/aosp-mirror-versions.txt"
         val output = File(outPath)
         if (output.exists().not()) {
             output.createNewFile()
@@ -50,7 +43,7 @@ class CodeSearchVersionsTest {
             """.trimIndent()
 
         })
-        val code = """private val codeSearchVersions = linkedMapOf($text)
+        val code = """private val aospVersions = linkedMapOf($text)
         """.trimIndent()
         output.writeText(code)
     }

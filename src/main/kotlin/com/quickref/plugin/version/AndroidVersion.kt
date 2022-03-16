@@ -7,6 +7,7 @@ enum class Source {
     CodeSearch,
     AndroidXRef,
     GithubAOSP,
+    AOSPMirror,
 }
 
 object AndroidVersion {
@@ -15,6 +16,7 @@ object AndroidVersion {
         Pair(Source.GithubAOSP, GithubAOSPVersion()),
         Pair(Source.CodeSearch, CodeSearchVersion()),
         Pair(Source.AndroidXRef, AndroidXRefVersion()),
+        Pair(Source.AOSPMirror, AOSPMirrorVersion()),
     )
     val sourceDownloadableVersions by lazy {
         mergedDownloadableSource()
