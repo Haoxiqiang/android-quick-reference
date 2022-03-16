@@ -22,7 +22,7 @@ dependencies {
     // git repo.
     testImplementation("org.eclipse.jgit:org.eclipse.jgit:6.0.0.202111291000-r")
 
-    implementation("org.jetbrains:annotations:22.0.0")
+    implementation("org.jetbrains:annotations:23.0.0")
     implementation(kotlin("bom", version = "1.6.10"))
 
     implementation("com.squareup.sqldelight:sqlite-driver:1.5.3")

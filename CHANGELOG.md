@@ -10,6 +10,8 @@
 
 ### Fixed
 
+- fix the Android Code Search link.
+
 ## [1.0.7]
 
 ### Added
