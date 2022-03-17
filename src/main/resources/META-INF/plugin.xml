@@ -29,7 +29,7 @@
 
     <actions>
 
-        <action id="AndroidXRefViewerAction" class="com.quickref.plugin.action.AndroidSourceViewerAction"
+        <action id="AndroidXRefViewerAction" class="com.quickref.plugin.action.SourceViewerAction"
                 text="View Android Source" icon="/icons/java.svg"
                 description="View android source code">
             <add-to-group group-id="EditorPopupMenu" anchor="last"/>

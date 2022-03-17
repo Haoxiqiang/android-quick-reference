@@ -62,6 +62,6 @@ class AOSPMirrorVersion : Version() {
     }
 
     override fun isDownloadable(): Boolean {
-        return false
+        return true
     }
 }

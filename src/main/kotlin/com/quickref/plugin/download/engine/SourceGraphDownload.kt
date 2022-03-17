@@ -3,7 +3,7 @@ package com.quickref.plugin.download.engine
 import com.quickref.plugin.download.FileDownload
 import com.quickref.plugin.version.Source
 
-class SourceGraphDownload : FileDownload(Source.GithubAOSP) {
+class SourceGraphDownload : FileDownload(Source.AOSPMirror) {
 
     companion object {
         // Android 下载链接

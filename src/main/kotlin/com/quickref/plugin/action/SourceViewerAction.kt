@@ -16,7 +16,7 @@ import com.quickref.plugin.version.AndroidVersion
 import com.quickref.plugin.viewer.CodeSearchViewer
 import com.quickref.plugin.widget.AndroidVersionsPopView
 
-class AndroidSourceViewerAction : BaseAction() {
+class SourceViewerAction : BaseAction() {
 
     override fun update(e: AnActionEvent) {
         val psiElement = e.getData(LangDataKeys.PSI_ELEMENT)

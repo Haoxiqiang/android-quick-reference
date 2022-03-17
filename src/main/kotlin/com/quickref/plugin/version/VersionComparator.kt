@@ -1,18 +1,19 @@
 package com.quickref.plugin.version
 
 import java.util.regex.Pattern
+import kotlin.math.min
 
 class VersionComparator : Comparator<String> {
 
-    private val NUMBERS: Pattern = Pattern.compile("(?<=\\D)(?=\\d)|(?<=\\d)(?=\\D)")
+    private val pattern: Pattern = Pattern.compile("(?<=\\D)(?=\\d)|(?<=\\d)(?=\\D)")
 
     override fun compare(o1: String?, o2: String?): Int {
         // Optional "NULLS LAST" semantics:
         if (o1 == null || o2 == null) return if (o1 == null) if (o2 == null) 0 else -1 else 1
         // Splitting both input strings by the above patterns
-        val split1: Array<String> = NUMBERS.split(o1)
-        val split2: Array<String> = NUMBERS.split(o2)
-        for (i in 0 until Math.min(split1.size, split2.size)) {
+        val split1: Array<String> = pattern.split(o1)
+        val split2: Array<String> = pattern.split(o2)
+        for (i in 0 until min(split1.size, split2.size)) {
             val c1 = split1[i][0]
             val c2 = split2[i][0]
             var cmp = 0

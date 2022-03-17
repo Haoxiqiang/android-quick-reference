@@ -6,14 +6,12 @@ import com.quickref.plugin.config.isSupportVersion
 enum class Source {
     CodeSearch,
     AndroidXRef,
-    GithubAOSP,
     AOSPMirror,
 }
 
 object AndroidVersion {
 
     private val sources = linkedMapOf(
-        Pair(Source.GithubAOSP, GithubAOSPVersion()),
         Pair(Source.CodeSearch, CodeSearchVersion()),
         Pair(Source.AndroidXRef, AndroidXRefVersion()),
         Pair(Source.AOSPMirror, AOSPMirrorVersion()),
