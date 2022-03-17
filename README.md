@@ -62,7 +62,7 @@ works to solve the psi problem. Who with relevant practical experience can help 
 
 More works.
 
-- [ ] androidx support(before next weekend).
+- [ ] androidx support(next weekend).
 - [x] auto jump to the source line.
 - [ ] linker more action in the aosp source.
 - [x] add native jni mapping db.
