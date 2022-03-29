@@ -5,7 +5,7 @@ fun properties(key: String) = project.findProperty(key).toString()
 
 plugins {
     id("java")
-    id("org.jetbrains.intellij") version "1.3.0"
+    id("org.jetbrains.intellij") version "1.4.0"
     id("org.jetbrains.changelog") version "1.3.1"
     id("org.jetbrains.kotlin.jvm") version "1.6.10"
     id("io.gitlab.arturbosch.detekt") version "1.19.0"
@@ -18,10 +18,10 @@ version = properties("pluginVersion")
 
 dependencies {
 
-    testImplementation("org.json:json:20211205")
+    testImplementation("org.json:json:20220320")
     testImplementation("junit:junit:4.13.2")
     // git repo.
-    testImplementation("org.eclipse.jgit:org.eclipse.jgit:6.0.0.202111291000-r")
+    testImplementation("org.eclipse.jgit:org.eclipse.jgit:6.1.0.202203080745-r")
 
     implementation("org.jetbrains:annotations:23.0.0")
     implementation(kotlin("bom", version = "1.6.10"))
