@@ -2,6 +2,14 @@
 
 ## [Unreleased]
 
+## [1.0.9]
+
+### Added
+
+### Fixed
+
+- remove notifications.
+
 ## [1.0.8]
 
 ### Added

@@ -29,7 +29,7 @@ dependencies {
     implementation("com.squareup.sqldelight:sqlite-driver:1.5.3")
     implementation("com.squareup.sqldelight:runtime:1.5.3")
 
-    detektPlugins("io.gitlab.arturbosch.detekt:detekt-formatting:1.19.0")
+    detektPlugins("io.gitlab.arturbosch.detekt:detekt-formatting:1.20.0")
 }
 
 repositories {
