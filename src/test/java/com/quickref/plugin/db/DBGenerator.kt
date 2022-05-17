@@ -1,18 +1,41 @@
+@file:Suppress("MaxLineLength")
+
 package com.quickref.plugin.db
 
+import com.quickref.plugin.git.RepoType
+import com.quickref.plugin.git.getAOSPRootPath
 import com.quickref.plugin.version.AndroidVersion
 import com.quickref.plugin.version.Source
 import org.junit.Before
 import org.junit.Test
 import java.io.File
 
-class NativeDBGenerator {
+class DBGenerator {
+
+    private val javaFileSQ = File("src/main/sqldelight/com/quickref/plugin/db/JavaFileMapping.sq")
+    private val nativeFileSQ = File("src/main/sqldelight/com/quickref/plugin/db/NativeFileMapping.sq")
+    private val nativeMethodSQ = File("src/main/sqldelight/com/quickref/plugin/db/NativeMethodMapping.sq")
 
     @Before
-    @Suppress("MaxLineLength")
     fun setup() {
-        val nativeFileSQL = File("src/main/sqldelight/com/quickref/plugin/db/NativeFileMapping.sq")
-        val nativeMethodSQL = File("src/main/sqldelight/com/quickref/plugin/db/NativeMethodMapping.sq")
+
+        val javaFileTable = """
+        CREATE TABLE JavaFileMapping (
+          psiFile TEXT NOT NULL,
+          version INTEGER DEFAULT 0,
+          path TEXT NOT NULL
+        );
+
+        CREATE INDEX JavaFileMapping_path ON JavaFileMapping(psiFile,version);
+
+        selectAll:
+        SELECT psiFile,version,path FROM JavaFileMapping;
+
+        getJavaFile:
+        SELECT path FROM JavaFileMapping WHERE psiFile=:file AND version <=:version ORDER BY version DESC LIMIT 1;
+
+    """.trimIndent()
+
         val nativeFileTable = """
         CREATE TABLE NativeFileMapping (
           psiFile TEXT NOT NULL,
@@ -48,8 +71,9 @@ class NativeDBGenerator {
         SELECT * FROM NativeMethodMapping WHERE jniMethod=:name LIMIT 1;
     """.trimIndent()
 
-        nativeFileSQL.writeText(nativeFileTable)
-        nativeMethodSQL.writeText(nativeMethodTable)
+        javaFileSQ.writeText(javaFileTable)
+        nativeFileSQ.writeText(nativeFileTable)
+        nativeMethodSQ.writeText(nativeMethodTable)
     }
 
     @Test
@@ -60,35 +84,87 @@ class NativeDBGenerator {
             .entries
             .forEach { entry ->
                 val branch = entry.value
-                val source = File("src/test/resources/cpp_files/$branch")
+                val javaSource = File("${getAOSPRootPath(RepoType.AOSP_BASE)}/aosp_base/java_files/$branch")
+                val cppSource = File("${getAOSPRootPath(RepoType.AOSP_BASE)}/aosp_base/cpp_files/$branch")
+
                 val versionNumber = AndroidVersion.getBuildNumber(branch)
-                println("${source.exists()} $source branch:$branch version:$versionNumber")
-                assert(source.exists())
+                println("branch:$branch version:$versionNumber")
+
                 assert(versionNumber != 0)
+                assert(javaSource.exists())
+                assert(cppSource.exists())
             }
     }
 
     @Test
     fun generatorDisSQL() {
-        val disSQL = File("src/test/resources/cpp_files/NativeDis.sql")
-        @Suppress("MaxLineLength")
-        disSQL.writeText(
-            """DELETE FROM NativeFileMapping AS a
-WHERE (a.psiFile,a.version,a.path) IN (SELECT psiFile,version,path FROM NativeFileMapping GROUP BY psiFile,version,path HAVING count(*) > 1)
-AND rowid NOT IN (SELECT min(rowid) FROM NativeFileMapping GROUP BY psiFile,version,path HAVING count(*)>1);
-DELETE FROM NativeMethodMapping AS a
-WHERE (a.file,a.jniMethod,a.nativeMethod,a.version,a.jniLine,a.defLine) IN (SELECT file,jniMethod,nativeMethod,version,jniLine,defLine FROM NativeMethodMapping GROUP BY file,jniMethod,nativeMethod,version,jniLine,defLine HAVING count(*) > 1)
-AND rowid NOT IN (SELECT min(rowid) FROM NativeMethodMapping GROUP BY file,jniMethod,nativeMethod,version,jniLine,defLine HAVING count(*)>1);
+        val javaSQL = """
+        DELETE FROM JavaFileMapping AS a
+        WHERE(
+            a.psiFile,
+            a.version,
+            a.path
+        ) IN (SELECT psiFile, version, path FROM JavaFileMapping GROUP BY psiFile, version, path HAVING count(*) > 1)
+        AND rowid NOT IN (SELECT min (rowid) FROM JavaFileMapping GROUP BY psiFile, version, path HAVING count(*)>1);
         """.trimIndent()
-        )
+
+        val cppSQL = """
+        DELETE FROM NativeFileMapping AS a
+            WHERE(
+                a.psiFile,
+                a.version,
+                a.path
+            ) IN (SELECT psiFile, version, path FROM NativeFileMapping GROUP BY psiFile, version, path HAVING count(*) > 1)
+        AND rowid NOT IN (SELECT min (rowid) FROM NativeFileMapping GROUP BY psiFile, version, path HAVING count(*)>1);
+        DELETE FROM NativeMethodMapping AS a
+        WHERE(
+            a.file,
+            a.jniMethod,
+            a.nativeMethod,
+            a.version,
+            a.jniLine,
+            a.defLine
+        ) IN (SELECT file, jniMethod, nativeMethod, version, jniLine, defLine FROM NativeMethodMapping GROUP BY file, jniMethod, nativeMethod, version, jniLine, defLine HAVING count(*) > 1)
+        AND rowid NOT IN (SELECT min (rowid) FROM NativeMethodMapping GROUP BY file, jniMethod, nativeMethod, version, jniLine, defLine HAVING count(*)>1);
+        """.trimIndent()
+
+        val javaDisSQL = File("src/test/resources/JavaDis.sql")
+        val cppDisSQL = File("src/test/resources/NativeDis.sql")
+        javaDisSQL.writeText(javaSQL)
+        cppDisSQL.writeText(cppSQL)
     }
 
     @Test
     fun generator() {
-        val fileSQL = File("src/test/resources/cpp_files/NativeFileMapping.sql")
-        val methodSQL = File("src/test/resources/cpp_files/NativeMethodMapping.sql")
-        fileSQL.writeText("")
-        methodSQL.writeText("")
+
+        val javaSourceSQL = File("src/test/resources/JavaSource.sql")
+        javaSourceSQL.writeText("")
+        AndroidVersion
+            .getVersionSource(Source.AOSPMirror)
+            .versionPairs()
+            .entries
+            .forEach { entry ->
+                val branch = entry.value
+                val javaSource = File("${getAOSPRootPath(RepoType.AOSP_BASE)}/aosp_base/java_files/$branch")
+                val versionNumber = AndroidVersion.getBuildNumber(branch)
+                javaSource.walk()
+                    .maxDepth(depth = 16)
+                    .filter { file -> file.isDirectory.not() }
+                    .forEach { file ->
+                        // java key
+                        val javaFileBuilder = StringBuilder()
+                        readJavaFileLines(file, javaSource, versionNumber, javaFileBuilder)
+                        if (javaFileBuilder.isNotEmpty()) {
+                            javaSourceSQL.appendText(javaFileBuilder.toString())
+                        }
+                    }
+            }
+
+
+        val cppSourceSQL = File("src/test/resources/CppSource.sql")
+        val cppMethodSQL = File("src/test/resources/CppMethod.sql")
+        cppSourceSQL.writeText("")
+        cppMethodSQL.writeText("")
 
         AndroidVersion
             .getVersionSource(Source.AOSPMirror)
@@ -96,9 +172,9 @@ AND rowid NOT IN (SELECT min(rowid) FROM NativeMethodMapping GROUP BY file,jniMe
             .entries
             .forEach { entry ->
                 val branch = entry.value
-                val source = File("src/test/resources/cpp_files/$branch")
+                val cppSource = File("${getAOSPRootPath(RepoType.AOSP_BASE)}/aosp_base/cpp_files/$branch")
                 val versionNumber = AndroidVersion.getBuildNumber(branch)
-                source.walk()
+                cppSource.walk()
                     .maxDepth(depth = 10)
                     .filter { file -> file.isDirectory.not() }
                     .filter { file -> file.readLines().any { line -> line.contains("JNINativeMethod") } }
@@ -106,17 +182,40 @@ AND rowid NOT IN (SELECT min(rowid) FROM NativeMethodMapping GROUP BY file,jniMe
                         // native key
                         val nativeFileBuilder = StringBuilder()
                         val nativeMethodBuilder = StringBuilder()
-                        readNativeFileLines(file, source, versionNumber, nativeFileBuilder, nativeMethodBuilder)
+                        readNativeFileLines(file, cppSource, versionNumber, nativeFileBuilder, nativeMethodBuilder)
                         if (nativeFileBuilder.isNotEmpty()) {
-                            fileSQL.appendText(nativeFileBuilder.toString())
+                            cppSourceSQL.appendText(nativeFileBuilder.toString())
                         }
                         if (nativeMethodBuilder.isNotEmpty()) {
-                            methodSQL.appendText(nativeMethodBuilder.toString())
+                            cppMethodSQL.appendText(nativeMethodBuilder.toString())
                         }
                     }
 
             }
+    }
 
+    private fun readJavaFileLines(
+        file: File,
+        source: File,
+        versionNumber: Int,
+        javaFileBuilder: StringBuilder,
+    ) {
+        val packageIndex = file.name.lastIndexOf("_")
+        val javaKey = if (packageIndex >= 0) {
+            file.name.substring(packageIndex + 1)
+        } else {
+            file.name
+        }
+        val nativePath = file.parent.replace(source.path, "") + "/" + file.name
+        val nativeVersion: Int = versionNumber
+
+        println("key:$javaKey version:$nativeVersion path:$nativePath ")
+        // try to record native file
+        //INSERT INTO JavaFileMapping (psiFile,version,path)
+        //VALUES ("android/graphics/Bitmap.cpp",29,"core/jni/android/graphics/Bitmap.cpp");
+        javaFileBuilder.append(
+            "INSERT INTO JavaFileMapping (psiFile,version,path) VALUES (\"$javaKey\",$nativeVersion,\"$nativePath\");\n"
+        )
     }
 
     private fun readNativeFileLines(
@@ -140,8 +239,7 @@ AND rowid NOT IN (SELECT min(rowid) FROM NativeMethodMapping GROUP BY file,jniMe
         //INSERT INTO NativeFileMapping (psiFile,version,path)
         //VALUES ("android/graphics/Bitmap.cpp",29,"core/jni/android/graphics/Bitmap.cpp");
         nativeFileBuilder.append(
-            "INSERT INTO NativeFileMapping (psiFile,version,path) \n"
-                + "VALUES (\"$nativeKey\",$nativeVersion,\"$nativePath\");\n"
+            "INSERT INTO NativeFileMapping (psiFile,version,path) VALUES (\"$nativeKey\",$nativeVersion,\"$nativePath\");\n"
         )
 
         // read jni content.
@@ -187,8 +285,7 @@ AND rowid NOT IN (SELECT min(rowid) FROM NativeMethodMapping GROUP BY file,jniMe
 
             nativeMethodBuilder.append(
                 " INSERT INTO NativeMethodMapping " +
-                    "(file,jniMethod,nativeMethod,version,jniLine,defLine) \n"
-                    + "VALUES (" +
+                    "(file,jniMethod,nativeMethod,version,jniLine,defLine) VALUES (" +
                     "\"$nativeKey\",\"$jniMethod\",\"$nativeMethod\",$nativeVersion,$jniLine,$nativeMethodLine" +
                     ");\n"
             )

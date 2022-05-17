@@ -3,3 +3,8 @@
 build/
 /src/test/resources/cpp_files/
 /src/test/resources/java_files/
+/src/test/resources/CppMethod.sql
+/src/test/resources/CppSource.sql
+/src/test/resources/JavaDis.sql
+/src/test/resources/JavaSource.sql
+/src/test/resources/NativeDis.sql

@@ -16,7 +16,7 @@ val skiaRepository: Repository
     get() = getProjectGit(RepoType.EXTERNAL_SKIA)
 
 private fun getProjectGit(repoType: RepoType): Repository {
-    val repoDir: String = getFilePath(repoType)
+    val repoDir: String = getAOSPRootPath(repoType)
     val gitRepoDir = File(repoDir, ".git")
     val git = if (gitRepoDir.isDirectory) {
         gitRepoDir
@@ -35,7 +35,7 @@ private fun getProjectGit(repoType: RepoType): Repository {
         .build()
 }
 
-private fun getFilePath(repoType: RepoType): String {
+fun getAOSPRootPath(repoType: RepoType): String {
     return when (repoType) {
         RepoType.AOSP_BASE -> System.getenv("AOSP_PATH")
         RepoType.EXTERNAL_SKIA -> System.getenv("EXTERNAL_SKIA")

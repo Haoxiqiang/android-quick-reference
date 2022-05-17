@@ -1,4 +1,5 @@
-private val codeSearchVersions = linkedMapOf(Pair("android-12.0.0","android-12.0.0_r32"),
+private val codeSearchVersions = linkedMapOf(Pair("android-12.1.0","android-12.1.0_r5"),
+Pair("android-12.0.0","android-12.0.0_r32"),
 Pair("android-11.0.0","android-11.0.0_r48"),
 Pair("android-10.0.0","android-10.0.0_r47"),
 Pair("android-9.0.0","android-9.0.0_r61"),

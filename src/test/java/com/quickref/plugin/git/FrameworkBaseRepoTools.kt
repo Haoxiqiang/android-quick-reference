@@ -22,7 +22,8 @@ class FrameworkBaseRepoTools {
                 .entries
                 .forEach { entry ->
                     val targetBranch = entry.value
-                    val target = "src/test/resources/java_files/$targetBranch"
+                    getAOSPRootPath(RepoType.AOSP_BASE)
+                    val target = "${getAOSPRootPath(RepoType.AOSP_BASE)}/aosp_base/java_files/$targetBranch"
                     if (File(target).exists()) {
                         println("except:$targetBranch exists")
                         return@forEach
@@ -69,7 +70,7 @@ class FrameworkBaseRepoTools {
                 .entries
                 .forEach { entry ->
                     val targetBranch = entry.value
-                    val target = "src/test/resources/cpp_files/$targetBranch"
+                    val target = "${getAOSPRootPath(RepoType.AOSP_BASE)}/aosp_base/cpp_files/$targetBranch"
                     if (File(target).exists()) {
                         println("except:$targetBranch exists")
                         return@forEach

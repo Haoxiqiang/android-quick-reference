@@ -3,6 +3,8 @@ package com.quickref.plugin.version
 class CodeSearchVersion : Version() {
 
     private val codeSearchVersions = linkedMapOf(
+        Pair("android-t-preview", "android-t-preview-2"),
+        Pair("android-12.1.0", "android-12.1.0_r5"),
         Pair("android-12.0.0", "android-12.0.0_r32"),
         Pair("android-11.0.0", "android-11.0.0_r48"),
         Pair("android-10.0.0", "android-10.0.0_r47"),
