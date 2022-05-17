@@ -7,7 +7,8 @@ import javax.swing.JCheckBox
 import javax.swing.JPanel
 
 internal object QRVersionsMenu {
-    var enableAndroid32: JCheckBox = JCheckBox("android-12.0.0-32")
+    var enableAndroid33: JCheckBox = JCheckBox("android-t-preview")
+    var enableAndroid32: JCheckBox = JCheckBox("android-12.1.0-32")
     var enableAndroid31: JCheckBox = JCheckBox("android-12.0.0-31")
     var enableAndroid30: JCheckBox = JCheckBox("android-11.0.0-30")
     var enableAndroid29: JCheckBox = JCheckBox("android-10.0.0-29")
@@ -37,6 +38,7 @@ internal object QRVersionsMenu {
     var container: JPanel = FormBuilder.createFormBuilder()
         .addComponent(TitledSeparator("Android Versions"))
         .setFormLeftIndent(IdeBorderFactory.TITLED_BORDER_INDENT)
+        .addComponent(enableAndroid33)
         .addComponent(enableAndroid32)
         .addComponent(enableAndroid31)
         .addComponent(enableAndroid30)
@@ -67,6 +69,7 @@ internal object QRVersionsMenu {
         .panel
 
     fun applyState(quickReferenceConfigStorage: QuickReferenceConfigStorage) {
+        quickReferenceConfigStorage.enableAndroid33 = enableAndroid33.isSelected
         quickReferenceConfigStorage.enableAndroid32 = enableAndroid32.isSelected
         quickReferenceConfigStorage.enableAndroid31 = enableAndroid31.isSelected
         quickReferenceConfigStorage.enableAndroid30 = enableAndroid30.isSelected
@@ -95,6 +98,7 @@ internal object QRVersionsMenu {
     }
 
     fun loadState(quickReferenceConfigStorage: QuickReferenceConfigStorage) {
+        enableAndroid33.isSelected = quickReferenceConfigStorage.enableAndroid33
         enableAndroid32.isSelected = quickReferenceConfigStorage.enableAndroid32
         enableAndroid31.isSelected = quickReferenceConfigStorage.enableAndroid31
         enableAndroid30.isSelected = quickReferenceConfigStorage.enableAndroid30
@@ -125,6 +129,7 @@ internal object QRVersionsMenu {
 
     fun checkNotModified(quickReferenceConfigStorage: QuickReferenceConfigStorage): Boolean {
         return (
+            quickReferenceConfigStorage.enableAndroid33 == enableAndroid33.isSelected &&
             quickReferenceConfigStorage.enableAndroid32 == enableAndroid32.isSelected &&
             quickReferenceConfigStorage.enableAndroid31 == enableAndroid31.isSelected &&
                 quickReferenceConfigStorage.enableAndroid30 == enableAndroid30.isSelected &&

@@ -46,7 +46,7 @@ abstract class FileDownload(private val source: Source) : IDownload, Comparable<
             if (isVersionSupport(version)) {
                 // convert branch version
                 val branch = AndroidVersion.getVersionSource(source).versionBranch(version)
-                val url: String = createDownloadURL(branch, task.path)
+                val url: String = createDownloadURL(version, branch, task.path)
                 PluginLogger.debug("$url prepare downloading")
 
                 try {
@@ -67,7 +67,7 @@ abstract class FileDownload(private val source: Source) : IDownload, Comparable<
         return AndroidVersion.getVersionSource(source = source).isSupport(version)
     }
 
-    private fun createDownloadURL(version: String, path: String): String {
+    private fun createDownloadURL(version: String, branch: String, path: String): String {
         // "http://androidxref.com/%s/raw/%s/frameworks/base"
         // http://androidxref.com/9.0.0_r3/raw/frameworks/base/core/java/android/app/Activity.java
         // http://androidxref.com/7.1.1_r6/raw/frameworks/base/graphics/java/android/graphics/Bitmap.java
@@ -90,7 +90,7 @@ abstract class FileDownload(private val source: Source) : IDownload, Comparable<
                 // must failed. only print log for debug.
                 path
             }
-        return String.format(Locale.ENGLISH, baseDownloadURL(), version, rawPath)
+        return String.format(Locale.ENGLISH, baseDownloadURL(), branch, rawPath)
     }
 
     abstract fun baseDownloadURL(): String

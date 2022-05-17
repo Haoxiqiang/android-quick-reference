@@ -3,6 +3,7 @@ package com.quickref.plugin.config
 @Suppress("MagicNumber")
 fun QuickReferenceConfigStorage.isSupportVersion(version: Int): Boolean {
     return when (version) {
+        33 -> enableAndroid33
         32 -> enableAndroid32
         31 -> enableAndroid31
         30 -> enableAndroid30
