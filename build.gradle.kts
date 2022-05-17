@@ -7,7 +7,7 @@ plugins {
     id("java")
     id("org.jetbrains.intellij") version "1.4.0"
     id("org.jetbrains.changelog") version "1.3.1"
-    id("org.jetbrains.kotlin.jvm") version "1.6.10"
+    id("org.jetbrains.kotlin.jvm") version "1.6.21"
     id("io.gitlab.arturbosch.detekt") version "1.19.0"
     id("com.diffplug.spotless")
     id("com.squareup.sqldelight")
@@ -24,7 +24,7 @@ dependencies {
     testImplementation("org.eclipse.jgit:org.eclipse.jgit:6.1.0.202203080745-r")
 
     implementation("org.jetbrains:annotations:23.0.0")
-    implementation(kotlin("bom", version = "1.6.10"))
+    implementation(kotlin("bom", version = "1.6.21"))
 
     implementation("com.squareup.sqldelight:sqlite-driver:1.5.3")
     implementation("com.squareup.sqldelight:runtime:1.5.3")

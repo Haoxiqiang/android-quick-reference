@@ -2,6 +2,12 @@
 
 ## [Unreleased]
 
+## [1.1.0]
+
+### Added
+* support android-t-preview
+* update branch versions
+
 ## [1.0.9]
 
 ### Added
