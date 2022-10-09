@@ -7,7 +7,7 @@ import javax.swing.JCheckBox
 import javax.swing.JPanel
 
 internal object QRVersionsMenu {
-    var enableAndroid33: JCheckBox = JCheckBox("android-t-preview")
+    var enableAndroid33: JCheckBox = JCheckBox("android-13.0.0")
     var enableAndroid32: JCheckBox = JCheckBox("android-12.1.0-32")
     var enableAndroid31: JCheckBox = JCheckBox("android-12.0.0-31")
     var enableAndroid30: JCheckBox = JCheckBox("android-11.0.0-30")

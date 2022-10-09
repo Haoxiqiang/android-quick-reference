@@ -51,7 +51,6 @@ works to solve the psi problem. Who with relevant practical experience can help 
 
 * Download android-AOSP-source from the remote.
     * [github.com/aosp-mirror](https://github.com/aosp-mirror/platform_frameworks_base)
-    * [sourcegraph.com](https://sourcegraph.com/)
     * [androidxref.com](http://androidxref.com/)
 
 * Quick Android Reference
@@ -79,7 +78,7 @@ More works.
 - [x] auto jump to the source line.
 - [ ] linker more action in the aosp source.
 - [x] add native jni mapping db.
-- [ ] add java class/method mapping db.
+- [x] add java class/method mapping db.
 - [x] support custom quick search menu.
 - [ ] android reference support two hosts:`developer.android.com`/`developer.android.google.cn`
 - [x] diff android version. many files location is changed.

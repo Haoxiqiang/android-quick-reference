@@ -2,6 +2,13 @@
 
 ## [Unreleased]
 
+## [1.2.0]
+
+### Added
+* support android-13.0.0
+* update branch versions
+
+
 ## [1.1.0]
 
 ### Added

@@ -7,7 +7,7 @@ import com.quickref.plugin.notification.NotificationDefault
 import com.quickref.plugin.notification.NotificationEmpty
 
 object Notifier {
-    const val minVersion = 190
+    private const val minVersion = 190
 
     private val notification by lazy {
         val apiComponent = ApplicationInfo.getInstance().build.components[0]
