@@ -5,9 +5,9 @@ fun properties(key: String) = project.findProperty(key).toString()
 
 plugins {
     id("java")
-    id("org.jetbrains.intellij") version "1.4.0"
+    id("org.jetbrains.intellij") version "1.9.0"
     id("org.jetbrains.changelog") version "1.3.1"
-    id("org.jetbrains.kotlin.jvm") version "1.6.21"
+    id("org.jetbrains.kotlin.jvm") version "1.7.20"
     id("io.gitlab.arturbosch.detekt") version "1.19.0"
     id("com.diffplug.spotless")
     id("com.squareup.sqldelight")
@@ -60,15 +60,15 @@ tasks.withType(org.jetbrains.intellij.tasks.RunIdeTask::class.java) {
 }
 
 tasks {
-    properties("javaVersion").let {
+    properties("javaVersion").let {version->
         withType<JavaCompile> {
-            sourceCompatibility = it
-            targetCompatibility = it
+            sourceCompatibility = version
+            targetCompatibility = version
         }
         withType<KotlinCompile> {
-            kotlinOptions.jvmTarget = it
-            kotlinOptions.apiVersion = "1.6"
-            kotlinOptions.languageVersion = "1.6"
+            kotlinOptions.jvmTarget = version
+            kotlinOptions.apiVersion = "1.7"
+            kotlinOptions.languageVersion = "1.7"
             kotlinOptions.allWarningsAsErrors = false
         }
     }
