@@ -26,8 +26,8 @@ dependencies {
     implementation("org.jetbrains:annotations:23.0.0")
     implementation(kotlin("bom", version = "1.6.21"))
 
-    implementation("com.squareup.sqldelight:sqlite-driver:1.5.3")
-    implementation("com.squareup.sqldelight:runtime:1.5.3")
+    implementation("com.squareup.sqldelight:sqlite-driver:1.5.4")
+    implementation("com.squareup.sqldelight:runtime:1.5.4")
 
     detektPlugins("io.gitlab.arturbosch.detekt:detekt-formatting:1.20.0")
 }
