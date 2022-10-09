@@ -18,10 +18,10 @@ version = properties("pluginVersion")
 
 dependencies {
 
-    testImplementation("org.json:json:20220320")
+    testImplementation("org.json:json:20220924")
     testImplementation("junit:junit:4.13.2")
     // git repo.
-    testImplementation("org.eclipse.jgit:org.eclipse.jgit:6.1.0.202203080745-r")
+    testImplementation("org.eclipse.jgit:org.eclipse.jgit:6.3.0.202209071007-r")
 
     implementation("org.jetbrains:annotations:23.0.0")
     implementation(kotlin("bom", version = "1.6.21"))
@@ -29,7 +29,7 @@ dependencies {
     implementation("com.squareup.sqldelight:sqlite-driver:1.5.4")
     implementation("com.squareup.sqldelight:runtime:1.5.4")
 
-    detektPlugins("io.gitlab.arturbosch.detekt:detekt-formatting:1.20.0")
+    detektPlugins("io.gitlab.arturbosch.detekt:detekt-formatting:1.21.0")
 }
 
 repositories {
