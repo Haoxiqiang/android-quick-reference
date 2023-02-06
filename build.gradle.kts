@@ -5,10 +5,10 @@ fun properties(key: String) = project.findProperty(key).toString()
 
 plugins {
     id("java")
-    id("org.jetbrains.intellij") version "1.9.0"
-    id("org.jetbrains.changelog") version "1.3.1"
-    id("org.jetbrains.kotlin.jvm") version "1.7.20"
-    id("io.gitlab.arturbosch.detekt") version "1.19.0"
+    id("org.jetbrains.intellij") version "1.10.0"
+    id("org.jetbrains.changelog") version "2.0.0"
+    id("org.jetbrains.kotlin.jvm") version "1.7.21"
+    id("io.gitlab.arturbosch.detekt") version "1.22.0"
     id("com.diffplug.spotless")
     id("com.squareup.sqldelight")
 }
@@ -21,15 +21,15 @@ dependencies {
     testImplementation("org.json:json:20220924")
     testImplementation("junit:junit:4.13.2")
     // git repo.
-    testImplementation("org.eclipse.jgit:org.eclipse.jgit:6.3.0.202209071007-r")
+    testImplementation("org.eclipse.jgit:org.eclipse.jgit:6.4.0.202211300538-r")
 
-    implementation("org.jetbrains:annotations:23.0.0")
-    implementation(kotlin("bom", version = "1.6.21"))
+    implementation("org.jetbrains:annotations:24.0.0")
+    implementation(kotlin("bom", version = "1.7.21"))
 
-    implementation("com.squareup.sqldelight:sqlite-driver:1.5.4")
-    implementation("com.squareup.sqldelight:runtime:1.5.4")
+    implementation("com.squareup.sqldelight:sqlite-driver:1.5.5")
+    implementation("com.squareup.sqldelight:runtime:1.5.5")
 
-    detektPlugins("io.gitlab.arturbosch.detekt:detekt-formatting:1.21.0")
+    detektPlugins("io.gitlab.arturbosch.detekt:detekt-formatting:1.22.0")
 }
 
 repositories {
