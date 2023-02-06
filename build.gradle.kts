@@ -5,7 +5,7 @@ fun properties(key: String) = project.findProperty(key).toString()
 
 plugins {
     id("java")
-    id("org.jetbrains.intellij") version "1.10.0"
+    id("org.jetbrains.intellij") version "1.12.0"
     id("org.jetbrains.changelog") version "2.0.0"
     id("org.jetbrains.kotlin.jvm") version "1.7.21"
     id("io.gitlab.arturbosch.detekt") version "1.22.0"
@@ -134,7 +134,6 @@ detekt {
     allRules = false // activate all available (even unstable) rules.
     config =
         files("$projectDir/config/detekt.yml") // point to your custom config defining rules to run, overwriting default behavior
-    baseline = file("$projectDir/config/baseline.xml") // a way of suppressing issues before introducing detekt
 }
 
 tasks.withType<io.gitlab.arturbosch.detekt.Detekt>().configureEach {
