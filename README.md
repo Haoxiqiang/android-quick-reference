@@ -2,6 +2,10 @@
 
 The library inspired by [AndroidSourceViewer](https://github.com/pengwei1024/AndroidSourceViewer)
 
+![JetBrains Logo (Main) logo](https://resources.jetbrains.com/storage/products/company/brand/logos/jb_beam.svg)
+
+And written by Kotlin on the JetBrains IDE tha under the opensource license.
+
 **It's built with the Gradle and rewritten by kotlin, that's why it's a new repo but not pr.**
 
 **In the rewriting, I have added some features too.**
