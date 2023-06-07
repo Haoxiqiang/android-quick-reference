@@ -9,7 +9,7 @@ object CodeSearchViewer {
 
     // Android 下载链接
     private const val VIEWER_PATH =
-        "https://cs.android.com/android/platform/superproject/+/%s:frameworks/base%s"
+        "https://cs.android.com/android/platform/superproject/+/%s:frameworks/base/%s"
 
     fun open(version: String, path: String) {
         val csVersion = AndroidVersion.getVersionSource(Source.CodeSearch).versionBranch(version)

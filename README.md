@@ -41,6 +41,7 @@ works to solve the psi problem. Who with relevant practical experience can help 
   * .read xxx/android-quick-reference/src/test/resources/CppMethod.sql
   * .read xxx/android-quick-reference/src/test/resources/JavaDis.sql
   * .read xxx/android-quick-reference/src/test/resources/NativeDis.sql
+* ./gradlew ide
 
 ## Feature
 
@@ -81,10 +82,10 @@ More works.
 
 - [x] auto jump to the source line.
 - [ ] linker more action in the aosp source.
+- [ ] androidx support.
 - [x] add native jni mapping db.
 - [x] add java class/method mapping db.
 - [x] support custom quick search menu.
-- [ ] android reference support two hosts:`developer.android.com`/`developer.android.google.cn`
 - [x] diff android version. many files location is changed.
 
 ## File Mapping

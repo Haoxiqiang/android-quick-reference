@@ -18,12 +18,12 @@ version = properties("pluginVersion")
 
 dependencies {
 
-    testImplementation("org.json:json:20220924")
+    testImplementation("org.json:json:20230227")
     testImplementation("junit:junit:4.13.2")
     // git repo.
-    testImplementation("org.eclipse.jgit:org.eclipse.jgit:6.4.0.202211300538-r")
+    testImplementation("org.eclipse.jgit:org.eclipse.jgit:6.5.0.202303070854-r")
 
-    implementation("org.jetbrains:annotations:24.0.0")
+    implementation("org.jetbrains:annotations:24.0.1")
     implementation(kotlin("bom", version = "1.7.21"))
 
     implementation("com.squareup.sqldelight:sqlite-driver:1.5.5")

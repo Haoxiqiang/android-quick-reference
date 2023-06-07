@@ -14,7 +14,7 @@ fun String?.toFileRef(): String {
 private val ANDROID_REFERENCE_PREFIX = listOf(
     "android.",
     // "android.arch",
-    "androidx.",
+    // "androidx.",
     "org.chromium.support_lib_boundary",
     "com.google.android",
     "com.android.build",

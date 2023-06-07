@@ -2,18 +2,27 @@
 
 ## [Unreleased]
 
+## [1.2.1]
+
+### Fixed
+- fix source's url used for download.
+
+### Added
+- update project's deps.
+- target version upgrade to 2022.2.2
+
 ## [1.2.0]
 
 ### Added
-* support android-13.0.0
-* update branch versions
+- support android-13.0.0
+- update branch versions
 
 
 ## [1.1.0]
 
 ### Added
-* support android-t-preview
-* update branch versions
+- support android-t-preview
+- update branch versions
 
 ## [1.0.9]
 
