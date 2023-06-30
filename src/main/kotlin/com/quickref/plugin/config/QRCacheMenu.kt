@@ -6,6 +6,7 @@ import com.intellij.ide.plugins.newui.HorizontalLayout
 import com.intellij.openapi.application.ApplicationManager
 import com.intellij.ui.IdeBorderFactory
 import com.intellij.ui.TitledSeparator
+import com.intellij.ui.components.panels.ListLayout
 import com.intellij.util.ui.FormBuilder
 import com.quickref.plugin.App
 import org.apache.commons.io.FileUtils

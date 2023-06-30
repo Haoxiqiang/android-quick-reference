@@ -78,7 +78,8 @@ tasks {
     }
 
     patchPluginXml {
-        sinceBuild.set("193")
+        // sinceBuild.set("193")
+        sinceBuild.set("203")
 
         version.set(properties("pluginVersion"))
         // Extract the <!-- Plugin description --> section from README.md and provide for the plugin's manifest

@@ -3,6 +3,7 @@ package com.quickref.plugin.provider
 import com.intellij.codeInsight.daemon.GutterIconNavigationHandler
 import com.intellij.codeInsight.daemon.LineMarkerInfo
 import com.intellij.codeInsight.daemon.LineMarkerProvider
+import com.intellij.codeInsight.navigation.NavigationGutterIconBuilder
 import com.intellij.ide.DataManager
 import com.intellij.openapi.actionSystem.AnActionEvent
 import com.intellij.openapi.actionSystem.Presentation
@@ -29,6 +30,7 @@ import com.quickref.plugin.version.AndroidVersion
 import com.quickref.plugin.widget.AndroidVersionsPopView
 import java.awt.event.MouseEvent
 import java.io.File
+import java.util.function.Supplier
 
 // support jni jump.
 class NativeMethodProvider : LineMarkerProvider, GutterIconNavigationHandler<PsiMethod> {
@@ -47,14 +49,23 @@ class NativeMethodProvider : LineMarkerProvider, GutterIconNavigationHandler<Psi
             ).executeAsOneOrNull() ?: return null
 
             // Add the property to a collection of line marker info
+            // LineMarkerInfo(
+            //    element,
+            //    element.textRange,
+            //    ImageAssets.NATIVE,
+            //    toolTip,
+            //    navHandler,
+            //    GutterIconRenderer.Alignment.LEFT,
+            // )
             LineMarkerInfo(
-                element,
-                element.textRange,
-                ImageAssets.NATIVE,
-                toolTip,
-                navHandler,
-                GutterIconRenderer.Alignment.LEFT,
+                /* element = */ element,
+                /* range = */ element.textRange,
+                /* icon = */ ImageAssets.NATIVE,
+                /* tooltipProvider = */ toolTip,
+                /* navHandler = */ navHandler,
+                /* alignment = */ GutterIconRenderer.Alignment.LEFT
             )
+            /* accessibleNameProvider = */ { "Show Native implication by the file mapping." }
         } else {
             null
         }
