@@ -3,7 +3,6 @@ package com.quickref.plugin.extension
 import com.intellij.diff.DiffManager
 import com.intellij.diff.contents.FileDocumentContentImpl
 import com.intellij.diff.requests.SimpleDiffRequest
-import com.intellij.execution.Platform
 import com.intellij.openapi.application.ApplicationManager
 import com.intellij.openapi.fileEditor.FileDocumentManager
 import com.intellij.openapi.fileEditor.OpenFileDescriptor
@@ -60,17 +59,13 @@ fun Project.openFileInEditor(file: File, line: Int = -1) {
         val lFile = LocalFileSystem.getInstance().refreshAndFindFileByIoFile(file)
         if (lFile != null && lFile.isValid) {
             lFile.isWritable = false
-            // val providers = FileEditorProviderManager.getInstance().getProviders(this, lFile)
-            val providers = FileEditorProviderManager.getInstance().getProviderList(this, lFile)
-            if (providers.isNotEmpty()) {
-                val descriptor = if (line > 0) {
-                    OpenFileDescriptor(this, lFile, line, -1)
-                } else {
-                    OpenFileDescriptor(this, lFile)
-                }
-                descriptor.isUseCurrentWindow = true
-                descriptor.navigateInEditor(this, true)
+            val descriptor = if (line > 0) {
+                OpenFileDescriptor(this, lFile, line, -1)
+            } else {
+                OpenFileDescriptor(this, lFile)
             }
+            descriptor.isUseCurrentWindow = true
+            descriptor.navigateInEditor(this, true)
         }
     }
 }

@@ -5,7 +5,7 @@ package com.quickref.plugin.config
 import com.intellij.openapi.application.ApplicationManager
 import com.intellij.ui.IdeBorderFactory
 import com.intellij.ui.TitledSeparator
-import com.intellij.ui.components.panels.ListLayout
+import com.intellij.ui.components.panels.HorizontalLayout
 import com.intellij.util.ui.FormBuilder
 import com.quickref.plugin.App
 import org.apache.commons.io.FileUtils
@@ -37,8 +37,7 @@ internal object QRCacheMenu {
             .addComponent(cacheSize)
             .addComponent(cleanCache)
             .panel.apply {
-                @Suppress("UnstableApiUsage")
-                layout = ListLayout.horizontal()
+                layout = HorizontalLayout(IdeBorderFactory.TITLED_BORDER_INDENT)
                 calCacheSize()
             })
         .setVerticalGap(IdeBorderFactory.TITLED_BORDER_INDENT)
