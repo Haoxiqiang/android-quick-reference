@@ -30,6 +30,7 @@ works to solve the psi problem. Who with relevant practical experience can help 
 
 ## Build
 
+* get lsf files by: git lfs fetch --all
 * get the latest aosp git repo and add the path to the environment variable as AOSP_PATH
 * run the test code generator the versions/mapping...
 * run the build command

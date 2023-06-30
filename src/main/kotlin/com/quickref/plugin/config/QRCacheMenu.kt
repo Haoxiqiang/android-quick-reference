@@ -2,7 +2,6 @@
 
 package com.quickref.plugin.config
 
-import com.intellij.ide.plugins.newui.HorizontalLayout
 import com.intellij.openapi.application.ApplicationManager
 import com.intellij.ui.IdeBorderFactory
 import com.intellij.ui.TitledSeparator
@@ -38,7 +37,8 @@ internal object QRCacheMenu {
             .addComponent(cacheSize)
             .addComponent(cleanCache)
             .panel.apply {
-                layout = HorizontalLayout(IdeBorderFactory.TITLED_BORDER_INDENT)
+                @Suppress("UnstableApiUsage")
+                layout = ListLayout.horizontal()
                 calCacheSize()
             })
         .setVerticalGap(IdeBorderFactory.TITLED_BORDER_INDENT)
@@ -52,15 +52,11 @@ internal object QRCacheMenu {
         }
     }
 
-    fun applyState(quickReferenceConfigStorage: QuickReferenceConfigStorage) {
+    fun applyState() {
         calCacheSize()
     }
 
-    fun loadState(quickReferenceConfigStorage: QuickReferenceConfigStorage) {
-
-    }
-
-    fun checkNotModified(quickReferenceConfigStorage: QuickReferenceConfigStorage): Boolean {
+    fun checkNotModified(): Boolean {
         return true
     }
 }

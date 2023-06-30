@@ -6,6 +6,7 @@
 
 ### Fixed
 - upgrade since version 193->203 for intellij api.
+- fix sql distant bugs.
 
 ## 1.2.1
 

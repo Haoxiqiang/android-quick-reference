@@ -31,8 +31,11 @@ class DBGenerator {
         selectAll:
         SELECT psiFile,version,path FROM JavaFileMapping;
 
+        count:
+        SELECT count(*) FROM JavaFileMapping;
+
         getJavaFile:
-        SELECT path FROM JavaFileMapping WHERE psiFile=:file AND version <=:version ORDER BY version DESC LIMIT 1;
+        SELECT path FROM JavaFileMapping WHERE psiFile=:file AND version >=:version ORDER BY version ASC LIMIT 1;
 
     """.trimIndent()
 
@@ -48,8 +51,11 @@ class DBGenerator {
         selectAll:
         SELECT psiFile,version,path FROM NativeFileMapping;
 
+        count:
+        SELECT count(*) FROM NativeFileMapping;
+
         getNativeFile:
-        SELECT path FROM NativeFileMapping WHERE psiFile=:file AND version <=:version ORDER BY version DESC LIMIT 1;
+        SELECT path FROM NativeFileMapping WHERE psiFile=:file AND version >=:version ORDER BY version ASC LIMIT 1;
     """.trimIndent()
 
         val nativeMethodTable = """
@@ -65,7 +71,10 @@ class DBGenerator {
         CREATE INDEX NativeMapping_line ON NativeMethodMapping(file,jniMethod,nativeMethod,version,jniLine,defLine);
 
         getNativeMethod:
-        SELECT * FROM NativeMethodMapping WHERE file=:key AND jniMethod=:method AND version <=:version ORDER BY version DESC LIMIT 1;
+        SELECT * FROM NativeMethodMapping WHERE file=:key AND jniMethod=:method AND version >=:version ORDER BY version ASC LIMIT 1;
+
+        count:
+        SELECT count(*) FROM NativeMethodMapping;
 
         getNativeMethodByName:
         SELECT * FROM NativeMethodMapping WHERE jniMethod=:name LIMIT 1;

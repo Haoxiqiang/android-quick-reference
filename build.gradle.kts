@@ -5,9 +5,9 @@ fun properties(key: String) = project.findProperty(key).toString()
 
 plugins {
     id("java")
-    id("org.jetbrains.intellij") version "1.12.0"
+    id("org.jetbrains.intellij") version "1.14.2"
     id("org.jetbrains.changelog") version "2.0.0"
-    id("org.jetbrains.kotlin.jvm") version "1.7.21"
+    id("org.jetbrains.kotlin.jvm") version "1.8.21"
     id("io.gitlab.arturbosch.detekt") version "1.22.0"
     id("com.diffplug.spotless")
     id("com.squareup.sqldelight")
@@ -24,7 +24,7 @@ dependencies {
     testImplementation("org.eclipse.jgit:org.eclipse.jgit:6.5.0.202303070854-r")
 
     implementation("org.jetbrains:annotations:24.0.1")
-    implementation(kotlin("bom", version = "1.7.21"))
+    implementation(kotlin("bom", version = "1.8.21"))
 
     implementation("com.squareup.sqldelight:sqlite-driver:1.5.5")
     implementation("com.squareup.sqldelight:runtime:1.5.5")

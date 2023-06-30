@@ -15,46 +15,42 @@ import com.quickref.plugin.PluginLogger
 fun AnActionEvent.guessFileName(): String {
     val element = getData(LangDataKeys.PSI_ELEMENT) ?: return ""
     // base on field,we check it whether a psiclass
-
     val name = element.containingFile.name
-    val fileName = if (name.endsWith(".class")) {
-        name.replace(".class", ".java")
-    } else if (name.endsWith(".java")) {
-        name
-    } else {
-        // guess file name
-        // if var element, try to fill the package name.
-        val varPackageName = tryGetVarPackageName(this, element, name)
-        val target = varPackageName.ifEmpty {
-            name
+    val extension = if (name.endsWith(".class")) {
+        if ("java".equals(element.containingFile.originalFile.language.id, true)) {
+            ".java"
+        } else {
+            ".kt"
         }
-        target + element.containingFile.fileType.defaultExtension
+    } else {
+        name.substring(name.lastIndexOf("."))
     }
-    return fileName
+
+    return name.substring(0, name.lastIndexOf(".")) + extension
 }
 
-private fun tryGetVarPackageName(e: AnActionEvent, element: PsiElement, name: String): String {
-    if (element is PsiVariable) {
-        // origin file import analysis.
-        val psiFile = e.getData(LangDataKeys.PSI_FILE)
-        if (psiFile is PsiJavaFile) {
-            val imports =
-                psiFile.importList?.children?.filterIsInstance<PsiImportStatement>()?.filter { psiImportStatement ->
-                    psiImportStatement.qualifiedName == name
-                }
-            // in the list use the import
-            return "${
-                if (imports?.isNotEmpty() == true) {
-                    imports[0].qualifiedName
-                } else {
-                    // use the parent package
-                    psiFile.packageName
-                }
-            }.$name"
-        }
-    }
-    return ""
-}
+//private fun tryGetVarPackageName(e: AnActionEvent, element: PsiElement, name: String): String {
+//    if (element is PsiVariable) {
+//        // origin file import analysis.
+//        val psiFile = e.getData(LangDataKeys.PSI_FILE)
+//        if (psiFile is PsiJavaFile) {
+//            val imports =
+//                psiFile.importList?.children?.filterIsInstance<PsiImportStatement>()?.filter { psiImportStatement ->
+//                    psiImportStatement.qualifiedName == name
+//                }
+//            // in the list use the import
+//            return "${
+//                if (imports?.isNotEmpty() == true) {
+//                    imports[0].qualifiedName
+//                } else {
+//                    // use the parent package
+//                    psiFile.packageName
+//                }
+//            }.$name"
+//        }
+//    }
+//    return ""
+//}
 
 fun AnActionEvent.packageName(): String? {
     val element = getData(LangDataKeys.PSI_FILE)
@@ -65,8 +61,8 @@ fun AnActionEvent.packageName(): String? {
 }
 
 fun PsiElement?.pathname(): String? {
-    if(this == null){
-        return  ""
+    if (this == null) {
+        return ""
     }
     val element = this
 
@@ -82,11 +78,13 @@ fun PsiElement?.pathname(): String? {
             }
             PluginLogger.debug("PsiClass's class:$name")
         }
+
         is PsiMethod -> {
             val method = element.containingClass?.qualifiedName
             PluginLogger.debug("PsiMethod's method:${element.name}#$method")
             name = method
         }
+
         is PsiVariable -> {
             name = element.type.canonicalText
             // 去除泛型
@@ -95,6 +93,7 @@ fun PsiElement?.pathname(): String? {
                 PluginLogger.debug("PsiVariable's text: pre:${element.type.canonicalText} after:$name")
             }
         }
+
         else -> {
             PluginLogger.debug("cls = " + element.javaClass)
         }

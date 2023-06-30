@@ -26,20 +26,18 @@ class QRConfigurationForm {
 
     fun apply() {
         QRSearchMenu.applyState(quickReferenceConfigStorage)
-        QRCacheMenu.applyState(quickReferenceConfigStorage)
+        QRCacheMenu.applyState()
         QRVersionsMenu.applyState(quickReferenceConfigStorage)
 
     }
 
     fun reset() {
         QRSearchMenu.loadState(quickReferenceConfigStorage)
-        QRCacheMenu.loadState(quickReferenceConfigStorage)
         QRVersionsMenu.loadState(quickReferenceConfigStorage)
     }
 
     val isNotModified: Boolean
         get() = (QRSearchMenu.checkNotModified(quickReferenceConfigStorage)
             && QRVersionsMenu.checkNotModified(quickReferenceConfigStorage)
-            && QRCacheMenu.checkNotModified(quickReferenceConfigStorage)
-            )
+            && QRCacheMenu.checkNotModified())
 }

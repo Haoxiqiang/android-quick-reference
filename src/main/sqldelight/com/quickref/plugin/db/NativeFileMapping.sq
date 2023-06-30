@@ -9,5 +9,8 @@ CREATE INDEX NativeFileMapping_path ON NativeFileMapping(psiFile,version);
 selectAll:
 SELECT psiFile,version,path FROM NativeFileMapping;
 
+count:
+SELECT count(*) FROM JavaFileMapping;
+
 getNativeFile:
 SELECT path FROM NativeFileMapping WHERE psiFile=:file AND version <=:version ORDER BY version DESC LIMIT 1;
