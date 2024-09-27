@@ -1,5 +1,6 @@
 package com.quickref.plugin.version
 
+import org.jsoup.Jsoup
 import org.junit.Test
 import java.io.File
 
@@ -7,12 +8,16 @@ class AOSPMirrorVersionsTest {
 
     @Test
     fun generateVersions() {
-        val filePath = "src/test/resources/aosp-mirror-tags.txt"
-        val file = File(filePath)
+
+        val url = "https://android.googlesource.com/platform/frameworks/base.git/+refs"
+        val document = Jsoup.connect(url).get()
         val baseLength = "android-".length
-        val names = file.readLines().filter { tag ->
-            tag.startsWith("android-") && tag[baseLength].isDigit()
-        }
+        val names = document.select("ul.RefList-items li a")
+            .map {
+                it.text()
+            }.filter {
+                it.startsWith("android-") && it[8].isDigit()
+            }
 
         val kv = LinkedHashMap<String, String>()
         names
@@ -33,18 +38,33 @@ class AOSPMirrorVersionsTest {
                 }
             }
 
-        val outPath = "src/test/resources/aosp-mirror-versions.txt"
+        val outPath = "src/main/kotlin/com/quickref/plugin/version/AOSPMirrorVersion.kt"
         val output = File(outPath)
         if (output.exists().not()) {
             output.createNewFile()
         }
-        val text = kv.entries.joinToString(separator = "\n", transform = { entry ->
+        val text = kv.entries.joinToString(separator = "\n\t\t", transform = { entry ->
             """Pair("${entry.key}","${entry.value}"),
             """.trimIndent()
 
         })
-        val code = """private val aospVersions = linkedMapOf($text)
-        """.trimIndent()
+        val code = """package com.quickref.plugin.version
+
+class AOSPMirrorVersion : Version() {
+
+    private val aospVersions = linkedMapOf(
+        $text
+    )
+
+    override fun versionPairs(): HashMap<String, String> {
+        return aospVersions
+    }
+
+    override fun isDownloadable(): Boolean {
+        return true
+    }
+}
+""".trimIndent()
         output.writeText(code)
     }
 }

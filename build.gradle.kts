@@ -1,3 +1,4 @@
+import org.jetbrains.changelog.Changelog
 import org.jetbrains.changelog.markdownToHTML
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
@@ -18,10 +19,12 @@ version = properties("pluginVersion")
 
 dependencies {
 
-    testImplementation("org.json:json:20230227")
+    testImplementation("org.json:json:20231013")
     testImplementation("junit:junit:4.13.2")
+    testImplementation("org.jsoup:jsoup:1.14.3")
+
     // git repo.
-    testImplementation("org.eclipse.jgit:org.eclipse.jgit:6.5.0.202303070854-r")
+    testImplementation("org.eclipse.jgit:org.eclipse.jgit:6.7.0.202309050840-r")
 
     implementation("org.jetbrains:annotations:24.0.1")
     implementation(kotlin("bom", version = "1.8.21"))
@@ -42,6 +45,9 @@ intellij {
     version.set(properties("platformVersion"))
     updateSinceUntilBuild.set(false)
     sameSinceUntilBuild.set(true)
+    // AI - Android Studio
+    // IC - IntelliJ IDEA Community Edition
+    // IU - IntelliJ IDEA Ultimate Edition
     type.set(properties("platformType"))
 
     plugins.set(properties("platformPlugins").split(',').map(String::trim).filter(String::isNotEmpty))
@@ -55,7 +61,7 @@ changelog {
 // it's for dev
 tasks.withType(org.jetbrains.intellij.tasks.RunIdeTask::class.java) {
     // you should set your AndroidStudio's app dir like this.
-    // ideDir.set(file("/Users/haoxiqiang/Library/Application Support/JetBrains/Toolbox/apps/AndroidStudio/ch-0/203.7935034/Android Studio.app/Contents"))
+    ideDir.set(file("/Applications/Android Studio.app/Contents"))
     autoReloadPlugins.set(true)
 }
 
@@ -97,9 +103,9 @@ tasks {
 
         // Get the latest available change notes from the changelog file
         changeNotes.set(provider {
-            changelog.run {
+            changelog.renderItem(changelog.run {
                 getOrNull(properties("pluginVersion")) ?: getLatest()
-            }.toHTML()
+            }, Changelog.OutputType.HTML)
         })
     }
 

@@ -42,7 +42,7 @@ works to solve the psi problem. Who with relevant practical experience can help 
   * .read xxx/android-quick-reference/src/test/resources/CppMethod.sql
   * .read xxx/android-quick-reference/src/test/resources/JavaDis.sql
   * .read xxx/android-quick-reference/src/test/resources/NativeDis.sql
-* ./gradlew ide
+* ./gradlew runIde
 
 ## Feature
 
@@ -55,8 +55,8 @@ works to solve the psi problem. Who with relevant practical experience can help 
 
 ![plugin-diff.png](./screenshots/plugin-diff.png)
 
-* Download android-AOSP-source from the remote.
-    * [github.com/aosp-mirror](https://github.com/aosp-mirror/platform_frameworks_base)
+* Download android-AOSP-source from the raw remote.
+    * [android.googlesource.com](https://android.googlesource.com/)
     * [androidxref.com](http://androidxref.com/)
 
 * Quick Android Reference
