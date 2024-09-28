@@ -88,8 +88,8 @@ private val ANDROID_FRAMEWORK_PREFIX = listOf(
     "android.webkit",
     "android.widget",
     "android.window",
-    "com.android.ims.internal",//frameworks/base/core/java/com/android/ims/internal/
-    "com.android.internal",//frameworks/base/core/java/com/android/internal/
+    "com.android.ims.internal", //frameworks/base/core/java/com/android/ims/internal/
+    "com.android.internal",     //frameworks/base/core/java/com/android/internal/
     "com.android.server",
     "com.google.android",
 )
@@ -115,7 +115,7 @@ fun String?.isAndroidFrameworkClass(): Boolean {
 }
 
 fun String.endsWithCLang(): Boolean {
-    return endsWith(".cpp") || endsWith(".cc") || endsWith(".c")
+    return endsWith(".cpp") || endsWith(".cc") || endsWith(".c") || endsWith(".h") || endsWith(".hpp")
 }
 
 fun String.endsWithJava(): Boolean {

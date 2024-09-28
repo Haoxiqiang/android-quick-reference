@@ -9,7 +9,7 @@ plugins {
     id("org.jetbrains.intellij") version "1.14.2"
     id("org.jetbrains.changelog") version "2.0.0"
     id("org.jetbrains.kotlin.jvm") version "1.8.21"
-    id("io.gitlab.arturbosch.detekt") version "1.22.0"
+    id("io.gitlab.arturbosch.detekt") version "1.23.7"
     id("com.diffplug.spotless")
     id("com.squareup.sqldelight")
 }
@@ -21,10 +21,7 @@ dependencies {
 
     testImplementation("org.json:json:20231013")
     testImplementation("junit:junit:4.13.2")
-    testImplementation("org.jsoup:jsoup:1.14.3")
-
-    // git repo.
-    testImplementation("org.eclipse.jgit:org.eclipse.jgit:6.7.0.202309050840-r")
+    testImplementation("org.jsoup:jsoup:1.15.3")
 
     implementation("org.jetbrains:annotations:24.0.1")
     implementation(kotlin("bom", version = "1.8.21"))
@@ -32,7 +29,7 @@ dependencies {
     implementation("com.squareup.sqldelight:sqlite-driver:1.5.5")
     implementation("com.squareup.sqldelight:runtime:1.5.5")
 
-    detektPlugins("io.gitlab.arturbosch.detekt:detekt-formatting:1.22.0")
+    detektPlugins("io.gitlab.arturbosch.detekt:detekt-formatting:1.23.7")
 }
 
 repositories {
@@ -139,6 +136,7 @@ sqldelight {
 detekt {
     buildUponDefaultConfig = true // preconfigure defaults
     allRules = false // activate all available (even unstable) rules.
+    @Suppress("DEPRECATION")
     config =
         files("$projectDir/config/detekt.yml") // point to your custom config defining rules to run, overwriting default behavior
 }

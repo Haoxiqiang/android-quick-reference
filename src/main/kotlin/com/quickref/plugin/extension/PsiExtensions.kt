@@ -7,6 +7,9 @@ import com.intellij.psi.PsiMethod
 
 fun PsiElement?.isSupport(): Boolean {
     // must be a class
+    if (this?.context is PsiClass) {
+        return true
+    }
     if (this is PsiClass) {
         // check inner class
         if (containingClass != null) {

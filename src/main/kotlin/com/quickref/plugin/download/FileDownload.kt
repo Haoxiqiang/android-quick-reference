@@ -11,6 +11,7 @@ import com.quickref.plugin.version.AndroidVersion
 import com.quickref.plugin.version.Source
 import java.io.File
 import java.io.IOException
+import java.util.Base64
 import java.util.Locale
 import kotlin.math.abs
 
@@ -43,6 +44,10 @@ abstract class FileDownload(private val source: Source) : IDownload, Comparable<
 
             val version = task.versionName
 
+            if (rawFile.parentFile?.exists() == false) {
+                rawFile.parentFile?.mkdirs()
+            }
+
             if (isVersionSupport(version)) {
                 // convert branch version
                 val branch = AndroidVersion.getVersionSource(source).versionBranch(version)
@@ -50,7 +55,23 @@ abstract class FileDownload(private val source: Source) : IDownload, Comparable<
                 PluginLogger.debug("$url prepare downloading")
 
                 try {
-                    DownloadUtil.downloadAtomically(progressIndicator, url, rawFile)
+                    // need base64 decode
+                    val needBase64Decode = task.path.endsWith("?format=TEXT")
+                    if (needBase64Decode) {
+                        // base64 decode
+                        val base64File = File(rawFile.parent, rawFile.name + ".base64")
+                        if (base64File.exists()) {
+                            base64File.delete()
+                        }
+                        base64File.createNewFile()
+                        DownloadUtil.downloadAtomically(progressIndicator, url, base64File)
+                        // base64 decode base64File to rawFile
+                        val base64Content = base64File.readText()
+                        rawFile.writeBytes(Base64.getDecoder().decode(base64Content))
+                        base64File.delete()
+                    } else {
+                        DownloadUtil.downloadAtomically(progressIndicator, url, rawFile)
+                    }
                 } catch (e: IOException) {
                     PluginLogger.error("$url download failed.\n${e.message}")
                 }

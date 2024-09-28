@@ -12,7 +12,7 @@ object CodeSearchViewer {
         "https://cs.android.com/android/platform/superproject/+/%s:frameworks/base/%s"
 
     fun open(version: String, path: String) {
-        val csVersion = AndroidVersion.getVersionSource(Source.CodeSearch).versionBranch(version)
+        val csVersion = AndroidVersion.getVersionSource(Source.AOSPMirror).versionBranch(version)
         val url = createViewerURL(csVersion, path)
         PluginLogger.debug("code search viewer url= $url")
         BrowserUtil.open(url)

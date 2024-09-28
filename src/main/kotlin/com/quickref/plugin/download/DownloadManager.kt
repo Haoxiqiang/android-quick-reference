@@ -2,14 +2,14 @@ package com.quickref.plugin.download
 
 import com.intellij.openapi.application.ApplicationManager
 import com.intellij.openapi.progress.ProgressIndicator
-import com.quickref.plugin.download.engine.GithubAOSPDownload
+import com.quickref.plugin.download.engine.AOSPDownload
 import com.quickref.plugin.download.engine.SourceGraphDownload
 import com.quickref.plugin.download.engine.XrefDownload
 import java.io.File
 
 object DownloadManager {
 
-    private val engines = listOf(SourceGraphDownload(), XrefDownload(), GithubAOSPDownload())
+    private val engines = listOf(SourceGraphDownload(), XrefDownload(), AOSPDownload())
 
     fun downloadFile(
         progressIndicator: ProgressIndicator?,

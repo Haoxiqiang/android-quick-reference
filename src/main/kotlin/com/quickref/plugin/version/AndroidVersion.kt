@@ -4,7 +4,6 @@ import com.quickref.plugin.config.QuickReferenceConfigStorage
 import com.quickref.plugin.config.isSupportVersion
 
 enum class Source {
-    CodeSearch,
     AndroidXRef,
     AOSPMirror,
 }
@@ -12,14 +11,12 @@ enum class Source {
 object AndroidVersion {
 
     private val sources = linkedMapOf(
-        Pair(Source.CodeSearch, CodeSearchVersion()),
         Pair(Source.AndroidXRef, AndroidXRefVersion()),
         Pair(Source.AOSPMirror, AOSPMirrorVersion()),
     )
     val sourceDownloadableVersions by lazy {
         mergedDownloadableSource()
     }
-    val sourceSearchableVersions by lazy { mergedSearchableSource() }
 
     fun getVersionSource(source: Source): Version {
         return sources[source]!!
@@ -33,16 +30,6 @@ object AndroidVersion {
             version
         }
         return androidBuildVersions[rawVersion].toString().toIntOrNull() ?: 0
-    }
-
-    private fun mergedSearchableSource(): List<String> {
-        val versions = hashSetOf<String>()
-        sources[Source.CodeSearch]?.apply {
-            versionPairs().keys.forEach { version ->
-                versions.add(version)
-            }
-        }
-        return versions.toSortedSet().sortedWith(VersionComparator()).reversed()
     }
 
     private fun mergedDownloadableSource(): List<String> {
@@ -63,6 +50,8 @@ object AndroidVersion {
     // https://source.android.com/setup/start/build-numbers
     @Suppress("MagicNumber")
     private val androidBuildVersions = linkedMapOf(
+        Pair("android-15.0.0", 35),
+        Pair("android-14.0.0", 34),
         Pair("android-13.0.0", 33),
         Pair("android-12.1.0", 32),
         Pair("android-12.0.0", 31),

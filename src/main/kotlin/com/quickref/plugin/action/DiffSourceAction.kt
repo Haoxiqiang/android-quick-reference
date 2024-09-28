@@ -1,5 +1,6 @@
 package com.quickref.plugin.action
 
+import com.intellij.openapi.actionSystem.ActionUpdateThread
 import com.intellij.openapi.actionSystem.AnActionEvent
 import com.intellij.openapi.actionSystem.LangDataKeys
 import com.quickref.plugin.Notifier
@@ -21,6 +22,10 @@ class DiffSourceAction : BaseAction() {
         val psiElement = e.getData(LangDataKeys.PSI_ELEMENT)
         e.presentation.isVisible =
             psiElement.isSupport() && e.project != null && psiElement.pathname().isAndroidFrameworkClass()
+    }
+
+    override fun getActionUpdateThread(): ActionUpdateThread {
+        return ActionUpdateThread.EDT
     }
 
     override fun actionPerformed(e: AnActionEvent) {

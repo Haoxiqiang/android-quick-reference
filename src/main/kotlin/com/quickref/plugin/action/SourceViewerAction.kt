@@ -1,11 +1,11 @@
 package com.quickref.plugin.action
 
+import com.intellij.openapi.actionSystem.ActionUpdateThread
 import com.intellij.openapi.actionSystem.AnActionEvent
 import com.intellij.openapi.actionSystem.LangDataKeys
 import com.intellij.openapi.ui.showOkNoDialog
 import com.quickref.plugin.App
 import com.quickref.plugin.Notifier
-import com.quickref.plugin.PluginLogger
 import com.quickref.plugin.download.DownloadTask
 import com.quickref.plugin.extension.downloadFile
 import com.quickref.plugin.extension.guessFileName
@@ -23,6 +23,10 @@ class SourceViewerAction : BaseAction() {
         val psiElement = e.getData(LangDataKeys.PSI_ELEMENT)
         e.presentation.isVisible =
             psiElement.isSupport() && psiElement.pathname().isAndroidFrameworkClass() && e.project != null
+    }
+
+    override fun getActionUpdateThread(): ActionUpdateThread {
+        return ActionUpdateThread.BGT
     }
 
     override fun actionPerformed(e: AnActionEvent) {

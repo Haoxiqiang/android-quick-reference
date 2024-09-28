@@ -58,7 +58,6 @@ fun Project.openFileInEditor(file: File, line: Int = -1) {
     ApplicationManager.getApplication().invokeLater {
         val lFile = LocalFileSystem.getInstance().refreshAndFindFileByIoFile(file)
         if (lFile != null && lFile.isValid) {
-            lFile.isWritable = false
             val descriptor = if (line > 0) {
                 OpenFileDescriptor(this, lFile, line, -1)
             } else {

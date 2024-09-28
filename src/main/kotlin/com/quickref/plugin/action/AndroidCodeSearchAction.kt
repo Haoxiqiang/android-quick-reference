@@ -1,12 +1,11 @@
 package com.quickref.plugin.action
 
+import com.intellij.openapi.actionSystem.ActionUpdateThread
 import com.intellij.openapi.actionSystem.AnActionEvent
 import com.intellij.openapi.actionSystem.LangDataKeys
 import com.quickref.plugin.App
 import com.quickref.plugin.extension.guessFileName
 import com.quickref.plugin.extension.isAndroidClass
-import com.quickref.plugin.extension.isAndroidFrameworkClass
-import com.quickref.plugin.extension.packageName
 import com.quickref.plugin.extension.pathname
 import com.quickref.plugin.version.AndroidVersion
 import com.quickref.plugin.viewer.CodeSearchViewer
@@ -27,10 +26,14 @@ class AndroidCodeSearchAction : BaseAction() {
         e.presentation.isVisible = psiElement != null && psiElement.pathname().isAndroidClass()
     }
 
+    override fun getActionUpdateThread(): ActionUpdateThread {
+        return ActionUpdateThread.EDT
+    }
+
     override fun actionPerformed(e: AnActionEvent) {
         val fileName = e.guessFileName()
         AndroidVersionsPopView(e)
-            .show("Choose $fileName Version", AndroidVersion.sourceSearchableVersions) { _, version ->
+            .show("Choose $fileName Version", AndroidVersion.sourceDownloadableVersions) { _, version ->
                 val versionNumber = AndroidVersion.getBuildNumber(version).toLong()
                 val javaPath = App.db.javaFileMappingQueries.getJavaFile(
                     file = fileName, versionNumber

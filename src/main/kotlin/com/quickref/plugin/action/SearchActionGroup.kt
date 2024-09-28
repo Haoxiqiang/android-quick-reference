@@ -1,6 +1,7 @@
 package com.quickref.plugin.action
 
 import com.intellij.openapi.actionSystem.ActionGroup
+import com.intellij.openapi.actionSystem.ActionUpdateThread
 import com.intellij.openapi.actionSystem.AnAction
 import com.intellij.openapi.actionSystem.AnActionEvent
 import com.quickref.plugin.ImageAssets
@@ -15,6 +16,10 @@ class SearchActionGroup : ActionGroup() {
 
     private val quickReferenceConfigStorage by lazy {
         QuickReferenceConfigStorage.instance()
+    }
+
+    override fun getActionUpdateThread(): ActionUpdateThread {
+        return ActionUpdateThread.EDT
     }
 
     override fun update(event: AnActionEvent) {

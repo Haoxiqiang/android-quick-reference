@@ -1,6 +1,7 @@
 package com.quickref.plugin.action
 
 import com.intellij.ide.BrowserUtil
+import com.intellij.openapi.actionSystem.ActionUpdateThread
 import com.intellij.openapi.actionSystem.AnActionEvent
 import com.intellij.openapi.actionSystem.LangDataKeys
 import com.intellij.psi.PsiClass
@@ -23,6 +24,10 @@ class AndroidReferenceAction : BaseAction() {
 
     companion object {
         private const val GoogleRefURL: String = "https://developer.android.google.cn/reference/"
+    }
+
+    override fun getActionUpdateThread(): ActionUpdateThread {
+        return ActionUpdateThread.EDT
     }
 
     override fun update(e: AnActionEvent) {
