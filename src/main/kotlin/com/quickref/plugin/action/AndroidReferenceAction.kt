@@ -8,9 +8,7 @@ import com.intellij.psi.PsiClass
 import com.intellij.psi.PsiMethod
 import com.quickref.plugin.PluginLogger
 import com.quickref.plugin.extension.isAndroidClass
-import com.quickref.plugin.extension.isAndroidFrameworkClass
 import com.quickref.plugin.extension.isSupport
-import com.quickref.plugin.extension.packageName
 import com.quickref.plugin.extension.pathname
 import com.quickref.plugin.extension.referencePage
 
@@ -23,11 +21,11 @@ import com.quickref.plugin.extension.referencePage
 class AndroidReferenceAction : BaseAction() {
 
     companion object {
-        private const val GoogleRefURL: String = "https://developer.android.google.cn/reference/"
+        private const val REF_URL: String = "https://developer.android.google.cn/reference/"
     }
 
     override fun getActionUpdateThread(): ActionUpdateThread {
-        return ActionUpdateThread.EDT
+        return ActionUpdateThread.BGT
     }
 
     override fun update(e: AnActionEvent) {
@@ -58,7 +56,7 @@ class AndroidReferenceAction : BaseAction() {
             linkerBuilder.append(element.referencePage())
         }
 
-        val url = "${GoogleRefURL}$linkerBuilder"
+        val url = "${REF_URL}$linkerBuilder"
         PluginLogger.debug("linkUrl= $url")
         BrowserUtil.open(url)
     }

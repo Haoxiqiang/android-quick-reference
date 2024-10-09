@@ -1,16 +1,17 @@
 CREATE TABLE NativeFileMapping (
   psiFile TEXT NOT NULL,
+  jniClass TEXT NOT NULL,
   version INTEGER DEFAULT 0,
   path TEXT NOT NULL
 );
 
-CREATE INDEX NativeFileMapping_path ON NativeFileMapping(psiFile,version);
+CREATE INDEX NativeFileMapping_jniClass ON NativeFileMapping(psiFile,jniClass,version);
 
 selectAll:
-SELECT psiFile,version,path FROM NativeFileMapping;
+SELECT psiFile,jniClass,version,path FROM NativeFileMapping;
 
 count:
-SELECT count(*) FROM JavaFileMapping;
+SELECT count(*) FROM NativeFileMapping;
 
 getNativeFile:
-SELECT path FROM NativeFileMapping WHERE psiFile=:file AND version <=:version ORDER BY version DESC LIMIT 1;
+SELECT path FROM NativeFileMapping WHERE jniClass=:clazz AND version >=:version ORDER BY version ASC LIMIT 1;

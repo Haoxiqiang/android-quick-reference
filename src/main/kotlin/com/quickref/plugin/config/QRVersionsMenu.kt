@@ -7,6 +7,9 @@ import javax.swing.JCheckBox
 import javax.swing.JPanel
 
 internal object QRVersionsMenu {
+
+    var enableAndroid35: JCheckBox = JCheckBox("android-15.0.0")
+    var enableAndroid34: JCheckBox = JCheckBox("android-14.0.0")
     var enableAndroid33: JCheckBox = JCheckBox("android-13.0.0")
     var enableAndroid32: JCheckBox = JCheckBox("android-12.1.0-32")
     var enableAndroid31: JCheckBox = JCheckBox("android-12.0.0-31")
@@ -38,6 +41,8 @@ internal object QRVersionsMenu {
     var container: JPanel = FormBuilder.createFormBuilder()
         .addComponent(TitledSeparator("Android Versions"))
         .setFormLeftIndent(IdeBorderFactory.TITLED_BORDER_INDENT)
+        .addComponent(enableAndroid35)
+        .addComponent(enableAndroid34)
         .addComponent(enableAndroid33)
         .addComponent(enableAndroid32)
         .addComponent(enableAndroid31)
@@ -69,6 +74,8 @@ internal object QRVersionsMenu {
         .panel
 
     fun applyState(quickReferenceConfigStorage: QuickReferenceConfigStorage) {
+        quickReferenceConfigStorage.enableAndroid35 = enableAndroid35.isSelected
+        quickReferenceConfigStorage.enableAndroid34 = enableAndroid34.isSelected
         quickReferenceConfigStorage.enableAndroid33 = enableAndroid33.isSelected
         quickReferenceConfigStorage.enableAndroid32 = enableAndroid32.isSelected
         quickReferenceConfigStorage.enableAndroid31 = enableAndroid31.isSelected
@@ -98,6 +105,8 @@ internal object QRVersionsMenu {
     }
 
     fun loadState(quickReferenceConfigStorage: QuickReferenceConfigStorage) {
+        enableAndroid35.isSelected = quickReferenceConfigStorage.enableAndroid35
+        enableAndroid34.isSelected = quickReferenceConfigStorage.enableAndroid34
         enableAndroid33.isSelected = quickReferenceConfigStorage.enableAndroid33
         enableAndroid32.isSelected = quickReferenceConfigStorage.enableAndroid32
         enableAndroid31.isSelected = quickReferenceConfigStorage.enableAndroid31
@@ -129,9 +138,11 @@ internal object QRVersionsMenu {
 
     fun checkNotModified(quickReferenceConfigStorage: QuickReferenceConfigStorage): Boolean {
         return (
-            quickReferenceConfigStorage.enableAndroid33 == enableAndroid33.isSelected &&
-            quickReferenceConfigStorage.enableAndroid32 == enableAndroid32.isSelected &&
-            quickReferenceConfigStorage.enableAndroid31 == enableAndroid31.isSelected &&
+            quickReferenceConfigStorage.enableAndroid35 == enableAndroid35.isSelected &&
+                quickReferenceConfigStorage.enableAndroid34 == enableAndroid34.isSelected &&
+                quickReferenceConfigStorage.enableAndroid33 == enableAndroid33.isSelected &&
+                quickReferenceConfigStorage.enableAndroid32 == enableAndroid32.isSelected &&
+                quickReferenceConfigStorage.enableAndroid31 == enableAndroid31.isSelected &&
                 quickReferenceConfigStorage.enableAndroid30 == enableAndroid30.isSelected &&
                 quickReferenceConfigStorage.enableAndroid29 == enableAndroid29.isSelected &&
                 quickReferenceConfigStorage.enableAndroid28 == enableAndroid28.isSelected &&

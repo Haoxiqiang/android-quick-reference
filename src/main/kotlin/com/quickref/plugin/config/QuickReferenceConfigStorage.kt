@@ -40,6 +40,12 @@ class QuickReferenceConfigStorage : PersistentStateComponent<QuickReferenceConfi
 
     // android versions.
     @Tag
+    var enableAndroid35: Boolean = true
+
+    @Tag
+    var enableAndroid34: Boolean = true
+
+    @Tag
     var enableAndroid33: Boolean = true
 
     @Tag

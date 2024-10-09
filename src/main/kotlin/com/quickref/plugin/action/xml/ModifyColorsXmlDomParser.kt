@@ -34,6 +34,7 @@ object ModifyColorsXmlDomParser {
                         val color = text2Color(colorValue)
                         val newColor = mixColors(color, defaultMask)
                         val newAlpha = newColor.alpha
+
                         @Suppress("MagicNumber")
                         val newHex = if (newAlpha == 255) {
                             Integer.toHexString(newColor.rgb).substring(2)

@@ -3,7 +3,6 @@ package com.quickref.plugin.provider
 import com.intellij.codeInsight.daemon.GutterIconNavigationHandler
 import com.intellij.codeInsight.daemon.LineMarkerInfo
 import com.intellij.codeInsight.daemon.LineMarkerProvider
-import com.intellij.codeInsight.navigation.NavigationGutterIconBuilder
 import com.intellij.ide.DataManager
 import com.intellij.openapi.actionSystem.AnActionEvent
 import com.intellij.openapi.actionSystem.Presentation
@@ -20,17 +19,15 @@ import com.quickref.plugin.App
 import com.quickref.plugin.ImageAssets
 import com.quickref.plugin.Notifier
 import com.quickref.plugin.PluginLogger
-import com.quickref.plugin.db.NativeMethodMapping
 import com.quickref.plugin.download.DownloadManager
 import com.quickref.plugin.download.DownloadResult
 import com.quickref.plugin.download.DownloadTask
-import com.quickref.plugin.extension.isAndroidFrameworkClass
 import com.quickref.plugin.extension.openFileInEditor
+import com.quickref.plugin.extension.pathname
 import com.quickref.plugin.version.AndroidVersion
 import com.quickref.plugin.widget.AndroidVersionsPopView
 import java.awt.event.MouseEvent
 import java.io.File
-import java.util.function.Supplier
 
 // support jni jump.
 class NativeMethodProvider : LineMarkerProvider, GutterIconNavigationHandler<PsiMethod> {
@@ -38,25 +35,18 @@ class NativeMethodProvider : LineMarkerProvider, GutterIconNavigationHandler<Psi
     override fun getLineMarkerInfo(element: PsiElement): LineMarkerInfo<PsiMethod>? {
         return if (element is PsiMethod
             && element.modifierList.hasExplicitModifier(PsiModifier.NATIVE)
-            && element.isAndroidFrameworkClass()
         ) {
             // add icon to all framework native method
             val toolTip = Function<PsiMethod, String> { "Show Native implication by the file mapping." }
             val navHandler: GutterIconNavigationHandler<PsiMethod> = this@NativeMethodProvider
 
-            App.db.nativeMethodMappingQueries.getNativeMethodByName(
-                name = element.name
+            val jniClass = element.pathname()?.replace('.', '/') ?: return null
+            App.db.nativeFileMappingQueries.getNativeFile(
+                clazz = jniClass,
+                version = 1
             ).executeAsOneOrNull() ?: return null
 
             // Add the property to a collection of line marker info
-            // LineMarkerInfo(
-            //    element,
-            //    element.textRange,
-            //    ImageAssets.NATIVE,
-            //    toolTip,
-            //    navHandler,
-            //    GutterIconRenderer.Alignment.LEFT,
-            // )
             LineMarkerInfo(
                 /* element = */ element,
                 /* range = */ element.textRange,
@@ -85,15 +75,26 @@ class NativeMethodProvider : LineMarkerProvider, GutterIconNavigationHandler<Psi
                 val methodName = elt.name
                 val versionNumber = AndroidVersion.getBuildNumber(version).toLong()
 
-                PluginLogger.debug("down raw native file[v:$version:$versionNumber]:$fileName#$methodName")
+                val jniClass = elt.pathname()?.replace('.', '/')
+                if (jniClass == null) {
+                    Notifier.errorNotification(elt.project, "Error: Can't find the class path.")
+                    return@show
+                }
 
-                // try get all extensions
+                val path = App.db.nativeFileMappingQueries.getNativeFile(
+                    clazz = jniClass,
+                    version = versionNumber
+                ).executeAsOneOrNull() ?: return@show
+
+                PluginLogger.debug("down raw native file[v:$version:$versionNumber]:$jniClass#$methodName-$path")
+
+                // try to get all extensions
                 val project = elt.project
                 val title = "Download：$version-$fileName"
 
                 val task = object : Task.Backgroundable(project, title) {
                     override fun run(progressIndicator: ProgressIndicator) {
-                        val nativeFileTask = DownloadTask(path = fileName, versionName = version)
+                        val nativeFileTask = DownloadTask(path = path, versionName = version)
                         DownloadManager.downloadFile(
                             progressIndicator,
                             downloadTasks = arrayOf(nativeFileTask),
@@ -104,25 +105,21 @@ class NativeMethodProvider : LineMarkerProvider, GutterIconNavigationHandler<Psi
                                         Notifier.errorNotification(project, "Error: Download $fileName")
                                         return
                                     }
-                                    // get native method line.
-                                    val nativeMethod: NativeMethodMapping? =
-                                        App.db.nativeMethodMappingQueries.getNativeMethod(
-                                            key = fileName,
-                                            method = methodName,
-                                            version = versionNumber
-                                        ).executeAsOneOrNull()
+                                    val file = files[0]
+                                    if (!file.exists()) {
+                                        Notifier.errorNotification(project, "Error: Download $fileName")
+                                        return
+                                    }
 
-                                    val lineNumber =
-                                        if (nativeMethod?.defLine != null && nativeMethod.defLine > 0) {
-                                            nativeMethod.defLine
-                                        } else if (nativeMethod?.jniLine != null && nativeMethod.jniLine > 0) {
-                                            nativeMethod.jniLine
-                                        } else {
-                                            // TODO find line in the file.
-                                            0L
+                                    // TODO find line in the file. get native method line.
+                                    // try guess line number.
+                                    file.readLines().forEachIndexed { index, line ->
+                                        if (line.contains(methodName)) {
+                                            project.openFileInEditor(file, index)
+                                            return
                                         }
-
-                                    project.openFileInEditor(files[0], lineNumber.toInt())
+                                    }
+                                    project.openFileInEditor(file, 0)
                                 }
 
                                 override fun onFailure(msg: String, throwable: Throwable?) {

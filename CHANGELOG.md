@@ -2,6 +2,14 @@
 
 ## Unreleased
 
+## 1.3.0
+
+### Fixed
+- upgrade since version 203+ for intellij api.
+- download file from android.googlesource.com.
+- support kt source files.
+- compatibility with new intellij plugin api.
+
 ## 1.2.2
 
 ### Fixed

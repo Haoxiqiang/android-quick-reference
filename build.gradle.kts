@@ -22,10 +22,13 @@ dependencies {
     testImplementation("org.json:json:20231013")
     testImplementation("junit:junit:4.13.2")
     testImplementation("org.jsoup:jsoup:1.15.3")
+    // https://mvnrepository.com/artifact/org.xerial/sqlite-jdbc
+    testImplementation("org.xerial:sqlite-jdbc:3.46.1.3")
 
     implementation("org.jetbrains:annotations:24.0.1")
     implementation(kotlin("bom", version = "1.8.21"))
 
+    // app.cash.sqldelight:runtime-jvm:2.0.2
     implementation("com.squareup.sqldelight:sqlite-driver:1.5.5")
     implementation("com.squareup.sqldelight:runtime:1.5.5")
 

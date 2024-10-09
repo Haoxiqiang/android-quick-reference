@@ -1,5 +1,6 @@
 package com.quickref.plugin.widget
 
+import com.intellij.openapi.actionSystem.ActionPlaces
 import com.intellij.openapi.actionSystem.AnAction
 import com.intellij.openapi.actionSystem.AnActionEvent
 import com.intellij.openapi.actionSystem.DefaultActionGroup
@@ -19,7 +20,7 @@ class AndroidVersionsPopView(private val actionEvent: AnActionEvent) {
         }
         listPopup = JBPopupFactory.getInstance()
             .createActionGroupPopup(
-                title,
+                " $title ",
                 group,
                 actionEvent.dataContext,
                 ActionSelectionAid.SPEEDSEARCH,
@@ -27,7 +28,7 @@ class AndroidVersionsPopView(private val actionEvent: AnActionEvent) {
                 null,
                 -1,
                 null,
-                "unknown"
+                ActionPlaces.getPopupPlace(actionEvent.place)
             )
         show()
     }

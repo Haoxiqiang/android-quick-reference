@@ -20,7 +20,7 @@ versions=(
 
 excludeDirs() {
     local path="$1"
-    [[ "$path" == *"tool"* || "$path" == *"cmds"* || "$path" == *"tests"* ]]
+    [[ "$path" == *"tool"* || "$path" == *"tools"* || "$path" == *"cmds"* || "$path" == *"tests"* ]]
 }
 
 export -f excludeDirs

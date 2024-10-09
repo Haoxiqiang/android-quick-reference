@@ -5,7 +5,6 @@ import com.intellij.platform.templates.github.DownloadUtil
 import com.quickref.plugin.App
 import com.quickref.plugin.PluginLogger
 import com.quickref.plugin.download.inteface.IDownload
-import com.quickref.plugin.extension.endsWithCLang
 import com.quickref.plugin.extension.endsWithJava
 import com.quickref.plugin.version.AndroidVersion
 import com.quickref.plugin.version.Source
@@ -56,7 +55,7 @@ abstract class FileDownload(private val source: Source) : IDownload, Comparable<
 
                 try {
                     // need base64 decode
-                    val needBase64Decode = task.path.endsWith("?format=TEXT")
+                    val needBase64Decode = url.endsWith("?format=TEXT")
                     if (needBase64Decode) {
                         // base64 decode
                         val base64File = File(rawFile.parent, rawFile.name + ".base64")
@@ -93,24 +92,16 @@ abstract class FileDownload(private val source: Source) : IDownload, Comparable<
         // http://androidxref.com/9.0.0_r3/raw/frameworks/base/core/java/android/app/Activity.java
         // http://androidxref.com/7.1.1_r6/raw/frameworks/base/graphics/java/android/graphics/Bitmap.java
         // http://androidxref.com/7.1.1_r6/raw/frameworks/base/core/jni/android/graphics/Bitmap.cpp
-        val rawPath =
-            if (path.endsWithCLang()) {
-                // try get native method.
-                val versionNumber = AndroidVersion.getBuildNumber(version).toLong()
-                val nativePath = App.db.nativeFileMappingQueries.getNativeFile(
-                    file = path, versionNumber
-                ).executeAsOneOrNull()
-                nativePath ?: path
-            } else if (path.endsWithJava()) {
-                val versionNumber = AndroidVersion.getBuildNumber(version).toLong()
-                val javaPath = App.db.javaFileMappingQueries.getJavaFile(
-                    file = path, versionNumber
-                ).executeAsOneOrNull()
-                javaPath ?: path
-            } else {
-                // must failed. only print log for debug.
-                path
-            }
+        val rawPath = if (path.endsWithJava()) {
+            val versionNumber = AndroidVersion.getBuildNumber(version).toLong()
+            val javaPath = App.db.javaFileMappingQueries.getJavaFile(
+                file = path, versionNumber
+            ).executeAsOneOrNull()
+            javaPath ?: path
+        } else {
+            // try get native method.
+            path
+        }
         return String.format(Locale.ENGLISH, baseDownloadURL(), branch, rawPath)
     }
 

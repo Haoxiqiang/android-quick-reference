@@ -5,8 +5,6 @@ import com.intellij.openapi.actionSystem.LangDataKeys
 import com.intellij.psi.PsiClass
 import com.intellij.psi.PsiClassOwner
 import com.intellij.psi.PsiElement
-import com.intellij.psi.PsiImportStatement
-import com.intellij.psi.PsiJavaFile
 import com.intellij.psi.PsiMethod
 import com.intellij.psi.PsiVariable
 import com.quickref.plugin.PluginLogger
