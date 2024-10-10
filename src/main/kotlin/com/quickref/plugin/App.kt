@@ -1,7 +1,7 @@
 package com.quickref.plugin
 
+import app.cash.sqldelight.driver.jdbc.sqlite.JdbcSqliteDriver
 import com.quickref.plugin.db.QuickRefDB
-import com.squareup.sqldelight.sqlite.driver.JdbcSqliteDriver
 import java.io.File
 import java.net.URL
 

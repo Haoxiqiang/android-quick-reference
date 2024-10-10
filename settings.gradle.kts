@@ -5,11 +5,11 @@ pluginManagement {
     }
     resolutionStrategy {
         eachPlugin {
-            if (requested.id.id == "com.squareup.sqldelight") {
-                useModule("com.squareup.sqldelight:gradle-plugin:1.5.4")
+            if (requested.id.id == "app.cash.sqldelight") {
+                useModule("app.cash.sqldelight:gradle-plugin:2.0.2")
             }
             if (requested.id.id == "com.diffplug.spotless") {
-                useModule("com.diffplug.spotless:spotless-plugin-gradle:6.11.0")
+                useModule("com.diffplug.spotless:spotless-plugin-gradle:6.25.0")
             }
         }
     }

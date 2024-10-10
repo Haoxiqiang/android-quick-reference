@@ -7,11 +7,11 @@ fun properties(key: String) = project.findProperty(key).toString()
 plugins {
     id("java")
     id("org.jetbrains.intellij") version "1.14.2"
-    id("org.jetbrains.changelog") version "2.0.0"
-    id("org.jetbrains.kotlin.jvm") version "1.8.21"
+    id("org.jetbrains.changelog") version "2.2.1"
+    id("org.jetbrains.kotlin.jvm") version "1.9.25"
     id("io.gitlab.arturbosch.detekt") version "1.23.7"
     id("com.diffplug.spotless")
-    id("com.squareup.sqldelight")
+    id("app.cash.sqldelight")
 }
 
 group = properties("pluginGroup")
@@ -26,11 +26,11 @@ dependencies {
     testImplementation("org.xerial:sqlite-jdbc:3.46.1.3")
 
     implementation("org.jetbrains:annotations:24.0.1")
-    implementation(kotlin("bom", version = "1.8.21"))
+    implementation(kotlin("bom", version = "1.9.25"))
 
     // app.cash.sqldelight:runtime-jvm:2.0.2
-    implementation("com.squareup.sqldelight:sqlite-driver:1.5.5")
-    implementation("com.squareup.sqldelight:runtime:1.5.5")
+    implementation("app.cash.sqldelight:sqlite-driver:2.0.2")
+    implementation("app.cash.sqldelight:runtime-jvm:2.0.2")
 
     detektPlugins("io.gitlab.arturbosch.detekt:detekt-formatting:1.23.7")
 }
@@ -73,8 +73,8 @@ tasks {
         }
         withType<KotlinCompile> {
             kotlinOptions.jvmTarget = version
-            kotlinOptions.apiVersion = "1.7"
-            kotlinOptions.languageVersion = "1.7"
+            kotlinOptions.apiVersion = "1.8"
+            kotlinOptions.languageVersion = "1.8"
             kotlinOptions.allWarningsAsErrors = false
         }
     }
@@ -84,8 +84,8 @@ tasks {
     }
 
     patchPluginXml {
-        // sinceBuild.set("193")
-        sinceBuild.set("203")
+
+        sinceBuild.set("231")
 
         version.set(properties("pluginVersion"))
         // Extract the <!-- Plugin description --> section from README.md and provide for the plugin's manifest
@@ -127,12 +127,13 @@ tasks {
 
 // database support
 sqldelight {
-    database("QuickRefDB") {
-        packageName = "com.quickref.plugin.db"
-        schemaOutputDirectory = file("src/main/sqldelight/databases")
-        dialect = "sqlite:3.25"
+    databases {
+        create("QuickRefDB") {
+            packageName.set("com.quickref.plugin.db")
+            schemaOutputDirectory.set(file("src/main/sqldelight/databases"))
+        }
     }
-    linkSqlite = true
+    linkSqlite.set(true)
 }
 
 // code analysis
