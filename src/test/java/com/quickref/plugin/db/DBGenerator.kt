@@ -58,7 +58,7 @@ class DBGenerator {
         SELECT count(*) FROM JavaFileMapping;
 
         getJavaFile:
-        SELECT path FROM JavaFileMapping WHERE psiFile=:file AND version >=:version ORDER BY version ASC LIMIT 1;
+        SELECT psiFile,version,path FROM JavaFileMapping WHERE psiFile=:file AND version >=:version ORDER BY version ASC LIMIT 1;
 
     """.trimIndent()
 
@@ -79,7 +79,7 @@ class DBGenerator {
         SELECT count(*) FROM NativeFileMapping;
 
         getNativeFile:
-        SELECT path FROM NativeFileMapping WHERE jniClass=:clazz AND version >=:version ORDER BY version ASC LIMIT 1;
+        SELECT psiFile,jniClass,version,path FROM NativeFileMapping WHERE jniClass=:clazz AND version >=:version ORDER BY version ASC LIMIT 1;
     """.trimIndent()
 
         javaFileSQ.writeText(javaFileTable)

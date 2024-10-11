@@ -95,7 +95,7 @@ abstract class FileDownload(private val source: Source) : IDownload, Comparable<
         val rawPath = if (path.endsWithJava()) {
             val versionNumber = AndroidVersion.getBuildNumber(version).toLong()
             val javaPath = App.db.javaFileMappingQueries.getJavaFile(
-                file = path, versionNumber
+                path, versionNumber
             ).executeAsOneOrNull()
             javaPath ?: path
         } else {

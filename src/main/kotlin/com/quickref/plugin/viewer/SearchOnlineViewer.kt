@@ -36,9 +36,4 @@ object SearchOnlineViewer {
         val url = "https://stackoverflow.com/search?q=${keyword.keywordTrim()}"
         BrowserUtil.browse(url)
     }
-
-    fun codeSearch(keyword: String) {
-        val url = "https://stackoverflow.com/search?q=${keyword.keywordTrim()}"
-        BrowserUtil.browse(url)
-    }
 }

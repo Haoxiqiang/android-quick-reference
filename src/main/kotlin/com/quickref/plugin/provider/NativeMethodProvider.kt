@@ -68,73 +68,81 @@ class NativeMethodProvider : LineMarkerProvider, GutterIconNavigationHandler<Psi
         val anActionEvent = AnActionEvent
             .createFromInputEvent(e, "", presentation, dataContext, true, true)
 
-        AndroidVersionsPopView(anActionEvent)
-            .show("Choose Version", AndroidVersion.sourceDownloadableVersions) { _, version ->
+        val jniClass = elt.pathname()?.replace('.', '/')
+        if (jniClass == null) {
+            Notifier.errorNotification(elt.project, "Error: Can't find the class path.")
+            return
+        }
 
-                val fileName = elt.containingFile.name.replace(".java", ".cpp")
-                val methodName = elt.name
-                val versionNumber = AndroidVersion.getBuildNumber(version).toLong()
+        // try check the version
+        val nativeFile = App.db.nativeFileMappingQueries.getNativeFile(
+            clazz = jniClass,
+            version = 1
+        ).executeAsOneOrNull()
+        if (nativeFile == null) {
+            Notifier.errorNotification(elt.project, "Error: Can't find the native file.")
+            return
+        } else {
+            val miniVersion = nativeFile.version?.toInt() ?: 1
+            val filePath = nativeFile.path
+            val fileName = elt.containingFile.name.replace(".java", ".cpp")
+            val methodName = elt.name
 
-                val jniClass = elt.pathname()?.replace('.', '/')
-                if (jniClass == null) {
-                    Notifier.errorNotification(elt.project, "Error: Can't find the class path.")
-                    return@show
-                }
+            AndroidVersionsPopView(anActionEvent)
+                .show(
+                    "Choose Version",
+                    AndroidVersion.mergedDownloadableSource(miniVersion = miniVersion)
+                ) { _, version ->
+                    PluginLogger.debug("down raw native file[v:$version:$version]:$jniClass#$methodName-$filePath")
 
-                val path = App.db.nativeFileMappingQueries.getNativeFile(
-                    clazz = jniClass,
-                    version = versionNumber
-                ).executeAsOneOrNull() ?: return@show
+                    // try to get all extensions
+                    val project = elt.project
+                    val title = "Download：$version-$fileName"
 
-                PluginLogger.debug("down raw native file[v:$version:$versionNumber]:$jniClass#$methodName-$path")
-
-                // try to get all extensions
-                val project = elt.project
-                val title = "Download：$version-$fileName"
-
-                val task = object : Task.Backgroundable(project, title) {
-                    override fun run(progressIndicator: ProgressIndicator) {
-                        val nativeFileTask = DownloadTask(path = path, versionName = version)
-                        DownloadManager.downloadFile(
-                            progressIndicator,
-                            downloadTasks = arrayOf(nativeFileTask),
-                            result = object : DownloadResult {
-                                override fun onSuccess(output: HashMap<String, File>) {
-                                    val files = output.values.toMutableList()
-                                    if (files.isEmpty()) {
-                                        Notifier.errorNotification(project, "Error: Download $fileName")
-                                        return
-                                    }
-                                    val file = files[0]
-                                    if (!file.exists()) {
-                                        Notifier.errorNotification(project, "Error: Download $fileName")
-                                        return
-                                    }
-
-                                    // TODO find line in the file. get native method line.
-                                    // try guess line number.
-                                    file.readLines().forEachIndexed { index, line ->
-                                        if (line.contains(methodName)) {
-                                            project.openFileInEditor(file, index)
+                    val task = object : Task.Backgroundable(project, title) {
+                        override fun run(progressIndicator: ProgressIndicator) {
+                            val nativeFileTask = DownloadTask(path = filePath, versionName = version)
+                            DownloadManager.downloadFile(
+                                progressIndicator,
+                                downloadTasks = arrayOf(nativeFileTask),
+                                result = object : DownloadResult {
+                                    override fun onSuccess(output: HashMap<String, File>) {
+                                        val files = output.values.toMutableList()
+                                        if (files.isEmpty()) {
+                                            Notifier.errorNotification(project, "Error: Download $fileName")
                                             return
                                         }
+                                        val file = files[0]
+                                        if (!file.exists()) {
+                                            Notifier.errorNotification(project, "Error: Download $fileName")
+                                            return
+                                        }
+
+                                        // TODO find line in the file. get native method line.
+                                        // try guess line number.
+                                        file.readLines().forEachIndexed { index, line ->
+                                            if (line.contains(methodName)) {
+                                                project.openFileInEditor(file, index)
+                                                return
+                                            }
+                                        }
+                                        project.openFileInEditor(file, 0)
                                     }
-                                    project.openFileInEditor(file, 0)
-                                }
 
-                                override fun onFailure(msg: String, throwable: Throwable?) {
-                                    Notifier.errorNotification(project, "Error:$msg")
-                                }
-                            },
-                            isSync = true
-                        )
+                                    override fun onFailure(msg: String, throwable: Throwable?) {
+                                        Notifier.errorNotification(project, "Error:$msg")
+                                    }
+                                },
+                                isSync = true
+                            )
+                        }
                     }
-                }
 
-                val progressIndicator =
-                    ProgressManager.getInstance().progressIndicator ?: BackgroundableProcessIndicator(task)
-                progressIndicator.isIndeterminate = true
-                ProgressManager.getInstance().runProcessWithProgressAsynchronously(task, progressIndicator)
-            }
+                    val progressIndicator =
+                        ProgressManager.getInstance().progressIndicator ?: BackgroundableProcessIndicator(task)
+                    progressIndicator.isIndeterminate = true
+                    ProgressManager.getInstance().runProcessWithProgressAsynchronously(task, progressIndicator)
+                }
+        }
     }
 }

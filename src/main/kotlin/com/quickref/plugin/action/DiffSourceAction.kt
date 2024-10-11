@@ -32,10 +32,12 @@ class DiffSourceAction : BaseAction() {
         val fileName = e.guessFileName()
         val project = e.project ?: return
 
+        val versions = AndroidVersion.mergedDownloadableSource()
+
         AndroidVersionsPopView(e)
-            .show("Choose First Version", AndroidVersion.sourceDownloadableVersions) { _, firstVersion ->
+            .show("Choose First Version", versions) { _, firstVersion ->
                 AndroidVersionsPopView(e)
-                    .show("Choose Second Version", AndroidVersion.sourceDownloadableVersions) { _, secondVersion ->
+                    .show("Choose Second Version", versions) { _, secondVersion ->
 
                         PluginLogger.debug("diff $firstVersion...$secondVersion")
 

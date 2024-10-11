@@ -1,6 +1,6 @@
 package com.quickref.plugin.db
 
-import com.squareup.sqldelight.sqlite.driver.JdbcSqliteDriver
+import app.cash.sqldelight.driver.jdbc.sqlite.JdbcSqliteDriver
 import org.junit.Test
 
 class DBTest {

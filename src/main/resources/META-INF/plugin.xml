@@ -67,14 +67,5 @@
             <add-to-group group-id="ConsoleEditorPopupMenu" anchor="after"
                           relative-to-action="com.quickref.plugin.action.AndroidReferenceAction"/>
         </group>
-
-        <action id="com.quickref.plugin.action.DarkValuesAction"
-                class="com.quickref.plugin.action.DarkValuesAction"
-                text="Dark Colors Generator"
-                icon="/icons/icAndroid.svg"
-                description="Android dark colors generator">
-            <add-to-group group-id="ProjectViewPopupMenu" anchor="last"/>
-        </action>
-
     </actions>
 </idea-plugin>

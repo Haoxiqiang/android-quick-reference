@@ -14,9 +14,6 @@ object AndroidVersion {
         Pair(Source.AndroidXRef, AndroidXRefVersion()),
         Pair(Source.AOSPMirror, AOSPMirrorVersion()),
     )
-    val sourceDownloadableVersions by lazy {
-        mergedDownloadableSource()
-    }
 
     fun getVersionSource(source: Source): Version {
         return sources[source]!!
@@ -32,13 +29,17 @@ object AndroidVersion {
         return androidBuildVersions[rawVersion].toString().toIntOrNull() ?: 0
     }
 
-    private fun mergedDownloadableSource(): List<String> {
+    fun mergedDownloadableSource(miniVersion: Int = 1): List<String> {
         val versions = hashSetOf<String>()
         sources.filter { entry -> entry.value.isDownloadable() }.forEach { entry ->
             entry.value
                 .versionPairs().keys
                 .filter { version ->
-                    QuickReferenceConfigStorage.instance().isSupportVersion(getBuildNumber(version))
+                    val buildVersion = getBuildNumber(version)
+                    if (buildVersion < miniVersion) {
+                        return@filter false
+                    }
+                    QuickReferenceConfigStorage.instance().isSupportVersion(buildVersion)
                 }
                 .forEach { version ->
                     versions.add(version)

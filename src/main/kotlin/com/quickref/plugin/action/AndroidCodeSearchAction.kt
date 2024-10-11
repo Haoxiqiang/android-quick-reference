@@ -4,6 +4,7 @@ import com.intellij.openapi.actionSystem.ActionUpdateThread
 import com.intellij.openapi.actionSystem.AnActionEvent
 import com.intellij.openapi.actionSystem.LangDataKeys
 import com.quickref.plugin.App
+import com.quickref.plugin.Notifier
 import com.quickref.plugin.extension.guessFileName
 import com.quickref.plugin.extension.isAndroidClass
 import com.quickref.plugin.extension.pathname
@@ -32,13 +33,25 @@ class AndroidCodeSearchAction : BaseAction() {
 
     override fun actionPerformed(e: AnActionEvent) {
         val fileName = e.guessFileName()
+
+        val javaFileMapping = App.db.javaFileMappingQueries.getJavaFile(
+            fileName, 1
+        ).executeAsOneOrNull()
+
+        if (javaFileMapping == null) {
+            Notifier.errorNotification(e.project, "Can't find the file mapping for $fileName")
+            return
+        }
+
+        val javaPath = javaFileMapping.path
+        val minVersion = javaFileMapping.version?.toInt() ?: 1
+
         AndroidVersionsPopView(e)
-            .show("Choose $fileName Version", AndroidVersion.sourceDownloadableVersions) { _, version ->
-                val versionNumber = AndroidVersion.getBuildNumber(version).toLong()
-                val javaPath = App.db.javaFileMappingQueries.getJavaFile(
-                    file = fileName, versionNumber
-                ).executeAsOneOrNull()
-                if (javaPath.isNullOrEmpty()) {
+            .show(
+                "Choose $fileName Version",
+                AndroidVersion.mergedDownloadableSource(miniVersion = minVersion)
+            ) { _, version ->
+                if (javaPath.isEmpty()) {
                     CodeSearchViewer.open(version, fileName)
                 } else {
                     CodeSearchViewer.open(version, javaPath)
