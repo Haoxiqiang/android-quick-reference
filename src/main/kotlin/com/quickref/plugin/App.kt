@@ -6,9 +6,7 @@ import java.io.File
 import java.net.URL
 
 object App {
-    val charSet = Charsets.UTF_8
     const val AppTitle = "Quick Reference"
-    const val notificationGroup = "com.quickref.plugin.notification"
 
     // 用户目录
     private val USER_HOME: String = System.getProperty("user.home")

@@ -13,15 +13,16 @@ import com.quickref.plugin.extension.pathname
 import com.quickref.plugin.extension.referencePage
 
 /**
- * Refer to <a href="https://developer.android.google.cn/reference">Android Reference</a>
+ * Refer to <a href="https://developer.android.com/reference">Android Reference</a>
  *
- * https://developer.android.google.cn/reference/android/view/View.OnClickListener.html#onClick(android.view.View)
- * https://developer.android.google.cn/reference/android/app/Activity.html#onRestoreInstanceState(android.os.Bundle)
+ * https://developer.android.com/reference/android/view/View.OnClickListener.html#onClick(android.view.View)
+ * https://developer.android.com/reference/android/app/Activity.html#onRestoreInstanceState(android.os.Bundle)
  */
 class AndroidReferenceAction : BaseAction() {
 
     companion object {
-        private const val REF_URL: String = "https://developer.android.google.cn/reference/"
+        private const val REF_URL: String = "https://developer.android.com/reference/"
+        // private const val CHINA_REF_URL: String = "https://developer.android.google.cn/reference/"
     }
 
     override fun getActionUpdateThread(): ActionUpdateThread {

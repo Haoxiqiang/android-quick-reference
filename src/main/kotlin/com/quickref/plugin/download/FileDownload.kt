@@ -94,10 +94,10 @@ abstract class FileDownload(private val source: Source) : IDownload, Comparable<
         // http://androidxref.com/7.1.1_r6/raw/frameworks/base/core/jni/android/graphics/Bitmap.cpp
         val rawPath = if (path.endsWithJava()) {
             val versionNumber = AndroidVersion.getBuildNumber(version).toLong()
-            val javaPath = App.db.javaFileMappingQueries.getJavaFile(
+            val javaFileMapping = App.db.javaFileMappingQueries.getJavaFile(
                 path, versionNumber
             ).executeAsOneOrNull()
-            javaPath ?: path
+            javaFileMapping?.path ?: path
         } else {
             // try get native method.
             path
@@ -142,8 +142,4 @@ abstract class FileDownload(private val source: Source) : IDownload, Comparable<
         } else -priority.compareTo(other.priority)
     }
 
-    // 暂停机制, 失败次数过多，暂停使用
-    fun enable(): Boolean {
-        return abs(priority) >= MAX_FAILED_COUNT
-    }
 }
