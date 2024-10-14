@@ -34,17 +34,11 @@ works to solve the psi problem. Who with relevant practical experience can help 
 * get the latest aosp git repo and add the path to the environment variable as AOSP_PATH
 * run the test code generator the versions/mapping...
 * run the build command
-* import sql data.
-  * sqlite3
-  * .open xxx/android-quick-reference/src/main/resources/db/QuickRefDB.db
-  * .read xxx/android-quick-reference/src/test/resources/JavaSource.sql
-  * .read xxx/android-quick-reference/src/test/resources/CppSource.sql
-  * .read xxx/android-quick-reference/src/test/resources/CppMethod.sql
-  * .read xxx/android-quick-reference/src/test/resources/JavaDis.sql
-  * .read xxx/android-quick-reference/src/test/resources/NativeDis.sql
+* create db by DBGenerator tools.
 * ./gradlew runIde
 
 ## Publish
+* ./gradlew publishPlugin
 
 ## Feature
 
