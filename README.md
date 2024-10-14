@@ -44,6 +44,8 @@ works to solve the psi problem. Who with relevant practical experience can help 
   * .read xxx/android-quick-reference/src/test/resources/NativeDis.sql
 * ./gradlew runIde
 
+## Publish
+
 ## Feature
 
 * View native method by click c++ image,but I can't support int native auto jump between dif files
@@ -61,9 +63,6 @@ works to solve the psi problem. Who with relevant practical experience can help 
 
 * Quick Android Reference
     * [developer.android.google](https://developer.android.com/reference)
-
-* View Android Source Online
-    * [Android Code Search](https://cs.android.com/)
 
 * Quick Search by the mouse right click.
     * google.com

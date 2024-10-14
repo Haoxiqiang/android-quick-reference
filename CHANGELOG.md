@@ -9,6 +9,8 @@
 - download file from android.googlesource.com.
 - support kt source files.
 - compatibility with new intellij plugin api.
+- remove xml converters.
+- use new db for native method.
 
 ## 1.2.2
 
