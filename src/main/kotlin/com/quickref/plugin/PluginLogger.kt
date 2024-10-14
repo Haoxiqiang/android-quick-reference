@@ -16,9 +16,13 @@ object PluginLogger {
     private val LOG = Logger.getInstance(PluginLogger::class.java)
 
     init {
-        NotificationsConfiguration
-            .getNotificationsConfiguration()
-            .register(TAG, NotificationDisplayType.NONE)
+        try {
+            NotificationsConfiguration
+                .getNotificationsConfiguration()
+                .register(TAG, NotificationDisplayType.NONE)
+        } catch (throwable: Throwable) {
+            error(throwable.message)
+        }
     }
 
     fun debug(text: String?) {
