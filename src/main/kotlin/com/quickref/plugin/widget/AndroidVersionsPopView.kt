@@ -3,13 +3,18 @@ package com.quickref.plugin.widget
 import com.intellij.openapi.actionSystem.ActionPlaces
 import com.intellij.openapi.actionSystem.AnAction
 import com.intellij.openapi.actionSystem.AnActionEvent
+import com.intellij.openapi.actionSystem.DataContext
 import com.intellij.openapi.actionSystem.DefaultActionGroup
 import com.intellij.openapi.project.DumbAware
+import com.intellij.openapi.project.Project
 import com.intellij.openapi.ui.popup.JBPopupFactory
 import com.intellij.openapi.ui.popup.JBPopupFactory.ActionSelectionAid
 import com.intellij.openapi.ui.popup.ListPopup
 
-class AndroidVersionsPopView(private val actionEvent: AnActionEvent) {
+class AndroidVersionsPopView(
+    private val project: Project?,
+    private val dataContext: DataContext,
+) {
 
     private var listPopup: ListPopup? = null
 
@@ -18,17 +23,15 @@ class AndroidVersionsPopView(private val actionEvent: AnActionEvent) {
         versions.forEachIndexed { index, version ->
             group.add(VersionItemAction(index, version, listener))
         }
+
         listPopup = JBPopupFactory.getInstance()
             .createActionGroupPopup(
                 " $title ",
                 group,
-                actionEvent.dataContext,
+                dataContext,
                 ActionSelectionAid.SPEEDSEARCH,
-                true,
-                null,
-                -1,
-                null,
-                ActionPlaces.getPopupPlace(actionEvent.place)
+                false,
+                ActionPlaces.POPUP
             )
         show()
     }
@@ -41,11 +44,10 @@ class AndroidVersionsPopView(private val actionEvent: AnActionEvent) {
         if (listPopup == null) {
             return
         }
-        val project = actionEvent.project
         if (project != null) {
             listPopup?.showCenteredInCurrentWindow(project)
         } else {
-            listPopup?.showInBestPositionFor(actionEvent.dataContext)
+            listPopup?.showInBestPositionFor(dataContext)
         }
     }
 

@@ -1,5 +1,6 @@
 package com.quickref.plugin.action
 
+import com.intellij.openapi.actionSystem.ActionPlaces
 import com.intellij.openapi.actionSystem.ActionUpdateThread
 import com.intellij.openapi.actionSystem.AnActionEvent
 import com.intellij.openapi.actionSystem.LangDataKeys
@@ -34,9 +35,15 @@ class DiffSourceAction : BaseAction() {
 
         val versions = AndroidVersion.mergedDownloadableSource()
 
-        AndroidVersionsPopView(e)
+        AndroidVersionsPopView(
+            project = e.project,
+            dataContext = e.dataContext
+        )
             .show("Choose First Version", versions) { _, firstVersion ->
-                AndroidVersionsPopView(e)
+                AndroidVersionsPopView(
+                    project = e.project,
+                    dataContext = e.dataContext
+                )
                     .show("Choose Second Version", versions) { _, secondVersion ->
 
                         PluginLogger.debug("diff $firstVersion...$secondVersion")
