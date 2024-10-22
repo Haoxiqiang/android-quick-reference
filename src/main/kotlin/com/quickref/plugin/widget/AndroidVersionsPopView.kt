@@ -18,6 +18,8 @@ class AndroidVersionsPopView(
 
     private var listPopup: ListPopup? = null
 
+    // Use VirtualFileManager to find file by path
+    // val file = VirtualFileManager.getInstance().findFileByNioPath(Path(path))
     fun show(title: String?, versions: List<String>, listener: (position: Int, version: String) -> Unit) {
         val group = DefaultActionGroup()
         versions.forEachIndexed { index, version ->
