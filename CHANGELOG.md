@@ -2,6 +2,12 @@
 
 ## Unreleased
 
+## 1.5.2
+
+- fix Deprecated method AnActionEvent.createFromInputEvent(...)
+- fix Deprecated method AnActionEvent.getRequiredData(DataKey)
+- fix native files mapping in diff versions.
+
 ## 1.5.1
 
 ### Fixed

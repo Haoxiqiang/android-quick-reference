@@ -17,8 +17,11 @@ class KeywordSearchAction(
     AnAction(text, description, icon) {
 
     override fun actionPerformed(event: AnActionEvent) {
-
-        val editor = event.getRequiredData(CommonDataKeys.EDITOR)
+        val editor = event.getData(CommonDataKeys.EDITOR)
+        if (editor == null) {
+            Notifier.infoNotification(event.project, "editor is null")
+            return
+        }
         var keyword: String? = editor.selectionModel.selectedText
         val fileName = event.getData(LangDataKeys.PSI_ELEMENT)?.pathname() ?: ""
         if (fileName.isEmpty()) {

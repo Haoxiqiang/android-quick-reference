@@ -4,8 +4,6 @@ import com.intellij.codeInsight.daemon.GutterIconNavigationHandler
 import com.intellij.codeInsight.daemon.LineMarkerInfo
 import com.intellij.codeInsight.daemon.LineMarkerProvider
 import com.intellij.ide.DataManager
-import com.intellij.openapi.actionSystem.AnActionEvent
-import com.intellij.openapi.actionSystem.Presentation
 import com.intellij.openapi.editor.markup.GutterIconRenderer
 import com.intellij.openapi.progress.ProgressIndicator
 import com.intellij.openapi.progress.ProgressManager
@@ -64,10 +62,6 @@ class NativeMethodProvider : LineMarkerProvider, GutterIconNavigationHandler<Psi
     override fun navigate(e: MouseEvent, elt: PsiMethod) {
 
         val dataContext = DataManager.getInstance().getDataContext(e.component)
-        val presentation = Presentation()
-        val anActionEvent = AnActionEvent
-            .createFromInputEvent(e, "", presentation, dataContext, true, true)
-
         val jniClass = elt.pathname()?.replace('.', '/')
         if (jniClass == null) {
             Notifier.errorNotification(elt.project, "Error: Can't find the class path.")
@@ -84,18 +78,29 @@ class NativeMethodProvider : LineMarkerProvider, GutterIconNavigationHandler<Psi
             return
         } else {
             val miniVersion = nativeFile.version?.toInt() ?: 1
-            val filePath = nativeFile.path
             val fileName = elt.containingFile.name.replace(".java", ".cpp")
             val methodName = elt.name
 
             AndroidVersionsPopView(
-                project = anActionEvent.project,
-                dataContext = anActionEvent.dataContext
+                project = elt.project,
+                dataContext = dataContext
             )
                 .show(
                     "Choose Version",
                     AndroidVersion.mergedDownloadableSource(miniVersion = miniVersion)
                 ) { _, version ->
+
+                    val nativeSelectByVersion = App.db.nativeFileMappingQueries.getNativeFile(
+                        clazz = jniClass,
+                        version = AndroidVersion.getBuildNumber(version).toLong()
+                    ).executeAsOneOrNull()
+
+                    val filePath = nativeSelectByVersion?.path
+                    if (filePath == null) {
+                        Notifier.errorNotification(elt.project, "Error: Can't find the native file.")
+                        return@show
+                    }
+
                     PluginLogger.debug("down raw native file[v:$version:$version]:$jniClass#$methodName-$filePath")
 
                     // try to get all extensions

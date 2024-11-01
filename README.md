@@ -81,6 +81,7 @@ More works.
 - [x] add java class/method mapping db.
 - [x] support custom quick search menu.
 - [x] diff android version. many files location is changed.
+- [ ] support buildSearchableOptions
 
 ## File Mapping
 

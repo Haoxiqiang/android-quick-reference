@@ -8,7 +8,7 @@ plugins {
     id("java")
     id("org.jetbrains.intellij") version "1.14.2"
     id("org.jetbrains.changelog") version "2.2.1"
-    id("org.jetbrains.kotlin.jvm") version "1.9.25"
+    id("org.jetbrains.kotlin.jvm") version "1.8.22"
     id("io.gitlab.arturbosch.detekt") version "1.23.7"
     id("com.diffplug.spotless")
     id("app.cash.sqldelight")
@@ -26,11 +26,14 @@ dependencies {
     testImplementation("org.xerial:sqlite-jdbc:3.46.1.3")
 
     implementation("org.jetbrains:annotations:24.0.1")
-    implementation(kotlin("bom", version = "1.9.25"))
-
-    // app.cash.sqldelight:runtime-jvm:2.0.2
-    implementation("app.cash.sqldelight:sqlite-driver:2.0.2")
-    implementation("app.cash.sqldelight:runtime-jvm:2.0.2")
+    implementation(kotlin("bom", version = "1.8.22"))
+    
+    implementation("app.cash.sqldelight:sqlite-driver:2.0.2") {
+        exclude(group = "org.jetbrains.kotlin", module = "kotlin-stdlib")
+    }
+    implementation("app.cash.sqldelight:runtime-jvm:2.0.2") {
+        exclude(group = "org.jetbrains.kotlin", module = "kotlin-stdlib")
+    }
 
     detektPlugins("io.gitlab.arturbosch.detekt:detekt-formatting:1.23.7")
 }
@@ -66,14 +69,14 @@ tasks.withType(org.jetbrains.intellij.tasks.RunIdeTask::class.java) {
 }
 
 tasks {
-    properties("javaVersion").let {version->
+    properties("javaVersion").let { version ->
         withType<JavaCompile> {
             sourceCompatibility = version
             targetCompatibility = version
         }
         withType<KotlinCompile> {
             kotlinOptions.jvmTarget = version
-            kotlinOptions.apiVersion = "1.8"
+            kotlinOptions.apiVersion = org.jetbrains.kotlin.gradle.dsl.KotlinVersion.KOTLIN_1_8.version
             kotlinOptions.languageVersion = "1.8"
             kotlinOptions.allWarningsAsErrors = false
         }
