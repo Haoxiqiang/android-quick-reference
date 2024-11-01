@@ -76,12 +76,11 @@ More works.
 
 - [x] auto jump to the source line.
 - [ ] linker more action in the aosp source.
-- [ ] androidx support.
 - [x] add native jni mapping db.
 - [x] add java class/method mapping db.
 - [x] support custom quick search menu.
 - [x] diff android version. many files location is changed.
-- [ ] support buildSearchableOptions
+- [x] support buildSearchableOptions
 
 ## File Mapping
 

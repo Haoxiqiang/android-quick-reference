@@ -54,8 +54,8 @@ fun Project.openFileInEditor(file: File, line: Int = -1) {
 
     PluginLogger.debug("openFileInEditor:${file.absolutePath}#$line")
 
+    val lFile = LocalFileSystem.getInstance().refreshAndFindFileByIoFile(file)
     ApplicationManager.getApplication().invokeLater {
-        val lFile = LocalFileSystem.getInstance().refreshAndFindFileByIoFile(file)
         if (lFile != null && lFile.isValid) {
             val descriptor = if (line > 0) {
                 OpenFileDescriptor(this, lFile, line, -1)
