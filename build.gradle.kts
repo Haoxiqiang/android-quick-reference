@@ -27,7 +27,7 @@ dependencies {
 
     implementation("org.jetbrains:annotations:24.0.1")
     implementation(kotlin("bom", version = "1.8.22"))
-    
+
     implementation("app.cash.sqldelight:sqlite-driver:2.0.2") {
         exclude(group = "org.jetbrains.kotlin", module = "kotlin-stdlib")
     }
@@ -68,6 +68,10 @@ tasks.withType(org.jetbrains.intellij.tasks.RunIdeTask::class.java) {
     autoReloadPlugins.set(true)
 }
 
+tasks.withType(org.jetbrains.intellij.tasks.BuildSearchableOptionsTask::class.java) {
+    enabled = true
+}
+
 tasks {
     properties("javaVersion").let { version ->
         withType<JavaCompile> {
@@ -88,7 +92,7 @@ tasks {
 
     patchPluginXml {
 
-        sinceBuild.set("231")
+        sinceBuild.set("223")
 
         version.set(properties("pluginVersion"))
         // Extract the <!-- Plugin description --> section from README.md and provide for the plugin's manifest
