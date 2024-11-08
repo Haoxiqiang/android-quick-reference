@@ -5,7 +5,7 @@ set -euo pipefail
 repoDir="${AOSP_PATH}"
 target="${AOSP_BACKUP}"
 versions=(
-    "android-15.0.0_r1" "android-14.0.0_r74" "android-13.0.0_r83" "android-12.1.0_r27" "android-12.0.0_r34"
+    "android-15.0.0_r5" "android-14.0.0_r74" "android-13.0.0_r83" "android-12.1.0_r27" "android-12.0.0_r34"
     "android-11.0.0_r48" "android-10.0.0_r47" "android-9.0.0_r61" "android-8.1.0_r81" "android-8.0.0_r51"
     "android-7.1.2_r39" "android-7.1.1_r61" "android-7.1.0_r7" "android-7.0.0_r36" "android-6.0.1_r81"
     "android-6.0.0_r41" "android-5.1.1_r38" "android-5.1.0_r5" "android-5.0.2_r3" "android-5.0.1_r1"
