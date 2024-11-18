@@ -32,14 +32,15 @@ internal object QRCacheMenu {
 
     val container: JPanel = FormBuilder.createFormBuilder()
         .addComponent(TitledSeparator("Manager"))
-        .addComponent(FormBuilder.createFormBuilder()
-            .setFormLeftIndent(IdeBorderFactory.TITLED_BORDER_INDENT)
-            .addComponent(cacheSize)
-            .addComponent(cleanCache)
-            .panel.apply {
-                layout = HorizontalLayout(IdeBorderFactory.TITLED_BORDER_INDENT)
-                calCacheSize()
-            })
+        .addComponent(
+            FormBuilder.createFormBuilder()
+                .setFormLeftIndent(IdeBorderFactory.TITLED_BORDER_INDENT)
+                .addComponent(cacheSize)
+                .addComponent(cleanCache)
+                .panel.apply {
+                    layout = HorizontalLayout(IdeBorderFactory.TITLED_BORDER_INDENT)
+                    calCacheSize()
+                })
         .setVerticalGap(IdeBorderFactory.TITLED_BORDER_INDENT)
         .panel
 

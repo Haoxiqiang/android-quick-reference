@@ -41,7 +41,8 @@ class SourceViewerAction : BaseAction() {
             .show("Choose $fileName Version", AndroidVersion.mergedDownloadableSource(miniVersion = 1))
             { _, version ->
                 val task = DownloadTask(fileName, version)
-                project.downloadFile(arrayOf(task),
+                project.downloadFile(
+                    arrayOf(task),
                     success = { output ->
                         val downloadFile = output[task.key()]
                         if (downloadFile == null) {

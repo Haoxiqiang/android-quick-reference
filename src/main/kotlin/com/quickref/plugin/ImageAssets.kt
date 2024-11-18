@@ -10,7 +10,7 @@ object ImageAssets {
     val GITHUB = load("/icons/findGit.svg")
     val GOOGLE = load("/icons/findGoogle.svg")
     val BING = load("/icons/findBing.svg")
-    val CODESEARCH = load("/icons/csAndroid.svg")
+    val CODE_SEARCH = load("/icons/csAndroid.svg")
     val STACKOVERFLOW = load("/icons/findStackOverflow.svg")
 
     fun isBright(): Boolean {

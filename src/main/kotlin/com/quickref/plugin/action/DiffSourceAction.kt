@@ -51,7 +51,8 @@ class DiffSourceAction : BaseAction() {
                         val task1 = DownloadTask(fileName, firstVersion)
                         val task2 = DownloadTask(fileName, secondVersion)
 
-                        project.downloadFile(arrayOf(task1, task2),
+                        project.downloadFile(
+                            arrayOf(task1, task2),
                             success = { output ->
                                 val files = output.values.toMutableList()
                                 PluginLogger.debug("DownloadResult=$files")

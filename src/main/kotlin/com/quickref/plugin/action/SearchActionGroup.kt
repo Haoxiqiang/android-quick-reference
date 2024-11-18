@@ -32,44 +32,49 @@ class SearchActionGroup : ActionGroup() {
         val searchActions = mutableListOf<KeywordSearchAction>()
 
         if (quickReferenceConfigStorage.enableGoogleSearch) {
-            searchActions.add(KeywordSearchAction(
-                "Google".padEnd(MENU_TEXT_LENGTH),
-                "Use the Google's search.", ImageAssets.GOOGLE
-            ) { keyword ->
-                SearchOnlineViewer.googleSearch(keyword)
-            })
+            searchActions.add(
+                KeywordSearchAction(
+                    "Google".padEnd(MENU_TEXT_LENGTH),
+                    "Use the Google's search.", ImageAssets.GOOGLE
+                ) { keyword ->
+                    SearchOnlineViewer.googleSearch(keyword)
+                })
         }
         if (quickReferenceConfigStorage.enableBingSearch) {
-            searchActions.add(KeywordSearchAction(
-                "Bing".padEnd(MENU_TEXT_LENGTH),
-                "Use the Bing's search.", ImageAssets.BING
-            ) { keyword ->
-                SearchOnlineViewer.bingSearch(keyword)
-            })
+            searchActions.add(
+                KeywordSearchAction(
+                    "Bing".padEnd(MENU_TEXT_LENGTH),
+                    "Use the Bing's search.", ImageAssets.BING
+                ) { keyword ->
+                    SearchOnlineViewer.bingSearch(keyword)
+                })
         }
         if (quickReferenceConfigStorage.enableStackOverflow) {
-            searchActions.add(KeywordSearchAction(
-                "StackOverflow".padEnd(MENU_TEXT_LENGTH),
-                "Use the StackOverflow's search.", ImageAssets.STACKOVERFLOW
-            ) { keyword ->
-                SearchOnlineViewer.stackoverflowSearch(keyword)
-            })
+            searchActions.add(
+                KeywordSearchAction(
+                    "StackOverflow".padEnd(MENU_TEXT_LENGTH),
+                    "Use the StackOverflow's search.", ImageAssets.STACKOVERFLOW
+                ) { keyword ->
+                    SearchOnlineViewer.stackoverflowSearch(keyword)
+                })
         }
         if (quickReferenceConfigStorage.enableGithubSearch) {
-            searchActions.add(KeywordSearchAction(
-                "GitHub".padEnd(MENU_TEXT_LENGTH),
-                "Use the GitHub's search.", ImageAssets.GITHUB
-            ) { keyword ->
-                SearchOnlineViewer.githubSearch(keyword)
-            })
+            searchActions.add(
+                KeywordSearchAction(
+                    "GitHub".padEnd(MENU_TEXT_LENGTH),
+                    "Use the GitHub's search.", ImageAssets.GITHUB
+                ) { keyword ->
+                    SearchOnlineViewer.githubSearch(keyword)
+                })
         }
         if (quickReferenceConfigStorage.enableCodeSearch) {
-            searchActions.add(KeywordSearchAction(
-                "CodeSearch".padEnd(MENU_TEXT_LENGTH),
-                "Use the AndroidCS's search.", ImageAssets.CODESEARCH
-            ) { keyword ->
-                CodeSearchViewer.search(keyword)
-            })
+            searchActions.add(
+                KeywordSearchAction(
+                    "CodeSearch".padEnd(MENU_TEXT_LENGTH),
+                    "Use the AndroidCS's search.", ImageAssets.CODE_SEARCH
+                ) { keyword ->
+                    CodeSearchViewer.search(keyword)
+                })
         }
         return searchActions.toTypedArray()
     }
