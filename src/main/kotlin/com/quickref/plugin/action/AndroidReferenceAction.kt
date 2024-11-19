@@ -11,6 +11,9 @@ import com.quickref.plugin.extension.isAndroidClass
 import com.quickref.plugin.extension.isSupport
 import com.quickref.plugin.extension.pathname
 import com.quickref.plugin.extension.referencePage
+import org.apache.http.HttpStatus
+import java.net.HttpURLConnection
+import java.net.URL
 
 /**
  * Refer to <a href="https://developer.android.com/reference">Android Reference</a>
@@ -22,7 +25,7 @@ class AndroidReferenceAction : BaseAction() {
 
     companion object {
         private const val REF_URL: String = "https://developer.android.com/reference/"
-        // private const val CHINA_REF_URL: String = "https://developer.android.google.cn/reference/"
+        private const val CHINA_REF_URL: String = "https://developer.android.google.cn/reference/"
     }
 
     override fun getActionUpdateThread(): ActionUpdateThread {
@@ -58,8 +61,28 @@ class AndroidReferenceAction : BaseAction() {
         }
 
         val url = "${REF_URL}$linkerBuilder"
-        PluginLogger.debug("linkUrl= $url")
-        BrowserUtil.open(url)
+        // quick test url connection
+        if (!testUrlConnection(url)) {
+            val newURL = "${CHINA_REF_URL}$linkerBuilder"
+            PluginLogger.debug("linkUrl= $newURL")
+            BrowserUtil.open(newURL)
+            return
+        } else {
+            PluginLogger.debug("linkUrl= $url")
+            BrowserUtil.open(url)
+        }
     }
 
+    private fun testUrlConnection(url: String): Boolean {
+        return try {
+            val connection = URL(url).openConnection() as HttpURLConnection
+            connection.requestMethod = "HEAD"
+            connection.connect()
+            val responseCode = connection.responseCode
+            responseCode == HttpStatus.SC_OK
+        } catch (e: Exception) {
+            e.printStackTrace()
+            true
+        }
+    }
 }
