@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+## 1.5.5
+
+- update aosp source mapping
+
 ## 1.5.2
 
 - fix Deprecated method AnActionEvent.createFromInputEvent(...)
