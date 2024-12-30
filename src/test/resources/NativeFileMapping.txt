@@ -29,6 +29,7 @@ INSERT INTO NativeFileMapping (psiFile,jniClass,version,path) VALUES ("android_b
 INSERT INTO NativeFileMapping (psiFile,jniClass,version,path) VALUES ("android_os_MemoryFile.cpp","android/os/MemoryFile",35,"/core/jni/android_os_MemoryFile.cpp");
 INSERT INTO NativeFileMapping (psiFile,jniClass,version,path) VALUES ("android_util_AssetManager.cpp","android/content/res/AssetManager",35,"/core/jni/android_util_AssetManager.cpp");
 INSERT INTO NativeFileMapping (psiFile,jniClass,version,path) VALUES ("com_android_internal_os_Zygote.cpp","com/android/internal/os/Zygote",35,"/core/jni/com_android_internal_os_Zygote.cpp");
+INSERT INTO NativeFileMapping (psiFile,jniClass,version,path) VALUES ("com_android_internal_os_DebugStore.cpp","com/android/internal/os/DebugStore",35,"/core/jni/com_android_internal_os_DebugStore.cpp");
 INSERT INTO NativeFileMapping (psiFile,jniClass,version,path) VALUES ("android_hardware_UsbRequest.cpp","android/hardware/usb/UsbRequest",35,"/core/jni/android_hardware_UsbRequest.cpp");
 INSERT INTO NativeFileMapping (psiFile,jniClass,version,path) VALUES ("android_hardware_UsbRequest.cpp","android/hardware/usb/UsbRequest",35,"/core/jni/android_hardware_UsbRequest.cpp");
 INSERT INTO NativeFileMapping (psiFile,jniClass,version,path) VALUES ("android_view_CompositionSamplingListener.cpp","android/view/CompositionSamplingListener",35,"/core/jni/android_view_CompositionSamplingListener.cpp");
