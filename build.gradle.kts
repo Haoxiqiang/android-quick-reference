@@ -27,6 +27,7 @@ dependencies {
 
     implementation("org.jetbrains:annotations:24.0.1")
     implementation(kotlin("bom", version = "1.8.22"))
+    implementation("com.squareup.okhttp3:okhttp:5.0.0-alpha.14")
 
     implementation("app.cash.sqldelight:sqlite-driver:2.0.2") {
         exclude(group = "org.jetbrains.kotlin", module = "kotlin-stdlib")

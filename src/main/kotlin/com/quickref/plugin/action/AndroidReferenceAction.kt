@@ -11,9 +11,9 @@ import com.quickref.plugin.extension.isAndroidClass
 import com.quickref.plugin.extension.isSupport
 import com.quickref.plugin.extension.pathname
 import com.quickref.plugin.extension.referencePage
-import org.apache.http.HttpStatus
-import java.net.HttpURLConnection
-import java.net.URL
+import okhttp3.OkHttpClient
+import okhttp3.Request
+
 
 /**
  * Refer to <a href="https://developer.android.com/reference">Android Reference</a>
@@ -26,6 +26,8 @@ class AndroidReferenceAction : BaseAction() {
     companion object {
         private const val REF_URL: String = "https://developer.android.com/reference/"
         private const val CHINA_REF_URL: String = "https://developer.android.google.cn/reference/"
+        private val client: OkHttpClient = OkHttpClient()
+        private var lastTestTime = 0L
     }
 
     override fun getActionUpdateThread(): ActionUpdateThread {
@@ -62,27 +64,27 @@ class AndroidReferenceAction : BaseAction() {
 
         val url = "${REF_URL}$linkerBuilder"
         // quick test url connection
-        if (!testUrlConnection(url)) {
-            val newURL = "${CHINA_REF_URL}$linkerBuilder"
-            PluginLogger.debug("linkUrl= $newURL")
-            BrowserUtil.open(newURL)
-            return
+        val connected = testUrlConnection(url)
+        val newURL = if (connected) {
+            url
         } else {
-            PluginLogger.debug("linkUrl= $url")
-            BrowserUtil.open(url)
+            "${CHINA_REF_URL}$linkerBuilder"
         }
+        PluginLogger.debug("linkUrl= $newURL")
+        BrowserUtil.open(newURL)
     }
 
     private fun testUrlConnection(url: String): Boolean {
         return try {
-            val connection = URL(url).openConnection() as HttpURLConnection
-            connection.requestMethod = "HEAD"
-            connection.connect()
-            val responseCode = connection.responseCode
-            responseCode == HttpStatus.SC_OK
+            val request: Request = Request.Builder()
+                .url(url)
+                .head()
+                .build()
+            client.newCall(request).execute().use { response ->
+                return response.isSuccessful
+            }
         } catch (e: Exception) {
-            e.printStackTrace()
-            true
+            false
         }
     }
 }

@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+## 1.5.6
+
+- fix cs.android.com url path.
+
 ## 1.5.5
 
 - update aosp source mapping
