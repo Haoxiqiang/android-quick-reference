@@ -19,7 +19,7 @@ object CodeSearchViewer {
     }
 
     private fun createViewerURL(version: String, path: String): String {
-        return String.format(VIEWER_PATH, version, path)
+        return String.format(VIEWER_PATH, version, path).replace("base//", "base/")
     }
 
     fun search(keyword: String) {
