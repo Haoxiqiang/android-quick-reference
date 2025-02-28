@@ -36,4 +36,9 @@ object SearchOnlineViewer {
         val url = "https://stackoverflow.com/search?q=${keyword.keywordTrim()}"
         BrowserUtil.browse(url)
     }
+
+    fun perplexitySearch(keyword: String) {
+        val url = "https://www.perplexity.ai/search?q=${keyword.keywordTrim()}&copilot=false&s=d"
+        BrowserUtil.browse(url)
+    }
 }

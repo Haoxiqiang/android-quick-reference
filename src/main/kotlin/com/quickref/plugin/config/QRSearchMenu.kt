@@ -13,6 +13,7 @@ internal object QRSearchMenu {
     var enableStackOverflow: JCheckBox = JCheckBox("Enable StackOverflow Search")
     var enableGithubSearch: JCheckBox = JCheckBox("Enable Github Search")
     var enableCodeSearch: JCheckBox = JCheckBox("Enable Code Search")
+    var enablePerplexitySearchSearch: JCheckBox = JCheckBox("Enable Perplexity Search")
 
 
     var enableQuickSearch: JCheckBox = JCheckBox("Enable Quick Search")
@@ -24,6 +25,7 @@ internal object QRSearchMenu {
                 enableStackOverflow.isEnabled = enabled
                 enableGithubSearch.isEnabled = enabled
                 enableCodeSearch.isEnabled = enabled
+                enablePerplexitySearchSearch.isEnabled = enabled
             }
         }
 
@@ -36,6 +38,7 @@ internal object QRSearchMenu {
         .addComponent(enableStackOverflow)
         .addComponent(enableGithubSearch)
         .addComponent(enableCodeSearch)
+        .addComponent(enablePerplexitySearchSearch)
         .setFormLeftIndent(IdeBorderFactory.TITLED_BORDER_LEFT_INSET)
         .panel
 
@@ -46,6 +49,7 @@ internal object QRSearchMenu {
         quickReferenceConfigStorage.enableStackOverflow = enableStackOverflow.isSelected
         quickReferenceConfigStorage.enableGithubSearch = enableGithubSearch.isSelected
         quickReferenceConfigStorage.enableCodeSearch = enableCodeSearch.isSelected
+        quickReferenceConfigStorage.enablePerplexitySearchSearch = enablePerplexitySearchSearch.isSelected
     }
 
     fun loadState(quickReferenceConfigStorage: QuickReferenceConfigStorage) {
@@ -55,6 +59,7 @@ internal object QRSearchMenu {
         enableStackOverflow.isSelected = quickReferenceConfigStorage.enableStackOverflow
         enableGithubSearch.isSelected = quickReferenceConfigStorage.enableGithubSearch
         enableCodeSearch.isSelected = quickReferenceConfigStorage.enableCodeSearch
+        enablePerplexitySearchSearch.isSelected = quickReferenceConfigStorage.enablePerplexitySearchSearch
     }
 
     fun checkNotModified(quickReferenceConfigStorage: QuickReferenceConfigStorage): Boolean {
@@ -63,7 +68,8 @@ internal object QRSearchMenu {
             && quickReferenceConfigStorage.enableBingSearch == enableBingSearch.isSelected
             && quickReferenceConfigStorage.enableStackOverflow == enableStackOverflow.isSelected
             && quickReferenceConfigStorage.enableGithubSearch == enableGithubSearch.isSelected
-            && quickReferenceConfigStorage.enableCodeSearch == enableCodeSearch.isSelected)
+            && quickReferenceConfigStorage.enableCodeSearch == enableCodeSearch.isSelected
+            && quickReferenceConfigStorage.enablePerplexitySearchSearch == enablePerplexitySearchSearch.isSelected)
     }
 
 }

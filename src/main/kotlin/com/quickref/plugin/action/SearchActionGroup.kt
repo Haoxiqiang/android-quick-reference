@@ -76,6 +76,16 @@ class SearchActionGroup : ActionGroup() {
                     CodeSearchViewer.search(keyword)
                 })
         }
+
+        if (quickReferenceConfigStorage.enablePerplexitySearchSearch) {
+            searchActions.add(
+                KeywordSearchAction(
+                    "Perplexity".padEnd(MENU_TEXT_LENGTH),
+                    "Use the Perplexity's search.", ImageAssets.PERPLEXITY
+                ) { keyword ->
+                    SearchOnlineViewer.perplexitySearch(keyword)
+                })
+        }
         return searchActions.toTypedArray()
     }
 }

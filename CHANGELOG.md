@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+## 1.6.0
+
+- Quick search support Perplexity
+
 ## 1.5.6
 
 - fix cs.android.com url path.

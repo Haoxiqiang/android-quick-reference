@@ -38,6 +38,9 @@ class QuickReferenceConfigStorage : PersistentStateComponent<QuickReferenceConfi
     @Tag
     var enableCodeSearch: Boolean = true
 
+    @Tag
+    var enablePerplexitySearchSearch: Boolean = true
+
     // android versions.
     @Tag
     var enableAndroid35: Boolean = true

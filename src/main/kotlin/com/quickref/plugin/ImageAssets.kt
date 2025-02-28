@@ -12,6 +12,7 @@ object ImageAssets {
     val BING = load("/icons/findBing.svg")
     val CODE_SEARCH = load("/icons/csAndroid.svg")
     val STACKOVERFLOW = load("/icons/findStackOverflow.svg")
+    val PERPLEXITY = load("/icons/findPerplexity.svg")
 
     fun isBright(): Boolean {
         return JBColor.isBright()

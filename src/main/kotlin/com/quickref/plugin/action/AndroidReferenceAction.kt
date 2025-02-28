@@ -27,7 +27,6 @@ class AndroidReferenceAction : BaseAction() {
         private const val REF_URL: String = "https://developer.android.com/reference/"
         private const val CHINA_REF_URL: String = "https://developer.android.google.cn/reference/"
         private val client: OkHttpClient = OkHttpClient()
-        private var lastTestTime = 0L
     }
 
     override fun getActionUpdateThread(): ActionUpdateThread {
